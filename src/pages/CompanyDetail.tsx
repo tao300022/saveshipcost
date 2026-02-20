@@ -2,9 +2,9 @@ import React from 'react';
 import { Card, Descriptions, Button, Tag, Typography, Space, List, Divider } from 'antd';
 import { PhoneOutlined, EnvironmentOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getCompanyById, CompanyDetail as CompanyDetailType } from '../data/companyData';
-import { airFreightData, AirFreightPrice } from '../data/airFreightData';
-import { seaFreightData, SeaFreightPrice } from '../data/seaFreightData';
+import { getCompanyById } from '../data/companyData';
+import { airFreightData } from '../data/airFreightData';
+import { seaFreightData } from '../data/seaFreightData';
 import FreightCalculator from '../components/FreightCalculator';
 
 const { Title, Paragraph, Text } = Typography;

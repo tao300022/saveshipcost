@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Tag, Space, Typography, Button } from 'antd';
-import { PhoneOutlined, EnvironmentOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { PhoneOutlined, ArrowRightOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
@@ -13,7 +13,6 @@ interface CompanyCardProps {
 }
 
 const CompanyCard: React.FC<CompanyCardProps> = ({
-  id,
   name,
   phone,
   features,
