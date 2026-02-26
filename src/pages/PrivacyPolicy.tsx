@@ -99,7 +99,7 @@ const PrivacyPolicy: React.FC = () => {
           <Title level={4} style={{ marginBottom: 8 }}>7. 联系我们</Title>
           <Paragraph style={{ color: '#444', lineHeight: 1.8, marginBottom: 0 }}>
             如对本隐私政策有任何疑问或需行使数据权利，请通过以下方式联系我们：<br />
-            电子邮件：<Text code>contact@example.com</Text>（占位符，待更新）<br />
+            电子邮件：<Text code>luqli@126.com</Text><br />
             本政策如有修订，将在本页面更新并注明日期，重大变更将以显著方式通知您。
           </Paragraph>
         </Card>

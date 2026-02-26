@@ -21,3 +21,16 @@ code {
 #root {
   min-height: 100vh;
 }
+
+@keyframes sscGlow1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(120px, 60px) scale(1.15); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes sscGlow2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-140px, -80px) scale(1.18); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+.animate-sscGlow1 { animation: sscGlow1 10s ease-in-out infinite; }
+.animate-sscGlow2 { animation: sscGlow2 12s ease-in-out infinite; }

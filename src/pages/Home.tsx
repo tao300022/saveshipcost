@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import AdSlot from '../components/AdSlot';
 import { AD_CONFIG } from '../config/ads';
 import heroImage from '../assets/55.jpg';
-import pandaImg from '../assets/65.jpg';
 import { getDeliveryUpdates, DeliveryUpdate } from '../services/sscData';
 import ChargeableWeightCard from '../components/ChargeableWeightCard';
 
@@ -247,21 +246,7 @@ const Home: React.FC = () => {
 
             {/* Watermark images */}
             <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, overflow: 'hidden', borderRadius: 28 }}>
-              {/* panda — deep bg, raised slightly */}
-              <img
-                src={pandaImg}
-                alt=""
-                loading="lazy"
-                draggable={false}
-                style={{
-                  position: 'absolute', bottom: 24,
-                  left: '50%', transform: 'translateX(-50%)',
-                  zIndex: 0, opacity: 0.28,
-                  width: '76%', maxWidth: 520, maxHeight: 320,
-                  objectFit: 'contain',
-                }}
-              />
-              {/* hero — mid watermark, barely lifted */}
+{/* hero — mid watermark, barely lifted */}
               <img
                 src={heroImage}
                 alt=""
