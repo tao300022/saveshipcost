@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Card, Button, Typography, Tag, Table } from 'antd';
 import { SendOutlined, GlobalOutlined, RightOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import AdSlot from '../components/AdSlot';
 import { AD_CONFIG } from '../config/ads';
 import heroImage from '../assets/55.jpg';
+import pandaImg from '../assets/65.jpg';
 import { getDeliveryUpdates, DeliveryUpdate } from '../services/sscData';
+import ChargeableWeightCard from '../components/ChargeableWeightCard';
 
 const { Title, Paragraph } = Typography;
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [deliveryUpdates, setDeliveryUpdates] = useState<DeliveryUpdate[]>([]);
+  const calcRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setDeliveryUpdates(getDeliveryUpdates());
@@ -19,6 +22,16 @@ const Home: React.FC = () => {
 
   const handleNavigate = (path: string) => {
     navigate(path);
+  };
+
+  const scrollToCalc = () => {
+    if (calcRef.current) {
+      calcRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        const input = calcRef.current?.querySelector('input');
+        if (input) input.focus();
+      }, 400);
+    }
   };
 
   const deliveryColumns = [
@@ -77,9 +90,9 @@ const Home: React.FC = () => {
     <div>
       {/* Hero Section */}
       <div style={{
-        background: '#f0f4ff',
+        background: '#fff',
         padding: '80px 20px',
-        borderBottom: '1px solid #dde5f5',
+        borderBottom: '1px solid #eef1fb',
       }}>
         <div style={{
           maxWidth: 1200,
@@ -87,121 +100,218 @@ const Home: React.FC = () => {
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: 64,
-          alignItems: 'center',
+          alignItems: 'start',
         }}>
           {/* 左侧文案 */}
           <div>
             <div style={{
-              display: 'inline-block',
-              background: '#dde8fc',
-              color: '#3d5bd9',
-              fontSize: 13,
-              fontWeight: 600,
-              padding: '5px 16px',
-              borderRadius: 20,
-              marginBottom: 24,
-              letterSpacing: 1,
+              fontSize: 12,
+              color: '#aab4cc',
+              letterSpacing: 3,
+              marginBottom: 18,
+              fontWeight: 500,
             }}>
-              全球跨境物流比价平台
+              —— CHINA · CANADA SHIPPING
             </div>
 
             <Title level={1} style={{
               color: '#0d1b4b',
               fontWeight: 800,
-              fontSize: 46,
-              lineHeight: 1.2,
+              fontSize: 42,
+              lineHeight: 1.25,
               marginBottom: 16,
               marginTop: 0,
             }}>
-              运费试算器
+              找到最优<br />跨境运费<br />
+              <span style={{ color: '#667eea' }}>一键省钱</span>
             </Title>
 
             <Paragraph style={{
-              fontSize: 17,
-              color: '#5a6a8a',
-              marginBottom: 36,
+              fontSize: 15,
+              color: '#7a8ca8',
+              marginBottom: 32,
               lineHeight: 1.9,
-              maxWidth: 480,
+              maxWidth: 420,
             }}>
-              整合多家货代公司价格信息，为您提供最优质的
-              海运、空运物流服务，价格透明，一键比较。
+              整合加拿大多家华人快递货代报价，海运 · 空运全覆盖，
+              价格透明、时效清晰，让每一票货都走最划算的路线。
             </Paragraph>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {/* 空运比价 */}
+            {/* CTA 按钮 */}
+            <Button
+              type="primary"
+              size="large"
+              onClick={scrollToCalc}
+              style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none',
+                borderRadius: 10,
+                fontWeight: 700,
+                fontSize: 15,
+                height: 46,
+                paddingLeft: 28,
+                paddingRight: 28,
+                marginBottom: 32,
+                boxShadow: '0 6px 20px rgba(102,126,234,0.35)',
+              }}
+            >
+              计费试算 →
+            </Button>
+
+            {/* 空运 / 海运 入口卡 */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div
                 onClick={() => handleNavigate('/air-freight')}
                 style={{
-                  background: '#fff',
+                  background: '#f7f9ff',
                   borderRadius: 14,
                   padding: '14px 20px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 14,
-                  boxShadow: '0 4px 20px rgba(67,97,184,0.10)',
                   cursor: 'pointer',
                   border: '1.5px solid #e4ebf8',
                 }}
               >
                 <div style={{
-                  width: 46, height: 46, borderRadius: 12,
+                  width: 44, height: 44, borderRadius: 12,
                   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#fff', fontSize: 20, flexShrink: 0,
+                  color: '#fff', fontSize: 18, flexShrink: 0,
                 }}>
                   <SendOutlined />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, color: '#0d1b4b', fontSize: 15 }}>空运比价</div>
-                  <div style={{ fontSize: 13, color: '#8a9bb8', marginTop: 2 }}>快速比较多家公司空运价格和时效</div>
+                  <div style={{ fontWeight: 700, color: '#0d1b4b', fontSize: 14 }}>空运比价</div>
+                  <div style={{ fontSize: 12, color: '#8a9bb8', marginTop: 2 }}>快速比较多家公司空运价格和时效</div>
                 </div>
-                <RightOutlined style={{ color: '#667eea', fontSize: 13 }} />
+                <RightOutlined style={{ color: '#667eea', fontSize: 12 }} />
               </div>
 
-              {/* 海运比价 */}
               <div
                 onClick={() => handleNavigate('/sea-freight')}
                 style={{
-                  background: '#fff',
+                  background: '#f7f9ff',
                   borderRadius: 14,
                   padding: '14px 20px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 14,
-                  boxShadow: '0 4px 20px rgba(17,153,142,0.10)',
                   cursor: 'pointer',
                   border: '1.5px solid #e4ebf8',
                 }}
               >
                 <div style={{
-                  width: 46, height: 46, borderRadius: 12,
+                  width: 44, height: 44, borderRadius: 12,
                   background: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#fff', fontSize: 20, flexShrink: 0,
+                  color: '#fff', fontSize: 18, flexShrink: 0,
                 }}>
                   <GlobalOutlined />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, color: '#0d1b4b', fontSize: 15 }}>海运比价</div>
-                  <div style={{ fontSize: 13, color: '#8a9bb8', marginTop: 2 }}>海运价格透明，服务多样化</div>
+                  <div style={{ fontWeight: 700, color: '#0d1b4b', fontSize: 14 }}>海运比价</div>
+                  <div style={{ fontSize: 12, color: '#8a9bb8', marginTop: 2 }}>海运价格透明，服务多样化</div>
                 </div>
-                <RightOutlined style={{ color: '#11998e', fontSize: 13 }} />
+                <RightOutlined style={{ color: '#11998e', fontSize: 12 }} />
               </div>
             </div>
           </div>
 
-          {/* 右侧图片 */}
-          <div style={{
-            borderRadius: 24,
-            overflow: 'hidden',
-            boxShadow: '0 24px 64px rgba(13,27,75,0.16)',
-            lineHeight: 0,
-          }}>
-            <img
-              src={heroImage}
-              alt="物流服务"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
+          {/* RightHeroFinal refined: better balance */}
+          <div style={{ position: 'relative', width: '100%', maxWidth: 660, minHeight: 520 }}>
+
+            {/* Frame background */}
+            <div style={{
+              position: 'absolute', inset: 0, borderRadius: 28,
+              background: 'linear-gradient(135deg, #f8fafc 0%, #fff 50%, #f1f5f9 100%)',
+              border: '1px solid rgba(203,213,225,0.6)',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+            }} />
+
+            {/* Animated glow blobs */}
+            <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, overflow: 'hidden', borderRadius: 28 }}>
+              <div className="animate-sscGlow1" style={{
+                position: 'absolute', top: -96, left: -96,
+                height: 360, width: 360, borderRadius: '50%',
+                opacity: 0.30, filter: 'blur(48px)',
+                background: 'radial-gradient(circle at center, rgba(99,102,241,0.55), rgba(59,130,246,0.18), transparent 70%)',
+              }} />
+              <div className="animate-sscGlow2" style={{
+                position: 'absolute', bottom: -112, right: -112,
+                height: 420, width: 420, borderRadius: '50%',
+                opacity: 0.26, filter: 'blur(48px)',
+                background: 'radial-gradient(circle at center, rgba(168,85,247,0.45), rgba(59,130,246,0.16), transparent 70%)',
+              }} />
+            </div>
+
+            {/* Watermark images */}
+            <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, overflow: 'hidden', borderRadius: 28 }}>
+              {/* panda — deep bg, raised slightly */}
+              <img
+                src={pandaImg}
+                alt=""
+                loading="lazy"
+                draggable={false}
+                style={{
+                  position: 'absolute', bottom: 24,
+                  left: '50%', transform: 'translateX(-50%)',
+                  zIndex: 0, opacity: 0.28,
+                  width: '76%', maxWidth: 520, maxHeight: 320,
+                  objectFit: 'contain',
+                }}
+              />
+              {/* hero — mid watermark, barely lifted */}
+              <img
+                src={heroImage}
+                alt=""
+                loading="lazy"
+                draggable={false}
+                style={{
+                  position: 'absolute', bottom: 0,
+                  left: '50%', transform: 'translateX(-50%) translateY(4px)',
+                  zIndex: 10, opacity: 0.62,
+                  width: '92%', maxWidth: 720, maxHeight: 400,
+                  objectFit: 'contain',
+                }}
+              />
+              {/* Bottom fade mask — thinner, lighter */}
+              <div style={{
+                position: 'absolute', bottom: 0, left: 0, right: 0,
+                height: 120, zIndex: 20,
+                background: 'linear-gradient(to top, #fff 0%, rgba(255,255,255,0.4) 60%, transparent 100%)',
+              }} />
+            </div>
+
+            {/* Foreground card — shifted down for visual balance */}
+            <div style={{ position: 'relative', zIndex: 30, paddingTop: 24, paddingLeft: 24, paddingRight: 24, transform: 'translateY(24px)' }}>
+              <div
+                ref={calcRef}
+                style={{
+                  marginLeft: 'auto',
+                  width: '100%', maxWidth: 580,
+                  borderRadius: 16,
+                  background: 'rgba(255,255,255,0.92)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(203,213,225,0.7)',
+                  boxShadow: '0 20px 48px rgba(0,0,0,0.10)',
+                  transition: 'transform 0.3s, box-shadow 0.3s',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)';
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 28px 64px rgba(0,0,0,0.14)';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 20px 48px rgba(0,0,0,0.10)';
+                }}
+              >
+                <ChargeableWeightCard />
+              </div>
+              <div style={{ marginTop: 16, marginLeft: 'auto', width: '100%', maxWidth: 580, fontSize: 11, color: '#94a3b8' }}>
+                * 计费重量为参考值，具体以商家实时报价为准
+              </div>
+            </div>
           </div>
         </div>
       </div>
