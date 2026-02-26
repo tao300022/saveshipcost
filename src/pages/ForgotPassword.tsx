@@ -2,28 +2,28 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Card, Typography, Alert } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { requestPasswordReset } from '../services/storage';
+import { supabase } from '../lib/supabase';
 
 const { Title } = Typography;
 
 const ForgotPassword: React.FC = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [resetUrl, setResetUrl] = useState<string | null>(null);
+  const [loading, setLoading]   = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const onFinish = ({ email }: { email: string }) => {
+  const onFinish = async ({ email }: { email: string }) => {
     setLoading(true);
-    setTimeout(() => {
-      const result = requestPasswordReset(email);
-      if (result !== 'not_found') {
-        const url = `${window.location.origin}/reset-password?token=${(result as { token: string }).token}`;
-        setResetUrl(url);
-      } else {
-        // 统一提示，不暴露账号是否存在
-        setResetUrl('__not_found__');
-      }
-      setLoading(false);
-    }, 300);
+    const origin = window.location.origin;
+    const redirectTo = `${origin}/reset-password`;
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+
+    // 排查日志（仅开发/控制台可见，不泄露给用户）
+    console.log('[ForgotPassword]', { error, origin, redirectTo });
+    if (error) console.error('[ForgotPassword] Supabase error:', error.message);
+
+    setLoading(false);
+    setSubmitted(true); // 无论成功/失败都显示相同提示，不暴露账号是否存在
   };
 
   return (
@@ -36,10 +36,10 @@ const ForgotPassword: React.FC = () => {
       <Card style={{ width: 420, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
           <Title level={2} style={{ margin: 0 }}>找回密码</Title>
-          <p style={{ color: '#666' }}>输入注册邮箱，获取重置链接</p>
+          <p style={{ color: '#666' }}>输入注册邮箱，接收重置链接</p>
         </div>
 
-        {!resetUrl ? (
+        {!submitted ? (
           <Form onFinish={onFinish} autoComplete="off" size="large">
             <Form.Item
               name="email"
@@ -52,34 +52,21 @@ const ForgotPassword: React.FC = () => {
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" block loading={loading}>
-                获取重置链接
+                发送重置邮件
               </Button>
             </Form.Item>
           </Form>
-        ) : resetUrl === '__not_found__' ? (
-          <Alert
-            type="success"
-            message="如果该邮箱已注册，重置链接将显示在此处。"
-            description="请确认邮箱地址是否正确。"
-            showIcon
-            style={{ marginBottom: 16 }}
-          />
         ) : (
           <Alert
             type="success"
-            message="重置链接已生成"
-            description={
-              <div>
-                <p style={{ marginBottom: 8 }}>点击下方链接设置新密码（1小时内有效）：</p>
-                <a href={resetUrl} style={{ wordBreak: 'break-all', fontSize: 13 }}>{resetUrl}</a>
-              </div>
-            }
             showIcon
+            message="请检查你的邮箱"
+            description="如果该邮箱已注册，你将收到一封密码重置邮件（如未收到请检查垃圾箱）。"
             style={{ marginBottom: 16 }}
           />
         )}
 
-        <div style={{ textAlign: 'center', marginTop: 8 }}>
+        <div style={{ textAlign: 'center', marginTop: 12 }}>
           <a onClick={() => navigate('/login')} style={{ color: '#667eea', cursor: 'pointer' }}>
             返回登录
           </a>

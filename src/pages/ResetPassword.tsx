@@ -1,39 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Card, Typography, Alert, message } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { validateResetToken, resetPassword } from '../services/storage';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 const { Title } = Typography;
 
 const ResetPassword: React.FC = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get('token') ?? '';
-
-  const [tokenStatus, setTokenStatus] = useState<'ok' | 'invalid' | 'expired' | 'checking'>('checking');
+  const [status, setStatus] = useState<'loading' | 'ready' | 'invalid'>('loading');
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (!token) { setTokenStatus('invalid'); return; }
-    setTokenStatus(validateResetToken(token));
-  }, [token]);
-
-  const onFinish = ({ newPassword }: { newPassword: string }) => {
-    setLoading(true);
-    setTimeout(() => {
-      const result = resetPassword(token, newPassword);
-      if (result === 'ok') {
-        setDone(true);
-        message.success('密码已更新，即将跳转到登录页');
-        setTimeout(() => navigate('/login'), 2000);
-      } else {
-        message.error(result === 'expired' ? '链接已过期，请重新发送重置邮件' : '链接无效，请重新发送重置邮件');
-        setTokenStatus(result);
+    // Supabase reads the #access_token hash from the URL and fires PASSWORD_RECOVERY
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      console.log('[ResetPassword] auth event:', event);
+      if (event === 'PASSWORD_RECOVERY') {
+        setStatus('ready');
       }
-      setLoading(false);
-    }, 300);
+    });
+
+    // Fallback: if no access_token in hash at all, mark invalid immediately
+    if (!window.location.hash.includes('access_token')) {
+      // Give Supabase 1.2s to fire the event in case of PKCE flow
+      const t = setTimeout(() => {
+        setStatus((prev) => (prev === 'loading' ? 'invalid' : prev));
+      }, 1200);
+      return () => { subscription.unsubscribe(); clearTimeout(t); };
+    }
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const onFinish = async ({ newPassword }: { newPassword: string }) => {
+    setLoading(true);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    console.log('[ResetPassword] updateUser error:', error);
+    setLoading(false);
+
+    if (error) {
+      message.error('更新失败：' + error.message);
+    } else {
+      setDone(true);
+      message.success('密码已更新，即将跳转到登录页');
+      await supabase.auth.signOut();
+      setTimeout(() => navigate('/login'), 2000);
+    }
   };
 
   return (
@@ -48,15 +61,17 @@ const ResetPassword: React.FC = () => {
           <Title level={2} style={{ margin: 0 }}>设置新密码</Title>
         </div>
 
-        {tokenStatus === 'checking' && <p style={{ textAlign: 'center', color: '#999' }}>验证中…</p>}
+        {status === 'loading' && (
+          <p style={{ textAlign: 'center', color: '#999' }}>验证中…</p>
+        )}
 
-        {(tokenStatus === 'invalid' || tokenStatus === 'expired') && (
+        {status === 'invalid' && (
           <div>
             <Alert
               type="error"
-              message={tokenStatus === 'expired' ? '链接已过期' : '链接无效'}
-              description="请重新发送重置邮件获取新链接。"
               showIcon
+              message="链接无效或已过期"
+              description="请重新发送重置邮件获取新链接。"
               style={{ marginBottom: 16 }}
             />
             <Button block onClick={() => navigate('/forgot-password')}>
@@ -65,7 +80,7 @@ const ResetPassword: React.FC = () => {
           </div>
         )}
 
-        {tokenStatus === 'ok' && !done && (
+        {status === 'ready' && !done && (
           <Form onFinish={onFinish} autoComplete="off" size="large">
             <Form.Item
               name="newPassword"
@@ -100,7 +115,7 @@ const ResetPassword: React.FC = () => {
         )}
 
         {done && (
-          <Alert type="success" message="密码已更新，正在跳转到登录页…" showIcon />
+          <Alert type="success" showIcon message="密码已更新，正在跳转到登录页…" />
         )}
       </Card>
     </div>
