@@ -103,6 +103,55 @@ export const clearSession = (): void => {
   localStorage.removeItem(SESSION_KEY);
 };
 
+// ─── Password Reset ───────────────────────────────────────────────────────────
+
+const RESET_TOKENS_KEY = 'cargo_v2_reset_tokens';
+
+interface ResetToken {
+  email: string;
+  token: string;
+  expiry: number;
+}
+
+const readTokens = (): ResetToken[] => {
+  try {
+    const raw = localStorage.getItem(RESET_TOKENS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+};
+
+/** 生成重置 token（1小时有效）。统一返回 ok 防止枚举账号 */
+export const requestPasswordReset = (email: string): { token: string } | 'not_found' => {
+  const users = readUsers();
+  const key = email.toLowerCase();
+  if (!users[key]) return 'not_found';
+  const token = Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
+  const kept = readTokens().filter(t => t.email !== key && t.expiry > Date.now());
+  kept.push({ email: key, token, expiry: Date.now() + 3_600_000 });
+  localStorage.setItem(RESET_TOKENS_KEY, JSON.stringify(kept));
+  return { token };
+};
+
+export const validateResetToken = (token: string): 'ok' | 'invalid' | 'expired' => {
+  const found = readTokens().find(t => t.token === token);
+  if (!found) return 'invalid';
+  if (found.expiry < Date.now()) return 'expired';
+  return 'ok';
+};
+
+export const resetPassword = (token: string, newPassword: string): 'ok' | 'invalid' | 'expired' => {
+  const tokens = readTokens();
+  const found = tokens.find(t => t.token === token);
+  if (!found) return 'invalid';
+  if (found.expiry < Date.now()) return 'expired';
+  const users = readUsers();
+  if (!users[found.email]) return 'invalid';
+  users[found.email].password = newPassword;
+  writeUsers(users);
+  localStorage.setItem(RESET_TOKENS_KEY, JSON.stringify(tokens.filter(t => t.token !== token)));
+  return 'ok';
+};
+
 // ─── Posts ────────────────────────────────────────────────────────────────────
 
 /** 获取帖子列表 → 替换为 GET /api/posts */

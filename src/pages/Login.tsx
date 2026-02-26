@@ -61,6 +61,9 @@ const Login: React.FC = () => {
             </Button>
           </Form.Item>
         </Form>
+        <div style={{ textAlign: 'center', color: '#666', marginBottom: 8 }}>
+          <a onClick={() => navigate('/forgot-password')} style={{ color: '#667eea' }}>忘记密码？</a>
+        </div>
         <div style={{ textAlign: 'center', color: '#666' }}>
           还没有账号？<a onClick={() => navigate('/register')}>立即注册</a>
         </div>

@@ -22,6 +22,8 @@ import CorrectionsAdmin from './pages/CorrectionsAdmin';
 import Ottawa from './pages/Ottawa';
 import MerchantDetail from './pages/MerchantDetail';
 import AdminPage from './pages/Admin';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 const { Content } = Layout;
 
@@ -51,6 +53,8 @@ function App() {
                 <Route path="/ottawa"                   element={<Ottawa />} />
                 <Route path="/merchant/:merchantId"     element={<MerchantDetail />} />
                 <Route path="/admin"                    element={<AdminPage />} />
+                <Route path="/forgot-password"         element={<ForgotPassword />} />
+                <Route path="/reset-password"          element={<ResetPassword />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Content>
