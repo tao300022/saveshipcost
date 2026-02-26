@@ -235,6 +235,10 @@ const AdminPage: React.FC = () => {
       title: '线路', dataIndex: 'route', key: 'route', width: 100,
       render: (v: string) => <Tag color={v === 'CN->CA' ? 'blue' : 'green'}>{v}</Tag>,
     },
+    {
+      title: '运输方式', dataIndex: 'mode', key: 'mode', width: 90,
+      render: (v: string) => v === 'sea' ? <Tag color="cyan">海运</Tag> : <Tag color="blue">空运</Tag>,
+    },
     { title: '城市', dataIndex: 'city', key: 'city', width: 90 },
     { title: '货代', dataIndex: 'merchantName', key: 'merchantName' },
     { title: '时效', dataIndex: 'eta', key: 'eta', width: 90 },
@@ -398,6 +402,12 @@ const AdminPage: React.FC = () => {
           </Form.Item>
           <Form.Item name="eta" label="时效" rules={[{ required: true, message: '请输入时效' }]}>
             <Input placeholder="7-10天" />
+          </Form.Item>
+          <Form.Item name="mode" label="运输方式" initialValue="air" rules={[{ required: true }]}>
+            <Select options={[
+              { label: '空运', value: 'air' },
+              { label: '海运', value: 'sea' },
+            ]} />
           </Form.Item>
           <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
             <Space>

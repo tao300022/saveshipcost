@@ -13,6 +13,7 @@ const { Title, Paragraph } = Typography;
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [deliveryUpdates, setDeliveryUpdates] = useState<DeliveryUpdate[]>([]);
+  const [modeFilter, setModeFilter] = useState<'all' | 'air' | 'sea'>('all');
   const calcRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -313,16 +314,39 @@ const Home: React.FC = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: 20,
+          marginBottom: 16,
         }}>
           <Title level={2} style={{ margin: 0 }}>快递到货动态</Title>
           <Button type="link" onClick={() => handleNavigate('/ottawa')}>
             查看 Ottawa 商家 →
           </Button>
         </div>
+        {/* 运输方式筛选 */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+          {(['all', 'air', 'sea'] as const).map((f) => {
+            const label = f === 'all' ? '全部' : f === 'air' ? '空运' : '海运';
+            const active = modeFilter === f;
+            return (
+              <button
+                key={f}
+                onClick={() => setModeFilter(f)}
+                style={{
+                  padding: '4px 16px', borderRadius: 20, cursor: 'pointer', fontSize: 13,
+                  border: active ? '1.5px solid #667eea' : '1.5px solid #e4ebf8',
+                  background: active ? '#eef1ff' : '#f7f9ff',
+                  color: active ? '#4361b8' : '#5a6a8a',
+                  fontWeight: active ? 600 : 400,
+                  outline: 'none',
+                }}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
         <Card style={{ borderRadius: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
           <Table
-            dataSource={deliveryUpdates}
+            dataSource={modeFilter === 'all' ? deliveryUpdates : deliveryUpdates.filter(d => d.mode === modeFilter)}
             columns={deliveryColumns}
             rowKey="id"
             pagination={{ pageSize: 5, size: 'small' }}

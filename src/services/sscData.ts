@@ -22,6 +22,7 @@ export interface DeliveryUpdate {
   merchantId: string;
   merchantName: string;
   eta: string;               // e.g. "7-10天"
+  mode?: 'air' | 'sea';
   createdAt: string;
 }
 
@@ -100,11 +101,11 @@ const DEFAULT_MERCHANTS: Merchant[] = [
 ];
 
 const DEFAULT_DELIVERY_UPDATES: DeliveryUpdate[] = [
-  { id: 'd001', departDate: '2026-02-10', route: 'CN->CA', city: 'Ottawa',    merchantId: 'm001', merchantName: '铭创优国际快递', eta: '7-10天',  createdAt: new Date().toISOString() },
-  { id: 'd002', departDate: '2026-02-12', route: 'CN->CA', city: 'Ottawa',    merchantId: 'm002', merchantName: '速比迪快递',     eta: '5-7天',   createdAt: new Date().toISOString() },
-  { id: 'd003', departDate: '2026-02-15', route: 'CN->CA', city: 'Toronto',   merchantId: 'm001', merchantName: '铭创优国际快递', eta: '5-7天',   createdAt: new Date().toISOString() },
-  { id: 'd004', departDate: '2026-02-18', route: 'CA->CN', city: 'Ottawa',    merchantId: 'm003', merchantName: '万象美驿',       eta: '30-40天', createdAt: new Date().toISOString() },
-  { id: 'd005', departDate: '2026-02-20', route: 'CN->CA', city: 'Vancouver', merchantId: 'm001', merchantName: '铭创优国际快递', eta: '10-14天', createdAt: new Date().toISOString() },
+  { id: 'd001', departDate: '2026-02-10', route: 'CN->CA', city: 'Ottawa',    merchantId: 'm001', merchantName: '铭创优国际快递', eta: '7-10天',  mode: 'air', createdAt: new Date().toISOString() },
+  { id: 'd002', departDate: '2026-02-12', route: 'CN->CA', city: 'Ottawa',    merchantId: 'm002', merchantName: '速比迪快递',     eta: '5-7天',   mode: 'air', createdAt: new Date().toISOString() },
+  { id: 'd003', departDate: '2026-02-15', route: 'CN->CA', city: 'Toronto',   merchantId: 'm001', merchantName: '铭创优国际快递', eta: '5-7天',   mode: 'air', createdAt: new Date().toISOString() },
+  { id: 'd004', departDate: '2026-02-18', route: 'CA->CN', city: 'Ottawa',    merchantId: 'm003', merchantName: '万象美驿',       eta: '30-40天', mode: 'sea', createdAt: new Date().toISOString() },
+  { id: 'd005', departDate: '2026-02-20', route: 'CN->CA', city: 'Vancouver', merchantId: 'm001', merchantName: '铭创优国际快递', eta: '10-14天', mode: 'air', createdAt: new Date().toISOString() },
 ];
 
 const DEFAULT_POSTS: SscPost[] = [
