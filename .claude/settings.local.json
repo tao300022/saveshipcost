@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(npm install:*)",
+      "Bash(node -e:*)",
+      "Bash(cd:*)",
+      "Bash(cmd:*)",
+      "Bash(powershell:*)",
+      "Bash(cd \"C:/Users/User/OneDrive/Desktop/cargoA5\" && npx tsc --noEmit 2>&1)",
+      "Bash(cd \"C:/Users/User/OneDrive/Desktop/cargoA5\" && npm run build 2>&1)",
+      "Bash(cd \"C:/Users/User/OneDrive/Desktop/cargoA5\" && npx vercel whoami 2>&1)",
+      "Bash(cd \"C:/Users/User/OneDrive/Desktop/cargoA5\" && npx vercel login 2>&1)",
+      "Bash(cd \"C:/Users/User/OneDrive/Desktop/cargoA5\" && npx vercel link --yes --scope tao300022s-projects --project saveshipcost 2>&1)",
+      "Bash(cd \"C:/Users/User/OneDrive/Desktop/cargoA5\" && npx vercel --prod 2>&1)"
+    ]
+  }
+}
