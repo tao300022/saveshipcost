@@ -318,7 +318,7 @@ const Home: React.FC = () => {
         }}>
           <Title level={2} style={{ margin: 0 }}>快递到货动态</Title>
           <Button type="link" onClick={() => handleNavigate('/ottawa')}>
-            查看 Ottawa 商家 →
+            查看更多商家 →
           </Button>
         </div>
         {/* 运输方式筛选 */}
