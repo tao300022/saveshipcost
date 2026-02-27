@@ -60,8 +60,8 @@ const Header: React.FC = () => {
     { key: '/forum',       label: '首重拼邮', onClick: () => navigate('/forum') },
   ];
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate('/');
   };
 

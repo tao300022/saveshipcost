@@ -11,18 +11,16 @@ const Login: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const onFinish = (values: { email: string; password: string }) => {
+  const onFinish = async (values: { email: string; password: string }) => {
     setLoading(true);
-    setTimeout(() => {
-      const result = login(values.email, values.password);
-      if (result === 'ok') {
-        message.success('登录成功！');
-        navigate('/');
-      } else {
-        message.error('邮箱或密码错误');
-      }
-      setLoading(false);
-    }, 300);
+    const result = await login(values.email, values.password);
+    if (result === 'ok') {
+      message.success('登录成功！');
+      navigate('/');
+    } else {
+      message.error('邮箱或密码错误');
+    }
+    setLoading(false);
   };
 
   return (

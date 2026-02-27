@@ -11,23 +11,23 @@ const Register: React.FC = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  const onFinish = (values: {
+  const onFinish = async (values: {
     email: string;
     username: string;
     password: string;
     confirmPassword: string;
   }) => {
     setLoading(true);
-    setTimeout(() => {
-      const result = register(values.email, values.username, values.password);
-      if (result === 'ok') {
-        message.success('注册成功！请登录');
-        navigate('/login');
-      } else {
-        message.error('该邮箱已注册，请直接登录');
-      }
-      setLoading(false);
-    }, 300);
+    const result = await register(values.email, values.username, values.password);
+    if (result === 'ok') {
+      message.success('注册成功！请登录');
+      navigate('/login');
+    } else if (result === 'email_exists') {
+      message.error('该邮箱已注册，请直接登录');
+    } else {
+      message.error('注册失败，请稍后重试');
+    }
+    setLoading(false);
   };
 
   return (
