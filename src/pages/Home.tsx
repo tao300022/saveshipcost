@@ -68,6 +68,13 @@ const Home: React.FC = () => {
       key: 'merchantName',
     },
     {
+      title: '到货日期',
+      dataIndex: 'arrivalDate',
+      key: 'arrivalDate',
+      width: 110,
+      render: (v: string | undefined) => v || <span style={{ color: '#bbb' }}>—</span>,
+    },
+    {
       title: '空运/海运',
       dataIndex: 'mode',
       key: 'mode',

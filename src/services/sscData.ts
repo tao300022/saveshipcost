@@ -23,6 +23,7 @@ export interface DeliveryUpdate {
   merchantName: string;
   eta: string;               // e.g. "7-10天"
   mode?: 'air' | 'sea';
+  arrivalDate?: string;      // YYYY-MM-DD, optional
   createdAt: string;
 }
 

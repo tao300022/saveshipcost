@@ -241,6 +241,8 @@ const AdminPage: React.FC = () => {
     },
     { title: '城市', dataIndex: 'city', key: 'city', width: 90 },
     { title: '货代', dataIndex: 'merchantName', key: 'merchantName' },
+    { title: '到货日期', dataIndex: 'arrivalDate', key: 'arrivalDate', width: 110,
+      render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span> },
     { title: '时效', dataIndex: 'eta', key: 'eta', width: 90 },
     {
       title: '操作', key: 'action', width: 150,
@@ -402,6 +404,9 @@ const AdminPage: React.FC = () => {
           </Form.Item>
           <Form.Item name="eta" label="时效" rules={[{ required: true, message: '请输入时效' }]}>
             <Input placeholder="7-10天" />
+          </Form.Item>
+          <Form.Item name="arrivalDate" label="到货日期（可选）">
+            <Input placeholder="2026-03-10" />
           </Form.Item>
           <Form.Item name="mode" label="运输方式" initialValue="air" rules={[{ required: true }]}>
             <Select options={[
