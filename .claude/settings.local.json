@@ -14,7 +14,16 @@
       "Bash(cd \"C:/Users/User/OneDrive/Desktop/cargoA5\" && npx vercel whoami 2>&1)",
       "Bash(cd \"C:/Users/User/OneDrive/Desktop/cargoA5\" && npx vercel login 2>&1)",
       "Bash(cd \"C:/Users/User/OneDrive/Desktop/cargoA5\" && npx vercel link --yes --scope tao300022s-projects --project saveshipcost 2>&1)",
-      "Bash(cd \"C:/Users/User/OneDrive/Desktop/cargoA5\" && npx vercel --prod 2>&1)"
+      "Bash(cd \"C:/Users/User/OneDrive/Desktop/cargoA5\" && npx vercel --prod 2>&1)",
+      "Bash(cd /c/Users/User/OneDrive/Desktop/cargoA5 && npm run build 2>&1)",
+      "Bash(cd /c/Users/User/OneDrive/Desktop/cargoA5 && npx vercel --prod 2>&1)",
+      "Bash(cd /c/Users/User/OneDrive/Desktop/cargoA5 && npm run build 2>&1 && npx vercel --prod 2>&1)",
+      "Bash(cd /c/Users/User/OneDrive/Desktop/cargoA5 && git status && git add src/pages/Home.tsx && git commit -m \"Refine hero right visual balance\" && git push 2>&1)",
+      "Bash(cd /c/Users/User/OneDrive/Desktop/cargoA5 && git add src/pages/Home.tsx src/pages/PrivacyPolicy.tsx src/index.css src/components/ChargeableWeightCard.tsx && git commit -m \"Remove 65.jpg from hero; update email, keyframes, chargeable weight card\" && git push 2>&1)",
+      "Bash(cd /c/Users/User/OneDrive/Desktop/cargoA5 && git add src/services/sscData.ts src/pages/Admin.tsx src/pages/Home.tsx && git commit -m \"Add shipping mode to arrival updates\" && git push 2>&1)",
+      "Bash(cd /c/Users/User/OneDrive/Desktop/cargoA5 && git add src/services/storage.ts src/pages/ForgotPassword.tsx src/pages/ResetPassword.tsx src/pages/Login.tsx src/App.tsx && git commit -m \"Add forgot/reset password flow\" && git push 2>&1)",
+      "Bash(cd /c/Users/User/OneDrive/Desktop/cargoA5 && npm run build 2>&1 && git add src/pages/Home.tsx && git commit -m \"Change button text to 查看更多商家\" && git push 2>&1 && npx vercel --prod 2>&1)",
+      "Bash(cd /c/Users/User/OneDrive/Desktop/cargoA5 && git add src/lib/supabase.ts src/pages/ForgotPassword.tsx src/pages/ResetPassword.tsx package.json package-lock.json .env.local.example && git commit -m \"Fix forgot/reset password email flow\" && git push 2>&1)"
     ]
   }
 }
