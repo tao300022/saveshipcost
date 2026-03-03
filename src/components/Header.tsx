@@ -58,6 +58,7 @@ const Header: React.FC = () => {
     { key: '/air-freight', label: '空运比价', onClick: () => navigate('/air-freight') },
     { key: '/sea-freight', label: '海运比价', onClick: () => navigate('/sea-freight') },
     { key: '/forum',       label: '首重拼邮', onClick: () => navigate('/forum') },
+    { key: '/faq',         label: 'FAQ',      onClick: () => navigate('/faq') },
   ];
 
   const handleLogout = async () => {

@@ -24,6 +24,7 @@ import MerchantDetail from './pages/MerchantDetail';
 import AdminPage from './pages/Admin';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import FAQ from './pages/FAQ';
 
 const { Content } = Layout;
 
@@ -55,6 +56,7 @@ function App() {
                 <Route path="/admin"                    element={<AdminPage />} />
                 <Route path="/forgot-password"         element={<ForgotPassword />} />
                 <Route path="/reset-password"          element={<ResetPassword />} />
+                <Route path="/faq"                     element={<FAQ />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Content>
