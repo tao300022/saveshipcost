@@ -273,15 +273,20 @@ const deliveryToRow = (d: DeliveryUpdate) => ({
 });
 
 export const fetchDeliveryUpdates = async (): Promise<DeliveryUpdate[]> => {
-  const { data, error } = await supabase
-    .from('delivery_updates')
-    .select('*')
-    .order('created_at', { ascending: false });
-  if (error) {
-    console.error('[Supabase] fetchDeliveryUpdates:', error.message);
+  try {
+    const { data, error } = await supabase
+      .from('delivery_updates')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) {
+      console.error('[Supabase] fetchDeliveryUpdates:', error.message);
+      return getDeliveryUpdates();
+    }
+    return (data ?? []).map(deliveryFromRow);
+  } catch (e) {
+    console.error('[Supabase] fetchDeliveryUpdates exception:', e);
     return getDeliveryUpdates();
   }
-  return (data ?? []).map(deliveryFromRow);
 };
 
 export const upsertDeliveryUpdate = async (d: DeliveryUpdate): Promise<void> => {
@@ -320,18 +325,22 @@ const postToRow = (p: SscPost) => ({
 });
 
 export const fetchSscPosts = async (): Promise<SscPost[]> => {
-  const { data, error } = await supabase
-    .from('ssc_posts')
-    .select('*')
-    .order('created_at', { ascending: false });
-  if (error) {
-    console.error('[Supabase] fetchSscPosts:', error.message);
+  try {
+    const { data, error } = await supabase
+      .from('ssc_posts')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) {
+      console.error('[Supabase] fetchSscPosts:', error.message);
+      return getSscPosts();
+    }
+    const remote = (data ?? []).map(postFromRow);
+    if (remote.length > 0) return remote;
+    return getSscPosts();
+  } catch (e) {
+    console.error('[Supabase] fetchSscPosts exception:', e);
     return getSscPosts();
   }
-  const remote = (data ?? []).map(postFromRow);
-  if (remote.length > 0) return remote;
-  // Supabase table is empty — return localStorage posts so nothing is lost
-  return getSscPosts();
 };
 
 export const upsertSscPost = async (p: SscPost): Promise<void> => {
