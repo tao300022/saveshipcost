@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getSscPosts, createSscPost, SscPost } from '../services/sscData';
+import { fetchSscPosts, createSscPostRemote, SscPost } from '../services/sscData';
 
 const { Title, Text, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -33,21 +33,19 @@ const Forum: React.FC = () => {
   const [contentLen, setContentLen] = useState(0);
 
   useEffect(() => {
-    // 前台只展示 status === 'active' 的帖子
-    setPosts(getSscPosts().filter((p) => p.status === 'active'));
+    fetchSscPosts().then((all) => setPosts(all.filter((p) => p.status === 'active')));
   }, []);
 
   const handleSubmit = (values: { title: string; content: string }) => {
     if (!user) return;
     setSubmitting(true);
-    setTimeout(() => {
-      const newPost = createSscPost(user, values.title, values.content);
+    createSscPostRemote(user, values.title, values.content).then((newPost) => {
       setPosts((prev) => [newPost, ...prev]);
       form.resetFields();
       setContentLen(0);
       setModalOpen(false);
       setSubmitting(false);
-    }, 300);
+    });
   };
 
   return (

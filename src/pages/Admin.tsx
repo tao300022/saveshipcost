@@ -6,9 +6,11 @@ import {
 import { LockOutlined, LogoutOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import {
   isAdminLoggedIn, adminLogin, adminLogout,
-  getDeliveryUpdates, saveDeliveryUpdates, DeliveryUpdate,
+  saveDeliveryUpdates, DeliveryUpdate,
+  fetchDeliveryUpdates, upsertDeliveryUpdate, deleteDeliveryUpdateRemote,
   getMerchants, saveMerchants, Merchant, ServiceItem,
-  getSscPosts, saveSscPosts, SscPost,
+  saveSscPosts, SscPost,
+  fetchSscPosts, upsertSscPost,
 } from '../services/sscData';
 
 const { Title, Text } = Typography;
@@ -42,9 +44,9 @@ const AdminPage: React.FC = () => {
 
   useEffect(() => {
     if (loggedIn) {
-      setDeliveries(getDeliveryUpdates());
+      fetchDeliveryUpdates().then(setDeliveries);
       setMerchants(getMerchants());
-      setPosts(getSscPosts());
+      fetchSscPosts().then(setPosts);
     }
   }, [loggedIn]);
 
@@ -73,31 +75,33 @@ const AdminPage: React.FC = () => {
     setDeliveryModalOpen(true);
   };
 
-  const handleDeliverySave = (values: Record<string, string>) => {
+  const handleDeliverySave = async (values: Record<string, string>) => {
+    let upsertItem: DeliveryUpdate;
     let updated: DeliveryUpdate[];
     if (editingDelivery) {
-      updated = deliveries.map((d) =>
-        d.id === editingDelivery.id ? { ...editingDelivery, ...values } as DeliveryUpdate : d
-      );
+      upsertItem = { ...editingDelivery, ...values } as DeliveryUpdate;
+      updated = deliveries.map((d) => d.id === editingDelivery.id ? upsertItem : d);
     } else {
-      const newItem: DeliveryUpdate = {
+      upsertItem = {
         ...(values as Omit<DeliveryUpdate, 'id' | 'createdAt'>),
         id: genId(),
         createdAt: new Date().toISOString(),
       };
-      updated = [newItem, ...deliveries];
+      updated = [upsertItem, ...deliveries];
     }
     setDeliveries(updated);
     saveDeliveryUpdates(updated);
+    await upsertDeliveryUpdate(upsertItem);
     setDeliveryModalOpen(false);
     deliveryForm.resetFields();
     message.success('保存成功');
   };
 
-  const handleDeliveryDelete = (id: string) => {
+  const handleDeliveryDelete = async (id: string) => {
     const updated = deliveries.filter((d) => d.id !== id);
     setDeliveries(updated);
     saveDeliveryUpdates(updated);
+    await deleteDeliveryUpdateRemote(id);
     message.success('已删除');
   };
 
@@ -165,7 +169,7 @@ const AdminPage: React.FC = () => {
     setDeletePostModalOpen(true);
   };
 
-  const handleDeletePost = () => {
+  const handleDeletePost = async () => {
     if (!deletingPostId) return;
     const updated = posts.map((p) =>
       p.id === deletingPostId
@@ -174,17 +178,21 @@ const AdminPage: React.FC = () => {
     );
     setPosts(updated);
     saveSscPosts(updated);
+    const target = updated.find((p) => p.id === deletingPostId)!;
+    await upsertSscPost(target);
     setDeletePostModalOpen(false);
     setDeletingPostId(null);
     message.success('帖子已标记为删除');
   };
 
-  const handleRestorePost = (id: string) => {
+  const handleRestorePost = async (id: string) => {
     const updated = posts.map((p) =>
       p.id === id ? { ...p, status: 'active' as const, deleteReason: undefined } : p
     );
     setPosts(updated);
     saveSscPosts(updated);
+    const target = updated.find((p) => p.id === id)!;
+    await upsertSscPost(target);
     message.success('帖子已恢复');
   };
 

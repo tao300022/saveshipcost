@@ -3,7 +3,7 @@ import { Card, Table, Tag, Select, Button, Space, Typography, Row, Col, message 
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { seaFreightData, SeaFreightPrice } from '../data/seaFreightData';
-import { getDeliveryUpdates } from '../services/sscData';
+import { fetchDeliveryUpdates } from '../services/sscData';
 import { getCompanyByName } from '../data/companyData';
 import CorrectionModal, { CorrectionFormValues } from '../components/CorrectionModal';
 import { saveCorrection } from '../services/corrections';
@@ -19,26 +19,27 @@ const SeaFreight: React.FC = () => {
   const [dynSeaRows, setDynSeaRows]           = useState<SeaFreightPrice[]>([]);
 
   useEffect(() => {
-    const updates = getDeliveryUpdates();
-    const rows: SeaFreightPrice[] = updates
-      .filter((d) => d.mode === 'sea' && d.firstWeightPrice)
-      .map((d) => {
-        const priceStr = d.firstWeightPrice!;
-        const price = parseFloat(priceStr) || 0;
-        const kgMatch = priceStr.match(/\/\s*(\d+\.?\d*)/);
-        const kg = kgMatch ? parseFloat(kgMatch[1]) : 21;
-        return {
-          company: d.merchantName,
-          type: '海运',
-          line: d.route,
-          firstWeight: price,
-          firstWeightKg: kg,
-          additionalWeight: d.additionalWeightPrice || '-',
-          transitTime: d.eta,
-          remarks: d.city,
-        };
-      });
-    setDynSeaRows(rows);
+    fetchDeliveryUpdates().then((updates) => {
+      const rows: SeaFreightPrice[] = updates
+        .filter((d) => d.mode === 'sea' && d.firstWeightPrice)
+        .map((d) => {
+          const priceStr = d.firstWeightPrice!;
+          const price = parseFloat(priceStr) || 0;
+          const kgMatch = priceStr.match(/\/\s*(\d+\.?\d*)/);
+          const kg = kgMatch ? parseFloat(kgMatch[1]) : 21;
+          return {
+            company: d.merchantName,
+            type: '海运',
+            line: d.route,
+            firstWeight: price,
+            firstWeightKg: kg,
+            additionalWeight: d.additionalWeightPrice || '-',
+            transitTime: d.eta,
+            remarks: d.city,
+          };
+        });
+      setDynSeaRows(rows);
+    });
   }, []);
 
   const handleCorrSubmit = (values: CorrectionFormValues) => {

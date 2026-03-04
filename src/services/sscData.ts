@@ -1,7 +1,8 @@
 /**
  * sscData.ts — SaveShipCost 平台数据层
- * 所有新功能的 localStorage 封装，与原有 storage.ts 独立
+ * localStorage 封装 + Supabase 同步
  */
+import { supabase } from '../lib/supabase';
 
 export const ADMIN_PASS = 'ssc2026!';
 
@@ -235,5 +236,120 @@ export const createSscPost = (
   const posts = getSscPosts();
   posts.unshift(post);
   saveSscPosts(posts);
+  return post;
+};
+
+// ─── Supabase: DeliveryUpdate ──────────────────────────────────────────────────
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const deliveryFromRow = (r: any): DeliveryUpdate => ({
+  id: r.id,
+  departDate: r.depart_date,
+  route: r.route,
+  city: r.city,
+  merchantId: r.merchant_id ?? '',
+  merchantName: r.merchant_name,
+  eta: r.eta,
+  mode: r.mode ?? undefined,
+  arrivalDate: r.arrival_date ?? undefined,
+  firstWeightPrice: r.first_weight_price ?? undefined,
+  additionalWeightPrice: r.additional_weight_price ?? undefined,
+  createdAt: r.created_at,
+});
+
+const deliveryToRow = (d: DeliveryUpdate) => ({
+  id: d.id,
+  depart_date: d.departDate,
+  route: d.route,
+  city: d.city,
+  merchant_id: d.merchantId ?? '',
+  merchant_name: d.merchantName,
+  eta: d.eta,
+  mode: d.mode ?? null,
+  arrival_date: d.arrivalDate ?? null,
+  first_weight_price: d.firstWeightPrice ?? null,
+  additional_weight_price: d.additionalWeightPrice ?? null,
+  created_at: d.createdAt,
+});
+
+export const fetchDeliveryUpdates = async (): Promise<DeliveryUpdate[]> => {
+  const { data, error } = await supabase
+    .from('delivery_updates')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) {
+    console.error('[Supabase] fetchDeliveryUpdates:', error.message);
+    return getDeliveryUpdates();
+  }
+  return (data ?? []).map(deliveryFromRow);
+};
+
+export const upsertDeliveryUpdate = async (d: DeliveryUpdate): Promise<void> => {
+  const { error } = await supabase.from('delivery_updates').upsert(deliveryToRow(d));
+  if (error) console.error('[Supabase] upsertDeliveryUpdate:', error.message);
+};
+
+export const deleteDeliveryUpdateRemote = async (id: string): Promise<void> => {
+  const { error } = await supabase.from('delivery_updates').delete().eq('id', id);
+  if (error) console.error('[Supabase] deleteDeliveryUpdate:', error.message);
+};
+
+// ─── Supabase: SscPost ─────────────────────────────────────────────────────────
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const postFromRow = (r: any): SscPost => ({
+  id: r.id,
+  authorEmail: r.author_email,
+  authorName: r.author_name,
+  title: r.title,
+  content: r.content,
+  createdAt: r.created_at,
+  status: r.status,
+  deleteReason: r.delete_reason ?? undefined,
+});
+
+const postToRow = (p: SscPost) => ({
+  id: p.id,
+  author_email: p.authorEmail,
+  author_name: p.authorName,
+  title: p.title,
+  content: p.content,
+  created_at: p.createdAt,
+  status: p.status,
+  delete_reason: p.deleteReason ?? null,
+});
+
+export const fetchSscPosts = async (): Promise<SscPost[]> => {
+  const { data, error } = await supabase
+    .from('ssc_posts')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) {
+    console.error('[Supabase] fetchSscPosts:', error.message);
+    return getSscPosts();
+  }
+  return (data ?? []).map(postFromRow);
+};
+
+export const upsertSscPost = async (p: SscPost): Promise<void> => {
+  const { error } = await supabase.from('ssc_posts').upsert(postToRow(p));
+  if (error) console.error('[Supabase] upsertSscPost:', error.message);
+};
+
+export const createSscPostRemote = async (
+  author: { email: string; username: string },
+  title: string,
+  content: string,
+): Promise<SscPost> => {
+  const post: SscPost = {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    authorEmail: author.email,
+    authorName: author.username,
+    title: title.trim(),
+    content: content.trim(),
+    createdAt: new Date().toISOString(),
+    status: 'active',
+  };
+  await upsertSscPost(post);
   return post;
 };

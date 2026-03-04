@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import AdSlot from '../components/AdSlot';
 import { AD_CONFIG } from '../config/ads';
 import heroImage from '../assets/55.jpg';
-import { getDeliveryUpdates, DeliveryUpdate } from '../services/sscData';
+import { fetchDeliveryUpdates, DeliveryUpdate } from '../services/sscData';
 import ChargeableWeightCard from '../components/ChargeableWeightCard';
 
 const { Title, Paragraph } = Typography;
@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
-    setDeliveryUpdates(getDeliveryUpdates());
+    fetchDeliveryUpdates().then(setDeliveryUpdates);
   }, []);
 
   useEffect(() => {

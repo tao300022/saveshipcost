@@ -3,7 +3,7 @@ import { Card, Table, Tag, Select, Button, Space, Typography, Row, Col, message 
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { airFreightData, AirFreightPrice } from '../data/airFreightData';
-import { getDeliveryUpdates } from '../services/sscData';
+import { fetchDeliveryUpdates } from '../services/sscData';
 import { getCompanyByName } from '../data/companyData';
 import AdSlot from '../components/AdSlot';
 import { AD_CONFIG } from '../config/ads';
@@ -21,26 +21,27 @@ const AirFreight: React.FC = () => {
   const [dynAirRows, setDynAirRows]           = useState<AirFreightPrice[]>([]);
 
   useEffect(() => {
-    const updates = getDeliveryUpdates();
-    const rows: AirFreightPrice[] = updates
-      .filter((d) => d.mode === 'air' && d.firstWeightPrice)
-      .map((d) => {
-        const priceStr = d.firstWeightPrice!;
-        const price = parseFloat(priceStr) || 0;
-        const kgMatch = priceStr.match(/\/\s*(\d+\.?\d*)/);
-        const kg = kgMatch ? parseFloat(kgMatch[1]) : 0.5;
-        return {
-          company: d.merchantName,
-          type: '空运',
-          line: d.route,
-          firstWeight: price,
-          firstWeightKg: kg,
-          additionalWeight: d.additionalWeightPrice || '-',
-          transitTime: d.eta,
-          remarks: d.city,
-        };
-      });
-    setDynAirRows(rows);
+    fetchDeliveryUpdates().then((updates) => {
+      const rows: AirFreightPrice[] = updates
+        .filter((d) => d.mode === 'air' && d.firstWeightPrice)
+        .map((d) => {
+          const priceStr = d.firstWeightPrice!;
+          const price = parseFloat(priceStr) || 0;
+          const kgMatch = priceStr.match(/\/\s*(\d+\.?\d*)/);
+          const kg = kgMatch ? parseFloat(kgMatch[1]) : 0.5;
+          return {
+            company: d.merchantName,
+            type: '空运',
+            line: d.route,
+            firstWeight: price,
+            firstWeightKg: kg,
+            additionalWeight: d.additionalWeightPrice || '-',
+            transitTime: d.eta,
+            remarks: d.city,
+          };
+        });
+      setDynAirRows(rows);
+    });
   }, []);
 
   const handleCorrSubmit = (values: CorrectionFormValues) => {
