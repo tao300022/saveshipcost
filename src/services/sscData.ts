@@ -328,7 +328,10 @@ export const fetchSscPosts = async (): Promise<SscPost[]> => {
     console.error('[Supabase] fetchSscPosts:', error.message);
     return getSscPosts();
   }
-  return (data ?? []).map(postFromRow);
+  const remote = (data ?? []).map(postFromRow);
+  if (remote.length > 0) return remote;
+  // Supabase table is empty — return localStorage posts so nothing is lost
+  return getSscPosts();
 };
 
 export const upsertSscPost = async (p: SscPost): Promise<void> => {
@@ -350,6 +353,11 @@ export const createSscPostRemote = async (
     createdAt: new Date().toISOString(),
     status: 'active',
   };
+  // Always write to localStorage so posts survive refresh even if Supabase is unavailable
+  const existing = getSscPosts();
+  existing.unshift(post);
+  saveSscPosts(existing);
+  // Also write to Supabase for cross-device sync
   await upsertSscPost(post);
   return post;
 };
