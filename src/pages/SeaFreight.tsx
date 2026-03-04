@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Card, Table, Tag, Select, Button, Space, Typography, Row, Col, message } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { seaFreightData, SeaFreightPrice } from '../data/seaFreightData';
+import { getDeliveryUpdates } from '../services/sscData';
 import { getCompanyByName } from '../data/companyData';
 import CorrectionModal, { CorrectionFormValues } from '../components/CorrectionModal';
 import { saveCorrection } from '../services/corrections';
@@ -15,6 +16,30 @@ const SeaFreight: React.FC = () => {
   const [selectedType, setSelectedType]       = useState<string | undefined>();
   const [corrOpen, setCorrOpen]               = useState(false);
   const [corrRecord, setCorrRecord]           = useState<SeaFreightPrice | null>(null);
+  const [dynSeaRows, setDynSeaRows]           = useState<SeaFreightPrice[]>([]);
+
+  useEffect(() => {
+    const updates = getDeliveryUpdates();
+    const rows: SeaFreightPrice[] = updates
+      .filter((d) => d.mode === 'sea' && d.firstWeightPrice)
+      .map((d) => {
+        const priceStr = d.firstWeightPrice!;
+        const price = parseFloat(priceStr) || 0;
+        const kgMatch = priceStr.match(/\/\s*(\d+\.?\d*)/);
+        const kg = kgMatch ? parseFloat(kgMatch[1]) : 21;
+        return {
+          company: d.merchantName,
+          type: '海运',
+          line: d.route,
+          firstWeight: price,
+          firstWeightKg: kg,
+          additionalWeight: d.additionalWeightPrice || '-',
+          transitTime: d.eta,
+          remarks: d.city,
+        };
+      });
+    setDynSeaRows(rows);
+  }, []);
 
   const handleCorrSubmit = (values: CorrectionFormValues) => {
     if (!corrRecord) return;
@@ -29,17 +54,18 @@ const SeaFreight: React.FC = () => {
   };
 
   // Get unique companies and types
-  const companies = useMemo(() => [...new Set(seaFreightData.map(item => item.company))], []);
-  const types = useMemo(() => [...new Set(seaFreightData.map(item => item.type))], []);
+  const allSeaData = useMemo(() => [...seaFreightData, ...dynSeaRows], [dynSeaRows]);
+  const companies = useMemo(() => [...new Set(allSeaData.map(item => item.company))], [allSeaData]);
+  const types = useMemo(() => [...new Set(allSeaData.map(item => item.type))], [allSeaData]);
 
   // Filter data
   const filteredData = useMemo(() => {
-    return seaFreightData.filter(item => {
+    return allSeaData.filter(item => {
       if (selectedCompany && item.company !== selectedCompany) return false;
       if (selectedType && item.type !== selectedType) return false;
       return true;
     });
-  }, [selectedCompany, selectedType]);
+  }, [selectedCompany, selectedType, allSeaData]);
 
   const handleReset = () => {
     setSelectedCompany(undefined);
@@ -72,6 +98,13 @@ const SeaFreight: React.FC = () => {
         const color = text.includes('普') ? 'blue' : 'orange';
         return <Tag color={color}>{text}</Tag>;
       },
+    },
+    {
+      title: '线路',
+      dataIndex: 'line',
+      key: 'line',
+      width: 100,
+      render: (text: string) => text || '-',
     },
     {
       title: '首重',

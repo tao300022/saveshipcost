@@ -244,6 +244,10 @@ const AdminPage: React.FC = () => {
     { title: '到货日期', dataIndex: 'arrivalDate', key: 'arrivalDate', width: 110,
       render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span> },
     { title: '时效', dataIndex: 'eta', key: 'eta', width: 90 },
+    { title: '首重/价格', dataIndex: 'firstWeightPrice', key: 'firstWeightPrice', width: 110,
+      render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span> },
+    { title: '续重价格', dataIndex: 'additionalWeightPrice', key: 'additionalWeightPrice', width: 100,
+      render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span> },
     {
       title: '操作', key: 'action', width: 150,
       render: (_: unknown, record: DeliveryUpdate) => (
@@ -413,6 +417,12 @@ const AdminPage: React.FC = () => {
               { label: '空运', value: 'air' },
               { label: '海运', value: 'sea' },
             ]} />
+          </Form.Item>
+          <Form.Item name="firstWeightPrice" label="首重/价格（可选）">
+            <Input placeholder="例：189/0.5kg" />
+          </Form.Item>
+          <Form.Item name="additionalWeightPrice" label="续重价格（可选）">
+            <Input placeholder="例：49/kg" />
           </Form.Item>
           <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
             <Space>

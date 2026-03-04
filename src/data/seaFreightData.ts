@@ -1,6 +1,7 @@
 export interface SeaFreightPrice {
   company: string;
   type: string;
+  line?: string;
   firstWeight: number;
   firstWeightKg?: number;
   additionalWeight: number | string;

@@ -24,6 +24,8 @@ export interface DeliveryUpdate {
   eta: string;               // e.g. "7-10天"
   mode?: 'air' | 'sea';
   arrivalDate?: string;      // YYYY-MM-DD, optional
+  firstWeightPrice?: string;      // e.g. "189/0.5kg"
+  additionalWeightPrice?: string; // e.g. "49/kg"
   createdAt: string;
 }
 
