@@ -15,9 +15,16 @@ const Home: React.FC = () => {
   const [deliveryUpdates, setDeliveryUpdates] = useState<DeliveryUpdate[]>([]);
   const [modeFilter, setModeFilter] = useState<'all' | 'air' | 'sea'>('all');
   const calcRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     setDeliveryUpdates(getDeliveryUpdates());
+  }, []);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
   }, []);
 
   const handleNavigate = (path: string) => {
@@ -98,15 +105,15 @@ const Home: React.FC = () => {
       {/* Hero Section */}
       <div style={{
         background: '#fff',
-        padding: '80px 20px',
+        padding: isMobile ? '40px 16px' : '80px 20px',
         borderBottom: '1px solid #eef1fb',
       }}>
         <div style={{
           maxWidth: 1200,
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 64,
+          gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+          gap: isMobile ? 24 : 64,
           alignItems: 'start',
         }}>
           {/* 左侧文案 */}
@@ -124,7 +131,7 @@ const Home: React.FC = () => {
             <Title level={1} style={{
               color: '#0d1b4b',
               fontWeight: 800,
-              fontSize: 42,
+              fontSize: isMobile ? 28 : 42,
               lineHeight: 1.25,
               marginBottom: 16,
               marginTop: 0,
@@ -226,7 +233,7 @@ const Home: React.FC = () => {
           </div>
 
           {/* RightHeroFinal refined: better balance */}
-          <div style={{ position: 'relative', width: '100%', maxWidth: 660, minHeight: 520 }}>
+          <div style={{ position: 'relative', width: '100%', maxWidth: 660, minHeight: isMobile ? 'auto' : 520 }}>
 
             {/* Frame background */}
             <div style={{
@@ -277,7 +284,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* Foreground card — shifted down for visual balance */}
-            <div style={{ position: 'relative', zIndex: 30, paddingTop: 24, paddingLeft: 24, paddingRight: 24, transform: 'translateY(24px)' }}>
+            <div style={{ position: 'relative', zIndex: 30, paddingTop: 24, paddingLeft: isMobile ? 0 : 24, paddingRight: isMobile ? 0 : 24, transform: isMobile ? 'none' : 'translateY(24px)' }}>
               <div
                 ref={calcRef}
                 style={{
@@ -358,6 +365,7 @@ const Home: React.FC = () => {
             rowKey="id"
             pagination={{ pageSize: 5, size: 'small' }}
             size="small"
+            scroll={{ x: 'max-content' }}
             locale={{ emptyText: '暂无到货动态，请等待管理员更新' }}
           />
         </Card>
