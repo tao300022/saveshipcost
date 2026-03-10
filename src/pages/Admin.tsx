@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
   Card, Button, Input, Typography, Tabs, Table, Modal,
-  Form, Select, Space, Tag, Popconfirm, message,
+  Form, Select, Space, Tag, Popconfirm, message, Checkbox, Upload,
 } from 'antd';
-import { LockOutlined, LogoutOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { LockOutlined, LogoutOutlined, PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import {
   isAdminLoggedIn, adminLogin, adminLogout,
   saveDeliveryUpdates, DeliveryUpdate,
@@ -16,6 +16,20 @@ import {
 const { Title, Text } = Typography;
 
 const genId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+
+const SERVICE_OPTIONS = [
+  { label: '空普', value: 'air-general' },
+  { label: '空敏', value: 'air-sensitive' },
+  { label: '海普', value: 'sea-general' },
+  { label: '海敏', value: 'sea-sensitive' },
+];
+
+const SERVICE_MAP: Record<string, ServiceItem> = {
+  'air-general':   { id: 'air-general',   mode: 'air', cargo: 'general',   speed: 'standard', name: '空运普货',   etaMin: 7,  etaMax: 14 },
+  'air-sensitive': { id: 'air-sensitive', mode: 'air', cargo: 'sensitive', speed: 'standard', name: '空运敏感货', etaMin: 7,  etaMax: 14 },
+  'sea-general':   { id: 'sea-general',   mode: 'sea', cargo: 'general',   speed: 'standard', name: '海运普货',   etaMin: 30, etaMax: 45 },
+  'sea-sensitive': { id: 'sea-sensitive', mode: 'sea', cargo: 'sensitive', speed: 'standard', name: '海运敏感货', etaMin: 30, etaMax: 45 },
+};
 
 const AdminPage: React.FC = () => {
   const [loggedIn, setLoggedIn]       = useState(isAdminLoggedIn());
@@ -36,6 +50,7 @@ const AdminPage: React.FC = () => {
   const [merchantModalOpen, setMerchantModalOpen]   = useState(false);
   const [editingMerchant, setEditingMerchant]         = useState<Merchant | null>(null);
   const [merchantForm] = Form.useForm();
+  const [qrPreview, setQrPreview] = useState<string>('');
 
   // Post delete modal
   const [deletePostModalOpen, setDeletePostModalOpen] = useState(false);
@@ -110,32 +125,30 @@ const AdminPage: React.FC = () => {
   const openMerchantModal = (record?: Merchant) => {
     setEditingMerchant(record || null);
     if (record) {
+      const selectedServices = (record.services || []).map((s) => `${s.mode}-${s.cargo}`);
+      setQrPreview(record.wechatQrUrl || '');
       merchantForm.setFieldsValue({
-        name:         record.name,
-        cities:       record.cities.join(','),
-        intro:        record.intro,
-        contact:      record.contact,
-        wechatQrUrl:  record.wechatQrUrl || '',
-        servicesJson: JSON.stringify(record.services || [], null, 2),
+        name:        record.name,
+        cities:      record.cities.join(','),
+        intro:       record.intro,
+        contact:     record.contact,
+        wechatQrUrl: record.wechatQrUrl || '',
+        services:    selectedServices,
       });
     } else {
       merchantForm.resetFields();
-      merchantForm.setFieldsValue({ servicesJson: '[]' });
+      setQrPreview('');
     }
     setMerchantModalOpen(true);
   };
 
   const handleMerchantSave = (values: {
     name: string; cities: string; intro: string;
-    contact: string; wechatQrUrl?: string; servicesJson: string;
+    contact: string; wechatQrUrl?: string; services: string[];
   }) => {
-    let parsedServices: ServiceItem[] = [];
-    try {
-      parsedServices = JSON.parse(values.servicesJson || '[]');
-    } catch {
-      message.error('服务列表 JSON 格式有误，请检查');
-      return;
-    }
+    const parsedServices: ServiceItem[] = (values.services || [])
+      .map((key) => SERVICE_MAP[key])
+      .filter(Boolean);
     const data: Merchant = {
       id:          editingMerchant?.id || genId(),
       name:        values.name,
@@ -445,7 +458,7 @@ const AdminPage: React.FC = () => {
       <Modal
         title={editingMerchant ? '编辑商家' : '新增商家'}
         open={merchantModalOpen}
-        onCancel={() => { setMerchantModalOpen(false); merchantForm.resetFields(); }}
+        onCancel={() => { setMerchantModalOpen(false); merchantForm.resetFields(); setQrPreview(''); }}
         footer={null}
         width={680}
         destroyOnClose
@@ -466,20 +479,53 @@ const AdminPage: React.FC = () => {
               placeholder={'微信：xxx\n电话：+1-...\n邮箱：...\n网站：...'}
             />
           </Form.Item>
-          <Form.Item name="wechatQrUrl" label="微信二维码图片 URL（可选）">
-            <Input placeholder="https://..." />
+
+          {/* 微信二维码上传 */}
+          <Form.Item name="wechatQrUrl" label="微信二维码图片（可选）">
+            <Space direction="vertical" style={{ width: '100%' }}>
+              <Upload
+                accept="image/*"
+                showUploadList={false}
+                beforeUpload={(file) => {
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                    const dataUrl = e.target?.result as string;
+                    setQrPreview(dataUrl);
+                    merchantForm.setFieldsValue({ wechatQrUrl: dataUrl });
+                  };
+                  reader.readAsDataURL(file);
+                  return false;
+                }}
+              >
+                <Button icon={<UploadOutlined />}>点击上传图片</Button>
+              </Upload>
+              {qrPreview && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <img
+                    src={qrPreview}
+                    alt="微信二维码预览"
+                    style={{ width: 100, height: 100, objectFit: 'contain', border: '1px solid #eee', borderRadius: 8 }}
+                  />
+                  <Button
+                    size="small"
+                    danger
+                    onClick={() => { setQrPreview(''); merchantForm.setFieldsValue({ wechatQrUrl: '' }); }}
+                  >
+                    移除
+                  </Button>
+                </div>
+              )}
+            </Space>
           </Form.Item>
-          <Form.Item
-            name="servicesJson"
-            label='服务列表（JSON，可为 []）'
-            rules={[{ required: true }]}
-            extra='格式: [{"id":"s1","mode":"air","cargo":"general","speed":"fast","name":"空运快线","etaMin":5,"etaMax":7}]'
-          >
-            <Input.TextArea rows={6} />
+
+          {/* 服务类型多选 */}
+          <Form.Item name="services" label="服务类型">
+            <Checkbox.Group options={SERVICE_OPTIONS} />
           </Form.Item>
+
           <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
             <Space>
-              <Button onClick={() => { setMerchantModalOpen(false); merchantForm.resetFields(); }}>取消</Button>
+              <Button onClick={() => { setMerchantModalOpen(false); merchantForm.resetFields(); setQrPreview(''); }}>取消</Button>
               <Button type="primary" htmlType="submit">保存</Button>
             </Space>
           </Form.Item>
