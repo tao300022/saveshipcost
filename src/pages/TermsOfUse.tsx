@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Typography, Card, Space } from 'antd';
 
 const { Title, Paragraph, Text } = Typography;
@@ -48,6 +49,10 @@ const sections = [
 const TermsOfUse: React.FC = () => {
   return (
     <div style={{ maxWidth: 860, margin: '0 auto', padding: '40px 20px' }}>
+      <Helmet>
+        <title>使用条款 | SaveShipCost</title>
+        <meta name="description" content="阅读SaveShipCost使用条款，了解使用本平台时的权利与义务。" />
+      </Helmet>
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         <div>
           <Title level={1}>使用条款</Title>

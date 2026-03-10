@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import {
   Form, Input, Select, Button, Card, Typography,
   Space, Row, Col, Modal, Divider,
@@ -69,6 +70,10 @@ const Contact: React.FC = () => {
 
   return (
     <div style={{ maxWidth: 900, margin: '0 auto', padding: '40px 20px' }}>
+      <Helmet>
+        <title>联系我们 – SaveShipCost 客服与反馈</title>
+        <meta name="description" content="有疑问或建议？联系SaveShipCost团队，我们帮助加拿大华人解决跨境运费比价相关问题。" />
+      </Helmet>
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         <div>
           <Title level={1} style={{ marginBottom: 4 }}>联系我们 / 合作</Title>

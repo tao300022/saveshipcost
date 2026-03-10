@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Typography } from 'antd';
 import { EnvironmentOutlined, RightOutlined } from '@ant-design/icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -26,8 +27,14 @@ const Ottawa: React.FC = () => {
     setMerchants(all.filter((m) => m.cities.includes(currentCity)));
   }, [currentCity]);
 
+  const cityName = cityLabel.split('·')[1]?.trim() ?? currentCity;
+
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 20px' }}>
+      <Helmet>
+        <title>{cityLabel} 华人快递货代商家 | SaveShipCost</title>
+        <meta name="description" content={`查看${cityName}地区华人快递货代商家列表，了解各商家联系方式、服务范围与运费报价，轻松找到靠谱的中加跨境物流服务。`} />
+      </Helmet>
 
       {/* 页面标题 */}
       <div style={{ marginBottom: 32 }}>

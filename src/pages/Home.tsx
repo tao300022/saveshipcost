@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Card, Button, Typography, Tag, Table } from 'antd';
 import { SendOutlined, GlobalOutlined, RightOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -102,6 +103,10 @@ const Home: React.FC = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>SaveShipCost – 加拿大华人跨境运费比价平台 | 空运海运一键对比</title>
+        <meta name="description" content="整合加拿大多家华人快递货代报价，空运海运全覆盖，价格透明、时效清晰。从中国寄到加拿大，一键找到最划算的运费方案。" />
+      </Helmet>
       {/* Hero Section */}
       <div style={{
         background: '#fff',

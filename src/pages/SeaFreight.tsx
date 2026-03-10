@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Card, Table, Tag, Select, Button, Space, Typography, Row, Col, message } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -150,6 +151,10 @@ const SeaFreight: React.FC = () => {
 
   return (
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
+      <Helmet>
+        <title>海运比价 – 中国寄加拿大海运价格对比 | SaveShipCost</title>
+        <meta name="description" content="对比多家华人货代海运报价，价格实惠、时效透明。从中国整柜或拼柜发货到加拿大，找到最省钱的海运方案。" />
+      </Helmet>
       {corrRecord && (
         <CorrectionModal
           open={corrOpen}

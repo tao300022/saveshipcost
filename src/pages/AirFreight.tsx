@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Card, Table, Tag, Select, Button, Space, Typography, Row, Col, message } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -148,6 +149,10 @@ const AirFreight: React.FC = () => {
 
   return (
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
+      <Helmet>
+        <title>空运比价 – 中国寄加拿大空运价格对比 | SaveShipCost</title>
+        <meta name="description" content="一键比较多家华人货代空运价格，查看首重续重、时效天数，快速找到最优惠的中加空运方案。" />
+      </Helmet>
       <Row gutter={[24, 0]}>
         {/* 主内容区 */}
         <Col xs={24} md={18}>

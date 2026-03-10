@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const faqs = [
   {
@@ -166,6 +167,10 @@ const faqs = [
 const FAQ: React.FC = () => {
   return (
     <div style={{ background: '#f0f2f5', minHeight: '100%', padding: '40px 20px' }}>
+      <Helmet>
+        <title>常见问题 FAQ – 中加跨境运费怎么算？ | SaveShipCost</title>
+        <meta name="description" content="解答中加跨境寄件常见疑问：空运海运如何选择、体积重量怎么算、普货敏感货有何区别，帮你轻松搞懂跨境物流。" />
+      </Helmet>
       <div style={{ maxWidth: 860, margin: '0 auto' }}>
 
         {/* 页面标题 */}

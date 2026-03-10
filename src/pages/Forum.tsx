@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import {
   Card, Button, Modal, Form, Input, List, Typography,
   Space, Tag, Empty, Alert, Avatar,
@@ -50,6 +51,10 @@ const Forum: React.FC = () => {
 
   return (
     <div style={{ maxWidth: 860, margin: '0 auto', padding: '32px 20px' }}>
+      <Helmet>
+        <title>首重拼邮留言板 – 分享跨境寄件经验 | SaveShipCost</title>
+        <meta name="description" content="加入SaveShipCost社区，分享中加跨境拼邮、首重寄件经验，交流货代推荐与运费心得，帮助更多华人省运费。" />
+      </Helmet>
       {/* 页面头 */}
       <div style={{
         display: 'flex',
