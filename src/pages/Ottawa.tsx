@@ -26,6 +26,13 @@ const Ottawa: React.FC = () => {
 
   const [merchants, setMerchants] = useState<Merchant[]>([]);
   const [announcements, setAnnouncements] = useState<CityAnnouncement[]>([]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
 
   useEffect(() => {
     const all = getMerchants();
@@ -43,116 +50,128 @@ const Ottawa: React.FC = () => {
       </Helmet>
 
       {/* 页面标题 */}
-      <div style={{ marginBottom: 32 }}>
+      <div style={{ marginBottom: 28 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
           <EnvironmentOutlined style={{ fontSize: 28, color: '#667eea' }} />
           <Title level={2} style={{ margin: 0 }}>{cityLabel}</Title>
         </div>
         <Paragraph style={{ color: '#666', marginBottom: 0 }}>
-          以下为覆盖{cityLabel.split('·')[1]?.trim() ?? currentCity}地区的快递货代商家，点击进入查看详情、联系方式与服务报价
+          以下为覆盖{cityName}地区的快递货代商家，点击进入查看详情、联系方式与服务报价
         </Paragraph>
       </div>
 
-      {/* 公告栏 */}
-      {announcements.length > 0 && (
-        <div style={{
-          background: '#fffbe6',
-          border: '1px solid #ffe58f',
-          borderRadius: 10,
-          padding: '12px 16px',
-          marginBottom: 24,
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: 10,
-        }}>
-          <NotificationOutlined style={{ color: '#faad14', fontSize: 18, marginTop: 2, flexShrink: 0 }} />
-          <div style={{ flex: 1 }}>
-            {announcements.map((ann, i) => (
-              <div key={ann.id} style={{
-                borderBottom: i < announcements.length - 1 ? '1px solid #ffe58f' : 'none',
-                paddingBottom: i < announcements.length - 1 ? 10 : 0,
-                paddingTop: i > 0 ? 10 : 0,
-              }}>
-                {ann.companyName && (
-                  <p style={{ margin: '0 0 4px 0', fontSize: 13, fontWeight: 600, color: '#d46b08' }}>
-                    {ann.companyName}
-                  </p>
-                )}
-                {ann.content && (
-                  <p style={{ margin: 0, fontSize: 14, color: '#595959', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
-                    {ann.content}
-                  </p>
-                )}
-                {ann.imageUrl && (
-                  <img
-                    src={ann.imageUrl}
-                    alt="公告图片"
-                    style={{ maxWidth: '100%', marginTop: ann.content ? 8 : 0, borderRadius: 6, display: 'block' }}
-                  />
-                )}
-              </div>
-            ))}
+      {/* 左右布局 */}
+      <div style={{
+        display: 'flex',
+        flexDirection: isMobile ? 'column' : 'row',
+        gap: 24,
+        alignItems: 'flex-start',
+      }}>
+
+        {/* 左：公告栏 */}
+        <div style={{ flex: '0 0 55%', width: isMobile ? '100%' : undefined }}>
+          <div style={{
+            background: '#fffbe6',
+            border: '1px solid #ffe58f',
+            borderRadius: 12,
+            padding: '16px 18px',
+            minHeight: 120,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+              <NotificationOutlined style={{ color: '#faad14', fontSize: 16 }} />
+              <span style={{ fontWeight: 600, fontSize: 15, color: '#ad6800' }}>最新公告</span>
+            </div>
+
+            {announcements.length === 0 ? (
+              <p style={{ color: '#bbb', fontSize: 14, margin: 0 }}>暂无公告</p>
+            ) : (
+              announcements.map((ann, i) => (
+                <div key={ann.id} style={{
+                  borderBottom: i < announcements.length - 1 ? '1px solid #ffe58f' : 'none',
+                  paddingBottom: i < announcements.length - 1 ? 14 : 0,
+                  paddingTop: i > 0 ? 14 : 0,
+                }}>
+                  {ann.companyName && (
+                    <p style={{ margin: '0 0 4px 0', fontSize: 13, fontWeight: 600, color: '#d46b08' }}>
+                      {ann.companyName}
+                    </p>
+                  )}
+                  {ann.content && (
+                    <p style={{ margin: 0, fontSize: 14, color: '#595959', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
+                      {ann.content}
+                    </p>
+                  )}
+                  {ann.imageUrl && (
+                    <img
+                      src={ann.imageUrl}
+                      alt="公告图片"
+                      style={{ maxWidth: '100%', marginTop: ann.content ? 8 : 0, borderRadius: 6, display: 'block' }}
+                    />
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </div>
-      )}
 
-      {/* 商家按钮网格 */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-        gap: 20,
-        marginBottom: 40,
-      }}>
-        {merchants.map((merchant) => (
-          <div
-            key={merchant.id}
-            onClick={() => navigate(`/merchant/${merchant.id}`)}
-            style={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              borderRadius: 16,
-              padding: '28px 20px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 10,
-              cursor: 'pointer',
-              boxShadow: '0 4px 20px rgba(102,126,234,0.25)',
-              minHeight: 120,
-              textAlign: 'center',
-              transition: 'transform 0.15s, box-shadow 0.15s',
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)';
-              (e.currentTarget as HTMLDivElement).style.boxShadow = '0 10px 32px rgba(102,126,234,0.42)';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-              (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 20px rgba(102,126,234,0.25)';
-            }}
-          >
-            <span style={{ fontSize: 17, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>
-              {merchant.name}
-            </span>
-            <RightOutlined style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }} />
-          </div>
-        ))}
-
-        {merchants.length === 0 && (
+        {/* 右：快递公司列表 */}
+        <div style={{ flex: 1, width: isMobile ? '100%' : undefined }}>
           <div style={{
-            gridColumn: '1 / -1',
-            textAlign: 'center',
-            color: '#aaa',
-            padding: '60px 0',
+            background: '#f8f7ff',
+            border: '1px solid #e8e4ff',
+            borderRadius: 12,
+            padding: '16px 18px',
           }}>
-            暂无 {currentCity} 地区商家信息
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+              <span style={{ fontSize: 16 }}>🚚</span>
+              <span style={{ fontWeight: 600, fontSize: 15, color: '#4a3aaa' }}>快递公司</span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {merchants.map((merchant) => (
+                <div
+                  key={merchant.id}
+                  onClick={() => navigate(`/merchant/${merchant.id}`)}
+                  style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    borderRadius: 12,
+                    padding: '14px 18px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 10px rgba(102,126,234,0.2)',
+                    transition: 'transform 0.15s, box-shadow 0.15s',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = '0 6px 20px rgba(102,126,234,0.38)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 10px rgba(102,126,234,0.2)';
+                  }}
+                >
+                  <span style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>
+                    {merchant.name}
+                  </span>
+                  <RightOutlined style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }} />
+                </div>
+              ))}
+
+              {merchants.length === 0 && (
+                <div style={{ textAlign: 'center', color: '#aaa', padding: '40px 0', fontSize: 14 }}>
+                  暂无 {currentCity} 地区商家信息
+                </div>
+              )}
+            </div>
           </div>
-        )}
+        </div>
       </div>
 
-      {/* 广告位 — 商家网格下方 */}
-      {/* [AD_SLOT: ottawa_below_merchants] */}
+      {/* 广告位 */}
       <div style={{
+        marginTop: 32,
         border: '1px dashed #d9d9d9',
         borderRadius: 8,
         padding: '16px',
