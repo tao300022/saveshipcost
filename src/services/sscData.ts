@@ -423,12 +423,14 @@ export const fetchCityAnnouncements = async (city?: string): Promise<CityAnnounc
   }
 };
 
-export const upsertCityAnnouncement = async (a: CityAnnouncement): Promise<void> => {
+export const upsertCityAnnouncement = async (a: CityAnnouncement): Promise<string | null> => {
   const { error } = await supabase.from('city_announcements').upsert(announcementToRow(a));
-  if (error) console.error('[Supabase] upsertCityAnnouncement:', error.message);
+  if (error) { console.error('[Supabase] upsertCityAnnouncement:', error.message); return error.message; }
+  return null;
 };
 
-export const deleteCityAnnouncementRemote = async (id: string): Promise<void> => {
+export const deleteCityAnnouncementRemote = async (id: string): Promise<string | null> => {
   const { error } = await supabase.from('city_announcements').delete().eq('id', id);
-  if (error) console.error('[Supabase] deleteCityAnnouncement:', error.message);
+  if (error) { console.error('[Supabase] deleteCityAnnouncement:', error.message); return error.message; }
+  return null;
 };

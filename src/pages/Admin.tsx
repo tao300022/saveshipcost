@@ -255,11 +255,13 @@ const AdminPage: React.FC = () => {
       sortOrder: editingAnn?.sortOrder ?? 0,
       createdAt: editingAnn?.createdAt || new Date().toISOString(),
     };
-    const updated = editingAnn
-      ? announcements.map((a) => a.id === editingAnn.id ? item : a)
-      : [item, ...announcements];
-    setAnnouncements(updated);
-    await upsertCityAnnouncement(item);
+    const err = await upsertCityAnnouncement(item);
+    if (err) {
+      message.error(`保存失败：${err}`);
+      return;
+    }
+    const fresh = await fetchCityAnnouncements();
+    setAnnouncements(fresh);
     setAnnModalOpen(false);
     annForm.resetFields();
     setAnnImagePreview('');
@@ -267,9 +269,10 @@ const AdminPage: React.FC = () => {
   };
 
   const handleAnnDelete = async (id: string) => {
-    const updated = announcements.filter((a) => a.id !== id);
-    setAnnouncements(updated);
-    await deleteCityAnnouncementRemote(id);
+    const err = await deleteCityAnnouncementRemote(id);
+    if (err) { message.error(`删除失败：${err}`); return; }
+    const fresh = await fetchCityAnnouncements();
+    setAnnouncements(fresh);
     message.success('已删除');
   };
 
