@@ -64,6 +64,7 @@ export interface SscPost {
 export interface CityAnnouncement {
   id: string;
   city: string;
+  companyName?: string;
   content: string;
   imageUrl?: string;
   sortOrder: number;
@@ -386,6 +387,7 @@ export const createSscPostRemote = async (
 const announcementFromRow = (r: any): CityAnnouncement => ({
   id: r.id,
   city: r.city,
+  companyName: r.company_name ?? undefined,
   content: r.content,
   imageUrl: r.image_url ?? undefined,
   sortOrder: r.sort_order ?? 0,
@@ -395,6 +397,7 @@ const announcementFromRow = (r: any): CityAnnouncement => ({
 const announcementToRow = (a: CityAnnouncement) => ({
   id: a.id,
   city: a.city,
+  company_name: a.companyName ?? null,
   content: a.content,
   image_url: a.imageUrl ?? null,
   sort_order: a.sortOrder,

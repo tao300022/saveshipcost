@@ -12,6 +12,10 @@ const CITY_LABELS: Record<string, string> = {
   Toronto:   'Toronto · 多伦多',
   Montreal:  'Montreal · 蒙特利尔',
   Vancouver: 'Vancouver · 温哥华',
+  Calgary:   'Calgary · 卡尔加里',
+  Edmonton:  'Edmonton · 埃德蒙顿',
+  Winnipeg:  'Winnipeg · 温尼伯',
+  Halifax:   'Halifax · 哈利法克斯',
 };
 
 const Ottawa: React.FC = () => {
@@ -69,6 +73,11 @@ const Ottawa: React.FC = () => {
                 paddingBottom: i < announcements.length - 1 ? 10 : 0,
                 paddingTop: i > 0 ? 10 : 0,
               }}>
+                {ann.companyName && (
+                  <p style={{ margin: '0 0 4px 0', fontSize: 13, fontWeight: 600, color: '#d46b08' }}>
+                    {ann.companyName}
+                  </p>
+                )}
                 {ann.content && (
                   <p style={{ margin: 0, fontSize: 14, color: '#595959', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
                     {ann.content}

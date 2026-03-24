@@ -7,10 +7,14 @@ import { useAuth } from '../context/AuthContext';
 const { Header: AntHeader } = Layout;
 
 const CITIES = [
-  { key: 'Ottawa',    label: 'Ottawa 渥太华',     path: '/ottawa' },
-  { key: 'Toronto',   label: 'Toronto 多伦多',    path: '/ottawa?city=Toronto' },
-  { key: 'Montreal',  label: 'Montreal 蒙特利尔', path: '/ottawa?city=Montreal' },
-  { key: 'Vancouver', label: 'Vancouver 温哥华',  path: '/ottawa?city=Vancouver' },
+  { key: 'Ottawa',    label: 'Ottawa 渥太华',       path: '/ottawa' },
+  { key: 'Toronto',   label: 'Toronto 多伦多',      path: '/ottawa?city=Toronto' },
+  { key: 'Montreal',  label: 'Montreal 蒙特利尔',   path: '/ottawa?city=Montreal' },
+  { key: 'Vancouver', label: 'Vancouver 温哥华',    path: '/ottawa?city=Vancouver' },
+  { key: 'Calgary',   label: 'Calgary 卡尔加里',    path: '/ottawa?city=Calgary' },
+  { key: 'Edmonton',  label: 'Edmonton 埃德蒙顿',   path: '/ottawa?city=Edmonton' },
+  { key: 'Winnipeg',  label: 'Winnipeg 温尼伯',     path: '/ottawa?city=Winnipeg' },
+  { key: 'Halifax',   label: 'Halifax 哈利法克斯',  path: '/ottawa?city=Halifax' },
 ];
 
 /* 内联 SVG S Logo */

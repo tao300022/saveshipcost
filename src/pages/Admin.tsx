@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Card, Button, Input, Typography, Tabs, Table, Modal,
-  Form, Select, Space, Tag, Popconfirm, message, Checkbox, Upload,
+  Form, Select, Space, Tag, Popconfirm, message, Checkbox, Upload, AutoComplete,
 } from 'antd';
 import { LockOutlined, LogoutOutlined, PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import {
@@ -31,6 +31,17 @@ const SERVICE_MAP: Record<string, ServiceItem> = {
   'sea-general':   { id: 'sea-general',   mode: 'sea', cargo: 'general',   speed: 'standard', name: '海运普货',   etaMin: 30, etaMax: 45 },
   'sea-sensitive': { id: 'sea-sensitive', mode: 'sea', cargo: 'sensitive', speed: 'standard', name: '海运敏感货', etaMin: 30, etaMax: 45 },
 };
+
+const CITY_OPTIONS = [
+  { value: 'Ottawa',    label: 'Ottawa 渥太华' },
+  { value: 'Toronto',   label: 'Toronto 多伦多' },
+  { value: 'Montreal',  label: 'Montreal 蒙特利尔' },
+  { value: 'Vancouver', label: 'Vancouver 温哥华' },
+  { value: 'Calgary',   label: 'Calgary 卡尔加里' },
+  { value: 'Edmonton',  label: 'Edmonton 埃德蒙顿' },
+  { value: 'Winnipeg',  label: 'Winnipeg 温尼伯' },
+  { value: 'Halifax',   label: 'Halifax 哈利法克斯' },
+];
 
 const AdminPage: React.FC = () => {
   const [loggedIn, setLoggedIn]       = useState(isAdminLoggedIn());
@@ -225,7 +236,7 @@ const AdminPage: React.FC = () => {
     setEditingAnn(record || null);
     if (record) {
       setAnnImagePreview(record.imageUrl || '');
-      annForm.setFieldsValue({ city: record.city, content: record.content, imageUrl: record.imageUrl || '' });
+      annForm.setFieldsValue({ city: record.city, companyName: record.companyName || '', content: record.content, imageUrl: record.imageUrl || '' });
     } else {
       annForm.resetFields();
       annForm.setFieldsValue({ city: annFilterCity });
@@ -234,10 +245,11 @@ const AdminPage: React.FC = () => {
     setAnnModalOpen(true);
   };
 
-  const handleAnnSave = async (values: { city: string; content: string; imageUrl?: string }) => {
+  const handleAnnSave = async (values: { city: string; companyName?: string; content: string; imageUrl?: string }) => {
     const item: CityAnnouncement = {
       id: editingAnn?.id || genId(),
       city: values.city,
+      companyName: values.companyName || undefined,
       content: values.content,
       imageUrl: values.imageUrl || undefined,
       sortOrder: editingAnn?.sortOrder ?? 0,
@@ -445,13 +457,8 @@ const AdminPage: React.FC = () => {
             <Select
               value={annFilterCity}
               onChange={setAnnFilterCity}
-              style={{ width: 160 }}
-              options={[
-                { value: 'Ottawa',    label: 'Ottawa 渥太华' },
-                { value: 'Toronto',   label: 'Toronto 多伦多' },
-                { value: 'Montreal',  label: 'Montreal 蒙特利尔' },
-                { value: 'Vancouver', label: 'Vancouver 温哥华' },
-              ]}
+              style={{ width: 180 }}
+              options={CITY_OPTIONS}
             />
             <Button type="primary" icon={<PlusOutlined />} onClick={() => openAnnModal()}>
               新增公告
@@ -463,6 +470,10 @@ const AdminPage: React.FC = () => {
             size="small"
             pagination={false}
             columns={[
+              {
+                title: '快递公司', dataIndex: 'companyName', key: 'companyName', width: 130,
+                render: (v: string) => v ? <Tag color="purple">{v}</Tag> : <span style={{ color: '#bbb' }}>—</span>,
+              },
               {
                 title: '公告内容', dataIndex: 'content', key: 'content', ellipsis: true,
                 render: (v: string) => <span style={{ whiteSpace: 'pre-wrap' }}>{v}</span>,
@@ -652,12 +663,17 @@ const AdminPage: React.FC = () => {
       >
         <Form form={annForm} layout="vertical" onFinish={handleAnnSave} style={{ marginTop: 16 }}>
           <Form.Item name="city" label="所属城市" rules={[{ required: true }]}>
-            <Select options={[
-              { value: 'Ottawa',    label: 'Ottawa 渥太华' },
-              { value: 'Toronto',   label: 'Toronto 多伦多' },
-              { value: 'Montreal',  label: 'Montreal 蒙特利尔' },
-              { value: 'Vancouver', label: 'Vancouver 温哥华' },
-            ]} />
+            <Select options={CITY_OPTIONS} />
+          </Form.Item>
+          <Form.Item name="companyName" label="快递公司（可选）">
+            <AutoComplete
+              options={merchants.map((m) => ({ value: m.name }))}
+              placeholder="选择或输入快递公司名称"
+              filterOption={(input, option) =>
+                (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+              allowClear
+            />
           </Form.Item>
           <Form.Item name="content" label="公告文字内容" rules={[{ required: true, message: '请输入公告内容' }]}>
             <Input.TextArea rows={4} placeholder="例：渥太华本周空运特价，首重仅需 $15！" />
