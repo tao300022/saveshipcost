@@ -262,6 +262,7 @@ const AdminPage: React.FC = () => {
     }
     const fresh = await fetchCityAnnouncements();
     setAnnouncements(fresh);
+    setAnnFilterCity(item.city);
     setAnnModalOpen(false);
     annForm.resetFields();
     setAnnImagePreview('');
