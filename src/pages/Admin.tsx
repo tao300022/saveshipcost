@@ -11,6 +11,7 @@ import {
   getMerchants, saveMerchants, Merchant, ServiceItem,
   saveSscPosts, SscPost,
   fetchSscPosts, upsertSscPost,
+  CityAnnouncement, fetchCityAnnouncements, upsertCityAnnouncement, deleteCityAnnouncementRemote,
 } from '../services/sscData';
 
 const { Title, Text } = Typography;
@@ -57,11 +58,20 @@ const AdminPage: React.FC = () => {
   const [deletingPostId, setDeletingPostId]           = useState<string | null>(null);
   const [deleteReason, setDeleteReason]               = useState('');
 
+  // City announcements
+  const [announcements, setAnnouncements]                   = useState<CityAnnouncement[]>([]);
+  const [annFilterCity, setAnnFilterCity]                   = useState<string>('Ottawa');
+  const [annModalOpen, setAnnModalOpen]                     = useState(false);
+  const [editingAnn, setEditingAnn]                         = useState<CityAnnouncement | null>(null);
+  const [annImagePreview, setAnnImagePreview]               = useState<string>('');
+  const [annForm] = Form.useForm();
+
   useEffect(() => {
     if (loggedIn) {
       fetchDeliveryUpdates().then(setDeliveries);
       setMerchants(getMerchants());
       fetchSscPosts().then(setPosts);
+      fetchCityAnnouncements().then(setAnnouncements);
     }
   }, [loggedIn]);
 
@@ -207,6 +217,48 @@ const AdminPage: React.FC = () => {
     const target = updated.find((p) => p.id === id)!;
     await upsertSscPost(target);
     message.success('帖子已恢复');
+  };
+
+  // ─── Announcement CRUD ────────────────────────────────────────────────────
+
+  const openAnnModal = (record?: CityAnnouncement) => {
+    setEditingAnn(record || null);
+    if (record) {
+      setAnnImagePreview(record.imageUrl || '');
+      annForm.setFieldsValue({ city: record.city, content: record.content, imageUrl: record.imageUrl || '' });
+    } else {
+      annForm.resetFields();
+      annForm.setFieldsValue({ city: annFilterCity });
+      setAnnImagePreview('');
+    }
+    setAnnModalOpen(true);
+  };
+
+  const handleAnnSave = async (values: { city: string; content: string; imageUrl?: string }) => {
+    const item: CityAnnouncement = {
+      id: editingAnn?.id || genId(),
+      city: values.city,
+      content: values.content,
+      imageUrl: values.imageUrl || undefined,
+      sortOrder: editingAnn?.sortOrder ?? 0,
+      createdAt: editingAnn?.createdAt || new Date().toISOString(),
+    };
+    const updated = editingAnn
+      ? announcements.map((a) => a.id === editingAnn.id ? item : a)
+      : [item, ...announcements];
+    setAnnouncements(updated);
+    await upsertCityAnnouncement(item);
+    setAnnModalOpen(false);
+    annForm.resetFields();
+    setAnnImagePreview('');
+    message.success('公告已保存');
+  };
+
+  const handleAnnDelete = async (id: string) => {
+    const updated = announcements.filter((a) => a.id !== id);
+    setAnnouncements(updated);
+    await deleteCityAnnouncementRemote(id);
+    message.success('已删除');
   };
 
   // ─── Login Screen ─────────────────────────────────────────────────────────
@@ -384,6 +436,63 @@ const AdminPage: React.FC = () => {
         />
       ),
     },
+    {
+      key: 'announcements',
+      label: '城市公告',
+      children: (
+        <div>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16, flexWrap: 'wrap' }}>
+            <Select
+              value={annFilterCity}
+              onChange={setAnnFilterCity}
+              style={{ width: 160 }}
+              options={[
+                { value: 'Ottawa',    label: 'Ottawa 渥太华' },
+                { value: 'Toronto',   label: 'Toronto 多伦多' },
+                { value: 'Montreal',  label: 'Montreal 蒙特利尔' },
+                { value: 'Vancouver', label: 'Vancouver 温哥华' },
+              ]}
+            />
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => openAnnModal()}>
+              新增公告
+            </Button>
+          </div>
+          <Table
+            dataSource={announcements.filter((a) => a.city === annFilterCity)}
+            rowKey="id"
+            size="small"
+            pagination={false}
+            columns={[
+              {
+                title: '公告内容', dataIndex: 'content', key: 'content', ellipsis: true,
+                render: (v: string) => <span style={{ whiteSpace: 'pre-wrap' }}>{v}</span>,
+              },
+              {
+                title: '图片', dataIndex: 'imageUrl', key: 'imageUrl', width: 70,
+                render: (v: string) => v
+                  ? <img src={v} alt="" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 4 }} />
+                  : <span style={{ color: '#bbb' }}>无</span>,
+              },
+              {
+                title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', width: 160,
+                render: (v: string) => new Date(v).toLocaleString('zh-CN', { hour12: false }),
+              },
+              {
+                title: '操作', key: 'action', width: 140,
+                render: (_: unknown, record: CityAnnouncement) => (
+                  <Space>
+                    <Button size="small" icon={<EditOutlined />} onClick={() => openAnnModal(record)}>编辑</Button>
+                    <Popconfirm title="确认删除该公告？" onConfirm={() => handleAnnDelete(record.id)}>
+                      <Button size="small" danger icon={<DeleteOutlined />}>删除</Button>
+                    </Popconfirm>
+                  </Space>
+                ),
+              },
+            ]}
+          />
+        </div>
+      ),
+    },
   ];
 
   return (
@@ -526,6 +635,72 @@ const AdminPage: React.FC = () => {
           <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
             <Space>
               <Button onClick={() => { setMerchantModalOpen(false); merchantForm.resetFields(); setQrPreview(''); }}>取消</Button>
+              <Button type="primary" htmlType="submit">保存</Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* 城市公告 新增/编辑 Modal */}
+      <Modal
+        title={editingAnn ? '编辑公告' : '新增公告'}
+        open={annModalOpen}
+        onCancel={() => { setAnnModalOpen(false); annForm.resetFields(); setAnnImagePreview(''); }}
+        footer={null}
+        width={560}
+        destroyOnClose
+      >
+        <Form form={annForm} layout="vertical" onFinish={handleAnnSave} style={{ marginTop: 16 }}>
+          <Form.Item name="city" label="所属城市" rules={[{ required: true }]}>
+            <Select options={[
+              { value: 'Ottawa',    label: 'Ottawa 渥太华' },
+              { value: 'Toronto',   label: 'Toronto 多伦多' },
+              { value: 'Montreal',  label: 'Montreal 蒙特利尔' },
+              { value: 'Vancouver', label: 'Vancouver 温哥华' },
+            ]} />
+          </Form.Item>
+          <Form.Item name="content" label="公告文字内容" rules={[{ required: true, message: '请输入公告内容' }]}>
+            <Input.TextArea rows={4} placeholder="例：渥太华本周空运特价，首重仅需 $15！" />
+          </Form.Item>
+          <Form.Item name="imageUrl" label="配图（可选）">
+            <Space direction="vertical" style={{ width: '100%' }}>
+              <Upload
+                accept="image/*"
+                showUploadList={false}
+                beforeUpload={(file) => {
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                    const dataUrl = e.target?.result as string;
+                    setAnnImagePreview(dataUrl);
+                    annForm.setFieldsValue({ imageUrl: dataUrl });
+                  };
+                  reader.readAsDataURL(file);
+                  return false;
+                }}
+              >
+                <Button icon={<UploadOutlined />}>点击上传图片</Button>
+              </Upload>
+              {annImagePreview && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <img
+                    src={annImagePreview}
+                    alt="预览"
+                    style={{ maxWidth: 200, maxHeight: 150, objectFit: 'contain', border: '1px solid #eee', borderRadius: 8 }}
+                  />
+                  <Button
+                    size="small"
+                    danger
+                    onClick={() => { setAnnImagePreview(''); annForm.setFieldsValue({ imageUrl: '' }); }}
+                  >
+                    移除图片
+                  </Button>
+                </div>
+              )}
+            </Space>
+          </Form.Item>
+          <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
+            <Space>
+              <Button onClick={() => { setAnnModalOpen(false); annForm.resetFields(); setAnnImagePreview(''); }}>取消</Button>
               <Button type="primary" htmlType="submit">保存</Button>
             </Space>
           </Form.Item>

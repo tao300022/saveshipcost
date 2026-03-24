@@ -61,14 +61,14 @@ export interface SscPost {
   deleteReason?: string;
 }
 
-// ─── City Announcements ───────────────────────────────────────────────────────
-// 在此处为各城市添加公告内容，key 为城市英文名，value 为公告字符串数组
-export const CITY_ANNOUNCEMENTS: Record<string, string[]> = {
-  Ottawa:    [],
-  Toronto:   [],
-  Montreal:  [],
-  Vancouver: [],
-};
+export interface CityAnnouncement {
+  id: string;
+  city: string;
+  content: string;
+  imageUrl?: string;
+  sortOrder: number;
+  createdAt: string;
+}
 
 // ─── Default data ─────────────────────────────────────────────────────────────
 
@@ -378,4 +378,54 @@ export const createSscPostRemote = async (
   // Also write to Supabase for cross-device sync
   await upsertSscPost(post);
   return post;
+};
+
+// ─── Supabase: CityAnnouncement ────────────────────────────────────────────────
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const announcementFromRow = (r: any): CityAnnouncement => ({
+  id: r.id,
+  city: r.city,
+  content: r.content,
+  imageUrl: r.image_url ?? undefined,
+  sortOrder: r.sort_order ?? 0,
+  createdAt: r.created_at,
+});
+
+const announcementToRow = (a: CityAnnouncement) => ({
+  id: a.id,
+  city: a.city,
+  content: a.content,
+  image_url: a.imageUrl ?? null,
+  sort_order: a.sortOrder,
+  created_at: a.createdAt,
+});
+
+export const fetchCityAnnouncements = async (city?: string): Promise<CityAnnouncement[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('city_announcements')
+      .select('*')
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: true });
+    if (error) {
+      console.error('[Supabase] fetchCityAnnouncements:', error.message);
+      return [];
+    }
+    const rows = (data ?? []).map(announcementFromRow);
+    return city ? rows.filter((r) => r.city === city) : rows;
+  } catch (e) {
+    console.error('[Supabase] fetchCityAnnouncements exception:', e);
+    return [];
+  }
+};
+
+export const upsertCityAnnouncement = async (a: CityAnnouncement): Promise<void> => {
+  const { error } = await supabase.from('city_announcements').upsert(announcementToRow(a));
+  if (error) console.error('[Supabase] upsertCityAnnouncement:', error.message);
+};
+
+export const deleteCityAnnouncementRemote = async (id: string): Promise<void> => {
+  const { error } = await supabase.from('city_announcements').delete().eq('id', id);
+  if (error) console.error('[Supabase] deleteCityAnnouncement:', error.message);
 };

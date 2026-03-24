@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Typography } from 'antd';
 import { EnvironmentOutlined, RightOutlined, NotificationOutlined } from '@ant-design/icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getMerchants, Merchant, CITY_ANNOUNCEMENTS } from '../services/sscData';
+import { getMerchants, Merchant, fetchCityAnnouncements, CityAnnouncement } from '../services/sscData';
 
 const { Title, Paragraph } = Typography;
 
@@ -21,10 +21,12 @@ const Ottawa: React.FC = () => {
   const cityLabel = CITY_LABELS[currentCity] ?? currentCity;
 
   const [merchants, setMerchants] = useState<Merchant[]>([]);
+  const [announcements, setAnnouncements] = useState<CityAnnouncement[]>([]);
 
   useEffect(() => {
     const all = getMerchants();
     setMerchants(all.filter((m) => m.cities.includes(currentCity)));
+    fetchCityAnnouncements(currentCity).then(setAnnouncements);
   }, [currentCity]);
 
   const cityName = cityLabel.split('·')[1]?.trim() ?? currentCity;
@@ -48,7 +50,7 @@ const Ottawa: React.FC = () => {
       </div>
 
       {/* 公告栏 */}
-      {(CITY_ANNOUNCEMENTS[currentCity] ?? []).length > 0 && (
+      {announcements.length > 0 && (
         <div style={{
           background: '#fffbe6',
           border: '1px solid #ffe58f',
@@ -60,20 +62,28 @@ const Ottawa: React.FC = () => {
           gap: 10,
         }}>
           <NotificationOutlined style={{ color: '#faad14', fontSize: 18, marginTop: 2, flexShrink: 0 }} />
-          <ul style={{ margin: 0, padding: 0, listStyle: 'none', flex: 1 }}>
-            {(CITY_ANNOUNCEMENTS[currentCity] ?? []).map((msg, i) => (
-              <li key={i} style={{
-                fontSize: 14,
-                color: '#595959',
-                lineHeight: '1.7',
-                borderBottom: i < (CITY_ANNOUNCEMENTS[currentCity] ?? []).length - 1 ? '1px solid #ffe58f' : 'none',
-                paddingBottom: i < (CITY_ANNOUNCEMENTS[currentCity] ?? []).length - 1 ? 6 : 0,
-                paddingTop: i > 0 ? 6 : 0,
+          <div style={{ flex: 1 }}>
+            {announcements.map((ann, i) => (
+              <div key={ann.id} style={{
+                borderBottom: i < announcements.length - 1 ? '1px solid #ffe58f' : 'none',
+                paddingBottom: i < announcements.length - 1 ? 10 : 0,
+                paddingTop: i > 0 ? 10 : 0,
               }}>
-                {msg}
-              </li>
+                {ann.content && (
+                  <p style={{ margin: 0, fontSize: 14, color: '#595959', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
+                    {ann.content}
+                  </p>
+                )}
+                {ann.imageUrl && (
+                  <img
+                    src={ann.imageUrl}
+                    alt="公告图片"
+                    style={{ maxWidth: '100%', marginTop: ann.content ? 8 : 0, borderRadius: 6, display: 'block' }}
+                  />
+                )}
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       )}
 
