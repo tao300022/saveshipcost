@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Typography } from 'antd';
-import { EnvironmentOutlined, RightOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, RightOutlined, NotificationOutlined } from '@ant-design/icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getMerchants, Merchant } from '../services/sscData';
+import { getMerchants, Merchant, CITY_ANNOUNCEMENTS } from '../services/sscData';
 
 const { Title, Paragraph } = Typography;
 
@@ -46,6 +46,36 @@ const Ottawa: React.FC = () => {
           以下为覆盖{cityLabel.split('·')[1]?.trim() ?? currentCity}地区的快递货代商家，点击进入查看详情、联系方式与服务报价
         </Paragraph>
       </div>
+
+      {/* 公告栏 */}
+      {(CITY_ANNOUNCEMENTS[currentCity] ?? []).length > 0 && (
+        <div style={{
+          background: '#fffbe6',
+          border: '1px solid #ffe58f',
+          borderRadius: 10,
+          padding: '12px 16px',
+          marginBottom: 24,
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 10,
+        }}>
+          <NotificationOutlined style={{ color: '#faad14', fontSize: 18, marginTop: 2, flexShrink: 0 }} />
+          <ul style={{ margin: 0, padding: 0, listStyle: 'none', flex: 1 }}>
+            {(CITY_ANNOUNCEMENTS[currentCity] ?? []).map((msg, i) => (
+              <li key={i} style={{
+                fontSize: 14,
+                color: '#595959',
+                lineHeight: '1.7',
+                borderBottom: i < (CITY_ANNOUNCEMENTS[currentCity] ?? []).length - 1 ? '1px solid #ffe58f' : 'none',
+                paddingBottom: i < (CITY_ANNOUNCEMENTS[currentCity] ?? []).length - 1 ? 6 : 0,
+                paddingTop: i > 0 ? 6 : 0,
+              }}>
+                {msg}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* 商家按钮网格 */}
       <div style={{

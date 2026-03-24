@@ -61,6 +61,15 @@ export interface SscPost {
   deleteReason?: string;
 }
 
+// ─── City Announcements ───────────────────────────────────────────────────────
+// 在此处为各城市添加公告内容，key 为城市英文名，value 为公告字符串数组
+export const CITY_ANNOUNCEMENTS: Record<string, string[]> = {
+  Ottawa:    [],
+  Toronto:   [],
+  Montreal:  [],
+  Vancouver: [],
+};
+
 // ─── Default data ─────────────────────────────────────────────────────────────
 
 const DEFAULT_MERCHANTS: Merchant[] = [
