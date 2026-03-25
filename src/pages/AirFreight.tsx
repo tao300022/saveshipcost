@@ -4,7 +4,7 @@ import { Card, Table, Tag, Select, Button, Space, Typography, Row, Col, message 
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { airFreightData, AirFreightPrice } from '../data/airFreightData';
-import { fetchDeliveryUpdates, getMerchants } from '../services/sscData';
+import { fetchDeliveryUpdates, fetchMerchants } from '../services/sscData';
 import { getCompanyByName } from '../data/companyData';
 import AdSlot from '../components/AdSlot';
 import { AD_CONFIG } from '../config/ads';
@@ -45,28 +45,28 @@ const AirFreight: React.FC = () => {
       setDynAirRows(rows);
     });
 
-    // 从商家管理中读取空运服务
-    const merchants = getMerchants();
-    const merchantRows: AirFreightPrice[] = [];
-    const parseNum = (s?: string) => parseFloat((s || '').replace(/[^\d.]/g, '')) || 0;
-
-    merchants.forEach((m) => {
-      (m.services || [])
-        .filter((s) => s.mode === 'air')
-        .forEach((s) => {
-          merchantRows.push({
-            company:          m.name,
-            type:             s.cargo === 'general' ? '空普' : '空敏',
-            line:             '-',
-            firstWeight:      parseNum(s.priceCAD),
-            firstWeightKg:    parseNum(s.firstWeight) || 0.5,
-            additionalWeight: [s.additionalWeight, s.priceCNY].filter(Boolean).join(' / ') || '-',
-            transitTime:      `${s.etaMin}-${s.etaMax}`,
-            remarks:          s.remark || m.cities.join('/'),
+    // 从商家管理（Supabase）读取空运服务
+    fetchMerchants().then((merchants) => {
+      const parseNum = (s?: string) => parseFloat((s || '').replace(/[^\d.]/g, '')) || 0;
+      const merchantRows: AirFreightPrice[] = [];
+      merchants.forEach((m) => {
+        (m.services || [])
+          .filter((s) => s.mode === 'air')
+          .forEach((s) => {
+            merchantRows.push({
+              company:          m.name,
+              type:             s.cargo === 'general' ? '空普' : '空敏',
+              line:             '-',
+              firstWeight:      parseNum(s.priceCAD),
+              firstWeightKg:    parseNum(s.firstWeight) || 0.5,
+              additionalWeight: [s.additionalWeight, s.priceCNY].filter(Boolean).join(' / ') || '-',
+              transitTime:      `${s.etaMin}-${s.etaMax}`,
+              remarks:          s.remark || m.cities.join('/'),
+            });
           });
-        });
+      });
+      setDynAirRows((prev) => [...prev, ...merchantRows]);
     });
-    setDynAirRows((prev) => [...prev, ...merchantRows]);
   }, []);
 
   const handleCorrSubmit = (values: CorrectionFormValues) => {

@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Typography } from 'antd';
 import { EnvironmentOutlined, RightOutlined, NotificationOutlined } from '@ant-design/icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getMerchants, Merchant, fetchCityAnnouncements, CityAnnouncement } from '../services/sscData';
+import { fetchMerchants, Merchant, fetchCityAnnouncements, CityAnnouncement } from '../services/sscData';
 
 const { Title, Paragraph } = Typography;
 
@@ -35,8 +35,7 @@ const Ottawa: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const all = getMerchants();
-    setMerchants(all.filter((m) => m.cities.includes(currentCity)));
+    fetchMerchants().then((all) => setMerchants(all.filter((m) => m.cities.includes(currentCity))));
     fetchCityAnnouncements(currentCity).then(setAnnouncements);
   }, [currentCity]);
 

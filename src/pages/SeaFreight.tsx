@@ -4,7 +4,7 @@ import { Card, Table, Tag, Select, Button, Space, Typography, Row, Col, message 
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { seaFreightData, SeaFreightPrice } from '../data/seaFreightData';
-import { fetchDeliveryUpdates } from '../services/sscData';
+import { fetchDeliveryUpdates, fetchMerchants } from '../services/sscData';
 import { getCompanyByName } from '../data/companyData';
 import CorrectionModal, { CorrectionFormValues } from '../components/CorrectionModal';
 import { saveCorrection } from '../services/corrections';
@@ -22,9 +22,9 @@ const SeaFreight: React.FC = () => {
   useEffect(() => {
     fetchDeliveryUpdates().then((updates) => {
       const rows: SeaFreightPrice[] = updates
-        .filter((d) => d.mode === 'sea' && d.firstWeightPrice)
+        .filter((d) => d.mode === 'sea' && (d as any).firstWeightPrice)
         .map((d) => {
-          const priceStr = d.firstWeightPrice!;
+          const priceStr = (d as any).firstWeightPrice as string;
           const price = parseFloat(priceStr) || 0;
           const kgMatch = priceStr.match(/\/\s*(\d+\.?\d*)/);
           const kg = kgMatch ? parseFloat(kgMatch[1]) : 21;
@@ -34,12 +34,35 @@ const SeaFreight: React.FC = () => {
             line: d.route,
             firstWeight: price,
             firstWeightKg: kg,
-            additionalWeight: d.additionalWeightPrice || '-',
+            additionalWeight: (d as any).additionalWeightPrice || '-',
             transitTime: d.eta,
             remarks: d.city,
           };
         });
       setDynSeaRows(rows);
+    });
+
+    // 从商家管理（Supabase）读取海运服务
+    fetchMerchants().then((merchants) => {
+      const parseNum = (s?: string) => parseFloat((s || '').replace(/[^\d.]/g, '')) || 0;
+      const merchantRows: SeaFreightPrice[] = [];
+      merchants.forEach((m) => {
+        (m.services || [])
+          .filter((s) => s.mode === 'sea')
+          .forEach((s) => {
+            merchantRows.push({
+              company:          m.name,
+              type:             s.cargo === 'general' ? '海普' : '海敏',
+              line:             '-',
+              firstWeight:      parseNum(s.priceCAD),
+              firstWeightKg:    parseNum(s.firstWeight) || 21,
+              additionalWeight: [s.additionalWeight, s.priceCNY].filter(Boolean).join(' / ') || '-',
+              transitTime:      `${s.etaMin}-${s.etaMax}`,
+              remarks:          s.remark || m.cities.join('/'),
+            });
+          });
+      });
+      setDynSeaRows((prev) => [...prev, ...merchantRows]);
     });
   }, []);
 

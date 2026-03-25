@@ -8,7 +8,7 @@ import {
   isAdminLoggedIn, adminLogin, adminLogout,
   saveDeliveryUpdates, DeliveryUpdate,
   fetchDeliveryUpdates, upsertDeliveryUpdate, deleteDeliveryUpdateRemote,
-  getMerchants, saveMerchants, Merchant, ServiceItem,
+  saveMerchants, fetchMerchants, upsertMerchantRemote, deleteMerchantRemote, Merchant, ServiceItem,
   saveSscPosts, SscPost,
   fetchSscPosts, upsertSscPost,
   CityAnnouncement, fetchCityAnnouncements, upsertCityAnnouncement, deleteCityAnnouncementRemote,
@@ -80,7 +80,7 @@ const AdminPage: React.FC = () => {
   useEffect(() => {
     if (loggedIn) {
       fetchDeliveryUpdates().then(setDeliveries);
-      setMerchants(getMerchants());
+      fetchMerchants().then(setMerchants);
       fetchSscPosts().then(setPosts);
       fetchCityAnnouncements().then(setAnnouncements);
     }
@@ -170,7 +170,7 @@ const AdminPage: React.FC = () => {
     setMerchantModalOpen(true);
   };
 
-  const handleMerchantSave = (values: {
+  const handleMerchantSave = async (values: {
     name: string; cities: string; intro: string;
     contact: string; wechatQrUrl?: string;
     services: { type: string; firstWeight?: string; additionalWeight?: string; priceCAD?: string; priceCNY?: string; remark?: string }[];
@@ -200,14 +200,18 @@ const AdminPage: React.FC = () => {
       : [...merchants, data];
     setMerchants(updated);
     saveMerchants(updated);
+    const err = await upsertMerchantRemote(data);
+    if (err) { message.error(`保存失败：${err}`); return; }
     setMerchantModalOpen(false);
     message.success('保存成功');
   };
 
-  const handleMerchantDelete = (id: string) => {
+  const handleMerchantDelete = async (id: string) => {
     const updated = merchants.filter((m) => m.id !== id);
     setMerchants(updated);
     saveMerchants(updated);
+    const err = await deleteMerchantRemote(id);
+    if (err) { message.error(`删除失败：${err}`); return; }
     message.success('已删除');
   };
 

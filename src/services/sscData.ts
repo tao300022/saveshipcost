@@ -215,6 +215,63 @@ export const saveMerchants = (merchants: Merchant[]): void => {
 export const getMerchantById = (id: string): Merchant | undefined =>
   getMerchants().find((m) => m.id === id);
 
+// ─── Supabase: Merchants ───────────────────────────────────────────────────────
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const merchantFromRow = (r: any): Merchant => ({
+  id:          r.id,
+  name:        r.name,
+  cities:      r.cities   || [],
+  intro:       r.intro    || '',
+  contact:     r.contact  || '',
+  wechatQrUrl: r.wechat_qr_url ?? undefined,
+  services:    r.services || [],
+});
+
+const merchantToRow = (m: Merchant) => ({
+  id:            m.id,
+  name:          m.name,
+  cities:        m.cities,
+  intro:         m.intro,
+  contact:       m.contact,
+  wechat_qr_url: m.wechatQrUrl || null,
+  services:      m.services,
+});
+
+export const fetchMerchants = async (): Promise<Merchant[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('merchants')
+      .select('*')
+      .order('name', { ascending: true });
+    if (error) {
+      console.error('[Supabase] fetchMerchants:', error.message);
+      return getMerchants();
+    }
+    const rows = (data ?? []).map(merchantFromRow);
+    if (rows.length > 0) {
+      saveMerchants(rows); // update local cache
+      return rows;
+    }
+    return getMerchants();
+  } catch (e) {
+    console.error('[Supabase] fetchMerchants exception:', e);
+    return getMerchants();
+  }
+};
+
+export const upsertMerchantRemote = async (m: Merchant): Promise<string | null> => {
+  const { error } = await supabase.from('merchants').upsert(merchantToRow(m));
+  if (error) { console.error('[Supabase] upsertMerchant:', error.message); return error.message; }
+  return null;
+};
+
+export const deleteMerchantRemote = async (id: string): Promise<string | null> => {
+  const { error } = await supabase.from('merchants').delete().eq('id', id);
+  if (error) { console.error('[Supabase] deleteMerchant:', error.message); return error.message; }
+  return null;
+};
+
 // ─── SSC Posts ────────────────────────────────────────────────────────────────
 
 export const getSscPosts = (): SscPost[] => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Card, Tag, Typography, Space, Table } from 'antd';
 import { ArrowLeftOutlined, WechatOutlined } from '@ant-design/icons';
-import { getMerchantById, Merchant, ServiceItem } from '../services/sscData';
+import { fetchMerchants, Merchant, ServiceItem } from '../services/sscData';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -16,7 +16,7 @@ const MerchantDetail: React.FC = () => {
   const [merchant, setMerchant] = useState<Merchant | undefined>();
 
   useEffect(() => {
-    if (merchantId) setMerchant(getMerchantById(merchantId));
+    if (merchantId) fetchMerchants().then((list) => setMerchant(list.find((m) => m.id === merchantId)));
   }, [merchantId]);
 
   if (!merchant) {
