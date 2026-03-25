@@ -20,8 +20,10 @@ const SeaFreight: React.FC = () => {
   const [dynSeaRows, setDynSeaRows]           = useState<SeaFreightPrice[]>([]);
 
   useEffect(() => {
-    fetchDeliveryUpdates().then((updates) => {
-      const rows: SeaFreightPrice[] = updates
+    const parseNum = (s?: string) => parseFloat((s || '').replace(/[^\d.]/g, '')) || 0;
+    Promise.all([fetchDeliveryUpdates(), fetchMerchants()]).then(([updates, merchants]) => {
+      // 到货动态（兼容旧字段）
+      const deliveryRows: SeaFreightPrice[] = updates
         .filter((d) => d.mode === 'sea' && (d as any).firstWeightPrice)
         .map((d) => {
           const priceStr = (d as any).firstWeightPrice as string;
@@ -29,40 +31,29 @@ const SeaFreight: React.FC = () => {
           const kgMatch = priceStr.match(/\/\s*(\d+\.?\d*)/);
           const kg = kgMatch ? parseFloat(kgMatch[1]) : 21;
           return {
-            company: d.merchantName,
-            type: '海运',
-            line: d.route,
-            firstWeight: price,
-            firstWeightKg: kg,
+            company: d.merchantName, type: '海运', line: d.route,
+            firstWeight: price, firstWeightKg: kg,
             additionalWeight: (d as any).additionalWeightPrice || '-',
-            transitTime: d.eta,
-            remarks: d.city,
+            transitTime: d.eta, remarks: d.city,
           };
         });
-      setDynSeaRows(rows);
-    });
-
-    // 从商家管理（Supabase）读取海运服务
-    fetchMerchants().then((merchants) => {
-      const parseNum = (s?: string) => parseFloat((s || '').replace(/[^\d.]/g, '')) || 0;
+      // 商家管理海运服务
       const merchantRows: SeaFreightPrice[] = [];
       merchants.forEach((m) => {
-        (m.services || [])
-          .filter((s) => s.mode === 'sea')
-          .forEach((s) => {
-            merchantRows.push({
-              company:          m.name,
-              type:             s.cargo === 'general' ? '海普' : '海敏',
-              line:             '-',
-              firstWeight:      parseNum(s.priceCAD),
-              firstWeightKg:    parseNum(s.firstWeight) || 21,
-              additionalWeight: [s.additionalWeight, s.priceCNY].filter(Boolean).join(' / ') || '-',
-              transitTime:      `${s.etaMin}-${s.etaMax}`,
-              remarks:          s.remark || m.cities.join('/'),
-            });
+        (m.services || []).filter((s) => s.mode === 'sea').forEach((s) => {
+          merchantRows.push({
+            company:          m.name,
+            type:             s.cargo === 'general' ? '海普' : '海敏',
+            line:             '-',
+            firstWeight:      parseNum(s.priceCAD),
+            firstWeightKg:    parseNum(s.firstWeight) || 21,
+            additionalWeight: [s.additionalWeight, s.priceCNY].filter(Boolean).join(' / ') || '-',
+            transitTime:      `${s.etaMin}-${s.etaMax}`,
+            remarks:          s.remark || m.cities.join('/'),
           });
+        });
       });
-      setDynSeaRows((prev) => [...prev, ...merchantRows]);
+      setDynSeaRows([...deliveryRows, ...merchantRows]);
     });
   }, []);
 

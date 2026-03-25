@@ -22,9 +22,10 @@ const AirFreight: React.FC = () => {
   const [dynAirRows, setDynAirRows] = useState<AirFreightPrice[]>([]);
 
   useEffect(() => {
-    // 从到货动态中读取（已移除首重/续重价格字段，保留兼容）
-    fetchDeliveryUpdates().then((updates) => {
-      const rows: AirFreightPrice[] = updates
+    const parseNum = (s?: string) => parseFloat((s || '').replace(/[^\d.]/g, '')) || 0;
+    Promise.all([fetchDeliveryUpdates(), fetchMerchants()]).then(([updates, merchants]) => {
+      // 到货动态（兼容旧字段）
+      const deliveryRows: AirFreightPrice[] = updates
         .filter((d) => d.mode === 'air' && (d as any).firstWeightPrice)
         .map((d) => {
           const priceStr = (d as any).firstWeightPrice as string;
@@ -32,40 +33,29 @@ const AirFreight: React.FC = () => {
           const kgMatch = priceStr.match(/\/\s*(\d+\.?\d*)/);
           const kg = kgMatch ? parseFloat(kgMatch[1]) : 0.5;
           return {
-            company: d.merchantName,
-            type: '空运',
-            line: d.route,
-            firstWeight: price,
-            firstWeightKg: kg,
+            company: d.merchantName, type: '空运', line: d.route,
+            firstWeight: price, firstWeightKg: kg,
             additionalWeight: (d as any).additionalWeightPrice || '-',
-            transitTime: d.eta,
-            remarks: d.city,
+            transitTime: d.eta, remarks: d.city,
           };
         });
-      setDynAirRows(rows);
-    });
-
-    // 从商家管理（Supabase）读取空运服务
-    fetchMerchants().then((merchants) => {
-      const parseNum = (s?: string) => parseFloat((s || '').replace(/[^\d.]/g, '')) || 0;
+      // 商家管理空运服务
       const merchantRows: AirFreightPrice[] = [];
       merchants.forEach((m) => {
-        (m.services || [])
-          .filter((s) => s.mode === 'air')
-          .forEach((s) => {
-            merchantRows.push({
-              company:          m.name,
-              type:             s.cargo === 'general' ? '空普' : '空敏',
-              line:             '-',
-              firstWeight:      parseNum(s.priceCAD),
-              firstWeightKg:    parseNum(s.firstWeight) || 0.5,
-              additionalWeight: [s.additionalWeight, s.priceCNY].filter(Boolean).join(' / ') || '-',
-              transitTime:      `${s.etaMin}-${s.etaMax}`,
-              remarks:          s.remark || m.cities.join('/'),
-            });
+        (m.services || []).filter((s) => s.mode === 'air').forEach((s) => {
+          merchantRows.push({
+            company:          m.name,
+            type:             s.cargo === 'general' ? '空普' : '空敏',
+            line:             '-',
+            firstWeight:      parseNum(s.priceCAD),
+            firstWeightKg:    parseNum(s.firstWeight) || 0.5,
+            additionalWeight: [s.additionalWeight, s.priceCNY].filter(Boolean).join(' / ') || '-',
+            transitTime:      `${s.etaMin}-${s.etaMax}`,
+            remarks:          s.remark || m.cities.join('/'),
           });
+        });
       });
-      setDynAirRows((prev) => [...prev, ...merchantRows]);
+      setDynAirRows([...deliveryRows, ...merchantRows]);
     });
   }, []);
 
