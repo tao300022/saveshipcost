@@ -333,60 +333,71 @@ const Home: React.FC = () => {
       {cityAnnouncements.length > 0 && (
         <div style={{ padding: '20px 20px 4px', maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-            <NotificationOutlined style={{ color: '#faad14', fontSize: 15 }} />
+            <NotificationOutlined style={{ color: '#9254de', fontSize: 15 }} />
             <span style={{ fontWeight: 700, fontSize: 15, color: '#0d1b4b' }}>城市公告</span>
             <span style={{ fontSize: 12, color: '#aaa', marginLeft: 4 }}>各城市最新优惠 · 点击查看详情</span>
           </div>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            {cityAnnouncements.map(({ city, count, latest }) => (
-              <div
-                key={city}
-                onClick={() => handleNavigate(city === 'Ottawa' ? '/ottawa' : `/ottawa?city=${city}`)}
-                style={{
-                  flex: '1 1 220px', maxWidth: 320, minWidth: 200,
-                  background: '#fffbe6', border: '1px solid #ffe58f',
-                  borderRadius: 12, padding: '12px 14px',
-                  cursor: 'pointer', transition: 'box-shadow 0.15s, transform 0.15s',
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(250,173,20,0.2)';
-                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
-                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                  <span style={{
-                    background: '#fa8c16', color: '#fff',
-                    fontSize: 11, fontWeight: 700, padding: '1px 8px', borderRadius: 10,
-                  }}>
-                    <EnvironmentOutlined style={{ fontSize: 10, marginRight: 3 }} />{city}
-                  </span>
+            {cityAnnouncements.map(({ city, count, latest }) => {
+              const displayCity = city.charAt(0).toUpperCase() + city.slice(1);
+              const cityPath = city === 'Ottawa' || city.toLowerCase() === 'ottawa'
+                ? '/ottawa' : `/ottawa?city=${displayCity}`;
+              return (
+                <div
+                  key={city}
+                  onClick={() => handleNavigate(cityPath)}
+                  style={{
+                    flex: '1 1 200px', maxWidth: 300, minWidth: 180,
+                    background: '#f9f0ff', border: '1px solid #d3adf7',
+                    borderRadius: 12, padding: '12px 14px',
+                    cursor: 'pointer', transition: 'box-shadow 0.15s, transform 0.15s',
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(114,46,209,0.15)';
+                    (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
+                    (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+                  }}
+                >
+                  {/* 第一行：城市 + 数量 */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{
+                      background: '#722ed1', color: '#fff',
+                      fontSize: 11, fontWeight: 700, padding: '2px 9px', borderRadius: 10,
+                      whiteSpace: 'nowrap',
+                    }}>
+                      <EnvironmentOutlined style={{ fontSize: 10, marginRight: 3 }} />{displayCity}
+                    </span>
+                    {count > 1 && (
+                      <span style={{ fontSize: 11, color: '#9254de', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        共{count}条
+                      </span>
+                    )}
+                  </div>
+                  {/* 第二行：公司名（若有） */}
                   {latest.companyName && (
-                    <span style={{ fontSize: 11, color: '#8c5a00', background: '#fff3cd', padding: '1px 7px', borderRadius: 8 }}>
-                      {latest.companyName}
-                    </span>
+                    <div style={{ marginBottom: 5 }}>
+                      <span style={{ fontSize: 11, color: '#531dab', background: '#efdbff', padding: '1px 7px', borderRadius: 8 }}>
+                        {latest.companyName}
+                      </span>
+                    </div>
                   )}
-                  {count > 1 && (
-                    <span style={{ marginLeft: 'auto', fontSize: 11, color: '#faad14', fontWeight: 600 }}>
-                      共{count}条
-                    </span>
-                  )}
+                  {/* 公告内容预览 */}
+                  <div style={{
+                    fontSize: 12, color: '#3d1a6e', lineHeight: 1.65,
+                    display: '-webkit-box', WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical', overflow: 'hidden',
+                  }}>
+                    {latest.content}
+                  </div>
+                  <div style={{ marginTop: 6, fontSize: 11, color: '#9254de', fontWeight: 500 }}>
+                    查看详情 →
+                  </div>
                 </div>
-                <div style={{
-                  fontSize: 12, color: '#5c3d00', lineHeight: 1.65,
-                  display: '-webkit-box', WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical', overflow: 'hidden',
-                }}>
-                  {latest.content}
-                </div>
-                <div style={{ marginTop: 6, fontSize: 11, color: '#faad14', fontWeight: 500 }}>
-                  查看详情 →
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
