@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import AdSlot from '../components/AdSlot';
 import { AD_CONFIG } from '../config/ads';
 import heroImage from '../assets/55.jpg';
-import { fetchDeliveryUpdates, DeliveryUpdate, fetchCityAnnouncements } from '../services/sscData';
+import { fetchDeliveryUpdates, DeliveryUpdate, fetchCityAnnouncements, CityAnnouncement } from '../services/sscData';
 import ChargeableWeightCard from '../components/ChargeableWeightCard';
 
 const { Title, Paragraph } = Typography;
@@ -15,16 +15,18 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const [deliveryUpdates, setDeliveryUpdates] = useState<DeliveryUpdate[]>([]);
   const [modeFilter, setModeFilter] = useState<'all' | 'air' | 'sea'>('all');
-  const [cityAnnounceCounts, setCityAnnounceCounts] = useState<{ city: string; count: number }[]>([]);
+  const [cityAnnouncements, setCityAnnouncements] = useState<{ city: string; count: number; latest: CityAnnouncement }[]>([]);
   const calcRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     fetchDeliveryUpdates().then(setDeliveryUpdates);
     fetchCityAnnouncements().then((list) => {
-      const map: Record<string, number> = {};
-      list.forEach((a) => { map[a.city] = (map[a.city] || 0) + 1; });
-      setCityAnnounceCounts(Object.entries(map).map(([city, count]) => ({ city, count })));
+      const map: Record<string, CityAnnouncement[]> = {};
+      list.forEach((a) => { (map[a.city] = map[a.city] || []).push(a); });
+      setCityAnnouncements(
+        Object.entries(map).map(([city, items]) => ({ city, count: items.length, latest: items[0] }))
+      );
     });
   }, []);
 
@@ -327,50 +329,64 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* 城市公告提示条 */}
-      {cityAnnounceCounts.length > 0 && (
-        <div style={{
-          background: 'linear-gradient(90deg, #fffbe6 0%, #fff7e0 100%)',
-          borderBottom: '1px solid #ffe58f',
-          padding: '8px 20px',
-        }}>
-          <div style={{
-            maxWidth: 1200, margin: '0 auto',
-            display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8,
-          }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#d48806', fontSize: 13, fontWeight: 600, flexShrink: 0 }}>
-              <NotificationOutlined />
-              城市公告
-            </span>
-            <span style={{ color: '#d4b100', fontSize: 12, marginRight: 4 }}>·</span>
-            {cityAnnounceCounts.map(({ city, count }) => (
-              <span
+      {/* 城市公告 */}
+      {cityAnnouncements.length > 0 && (
+        <div style={{ padding: '20px 20px 4px', maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <NotificationOutlined style={{ color: '#faad14', fontSize: 15 }} />
+            <span style={{ fontWeight: 700, fontSize: 15, color: '#0d1b4b' }}>城市公告</span>
+            <span style={{ fontSize: 12, color: '#aaa', marginLeft: 4 }}>各城市最新优惠 · 点击查看详情</span>
+          </div>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            {cityAnnouncements.map(({ city, count, latest }) => (
+              <div
                 key={city}
                 onClick={() => handleNavigate(city === 'Ottawa' ? '/ottawa' : `/ottawa?city=${city}`)}
                 style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 4,
-                  padding: '2px 10px', borderRadius: 20,
-                  background: '#fff', border: '1px solid #ffd666',
-                  color: '#b45309', fontSize: 12, fontWeight: 500,
-                  cursor: 'pointer', userSelect: 'none',
-                  transition: 'background 0.15s',
+                  flex: '1 1 220px', maxWidth: 320, minWidth: 200,
+                  background: '#fffbe6', border: '1px solid #ffe58f',
+                  borderRadius: 12, padding: '12px 14px',
+                  cursor: 'pointer', transition: 'box-shadow 0.15s, transform 0.15s',
                 }}
-                onMouseEnter={e => (e.currentTarget.style.background = '#fff7e0')}
-                onMouseLeave={e => (e.currentTarget.style.background = '#fff')}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(250,173,20,0.2)';
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+                }}
               >
-                <EnvironmentOutlined style={{ fontSize: 11 }} />
-                {city}
-                <span style={{
-                  background: '#faad14', color: '#fff',
-                  borderRadius: '50%', fontSize: 10, fontWeight: 700,
-                  minWidth: 16, height: 16, display: 'inline-flex',
-                  alignItems: 'center', justifyContent: 'center', padding: '0 4px',
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                  <span style={{
+                    background: '#fa8c16', color: '#fff',
+                    fontSize: 11, fontWeight: 700, padding: '1px 8px', borderRadius: 10,
+                  }}>
+                    <EnvironmentOutlined style={{ fontSize: 10, marginRight: 3 }} />{city}
+                  </span>
+                  {latest.companyName && (
+                    <span style={{ fontSize: 11, color: '#8c5a00', background: '#fff3cd', padding: '1px 7px', borderRadius: 8 }}>
+                      {latest.companyName}
+                    </span>
+                  )}
+                  {count > 1 && (
+                    <span style={{ marginLeft: 'auto', fontSize: 11, color: '#faad14', fontWeight: 600 }}>
+                      共{count}条
+                    </span>
+                  )}
+                </div>
+                <div style={{
+                  fontSize: 12, color: '#5c3d00', lineHeight: 1.65,
+                  display: '-webkit-box', WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical', overflow: 'hidden',
                 }}>
-                  {count}
-                </span>
-              </span>
+                  {latest.content}
+                </div>
+                <div style={{ marginTop: 6, fontSize: 11, color: '#faad14', fontWeight: 500 }}>
+                  查看详情 →
+                </div>
+              </div>
             ))}
-            <span style={{ marginLeft: 'auto', fontSize: 11, color: '#aaa', flexShrink: 0 }}>点击城市查看详情</span>
           </div>
         </div>
       )}
