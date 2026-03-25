@@ -4,7 +4,7 @@ import { Card, Table, Tag, Select, Button, Space, Typography, Row, Col, message 
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { airFreightData, AirFreightPrice } from '../data/airFreightData';
-import { fetchDeliveryUpdates } from '../services/sscData';
+import { fetchDeliveryUpdates, getMerchants } from '../services/sscData';
 import { getCompanyByName } from '../data/companyData';
 import AdSlot from '../components/AdSlot';
 import { AD_CONFIG } from '../config/ads';
@@ -19,14 +19,15 @@ const AirFreight: React.FC = () => {
   const [selectedType, setSelectedType]       = useState<string | undefined>();
   const [corrOpen, setCorrOpen]               = useState(false);
   const [corrRecord, setCorrRecord]           = useState<AirFreightPrice | null>(null);
-  const [dynAirRows, setDynAirRows]           = useState<AirFreightPrice[]>([]);
+  const [dynAirRows, setDynAirRows] = useState<AirFreightPrice[]>([]);
 
   useEffect(() => {
+    // 从到货动态中读取（已移除首重/续重价格字段，保留兼容）
     fetchDeliveryUpdates().then((updates) => {
       const rows: AirFreightPrice[] = updates
-        .filter((d) => d.mode === 'air' && d.firstWeightPrice)
+        .filter((d) => d.mode === 'air' && (d as any).firstWeightPrice)
         .map((d) => {
-          const priceStr = d.firstWeightPrice!;
+          const priceStr = (d as any).firstWeightPrice as string;
           const price = parseFloat(priceStr) || 0;
           const kgMatch = priceStr.match(/\/\s*(\d+\.?\d*)/);
           const kg = kgMatch ? parseFloat(kgMatch[1]) : 0.5;
@@ -36,13 +37,36 @@ const AirFreight: React.FC = () => {
             line: d.route,
             firstWeight: price,
             firstWeightKg: kg,
-            additionalWeight: d.additionalWeightPrice || '-',
+            additionalWeight: (d as any).additionalWeightPrice || '-',
             transitTime: d.eta,
             remarks: d.city,
           };
         });
       setDynAirRows(rows);
     });
+
+    // 从商家管理中读取空运服务
+    const merchants = getMerchants();
+    const merchantRows: AirFreightPrice[] = [];
+    const parseNum = (s?: string) => parseFloat((s || '').replace(/[^\d.]/g, '')) || 0;
+
+    merchants.forEach((m) => {
+      (m.services || [])
+        .filter((s) => s.mode === 'air')
+        .forEach((s) => {
+          merchantRows.push({
+            company:          m.name,
+            type:             s.cargo === 'general' ? '空普' : '空敏',
+            line:             '-',
+            firstWeight:      parseNum(s.priceCAD),
+            firstWeightKg:    parseNum(s.firstWeight) || 0.5,
+            additionalWeight: [s.additionalWeight, s.priceCNY].filter(Boolean).join(' / ') || '-',
+            transitTime:      `${s.etaMin}-${s.etaMax}`,
+            remarks:          s.remark || m.cities.join('/'),
+          });
+        });
+    });
+    setDynAirRows((prev) => [...prev, ...merchantRows]);
   }, []);
 
   const handleCorrSubmit = (values: CorrectionFormValues) => {
