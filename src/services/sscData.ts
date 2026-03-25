@@ -38,6 +38,9 @@ export interface ServiceItem {
   name: string;
   etaMin: number;
   etaMax: number;
+  firstWeight?: string;   // e.g. "0.5kg"
+  priceCAD?: string;      // e.g. "$15/kg"
+  priceCNY?: string;      // e.g. "¥100/kg"
 }
 
 export interface Merchant {

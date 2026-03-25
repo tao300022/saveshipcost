@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Card, Button, Input, Typography, Tabs, Table, Modal,
-  Form, Select, Space, Tag, Popconfirm, message, Checkbox, Upload, AutoComplete,
+  Form, Select, Space, Tag, Popconfirm, message, Upload, AutoComplete,
 } from 'antd';
 import { LockOutlined, LogoutOutlined, PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import {
@@ -146,7 +146,12 @@ const AdminPage: React.FC = () => {
   const openMerchantModal = (record?: Merchant) => {
     setEditingMerchant(record || null);
     if (record) {
-      const selectedServices = (record.services || []).map((s) => `${s.mode}-${s.cargo}`);
+      const servicesList = (record.services || []).map((s) => ({
+        type:        `${s.mode}-${s.cargo}`,
+        firstWeight: s.firstWeight || '',
+        priceCAD:    s.priceCAD    || '',
+        priceCNY:    s.priceCNY    || '',
+      }));
       setQrPreview(record.wechatQrUrl || '');
       merchantForm.setFieldsValue({
         name:        record.name,
@@ -154,7 +159,7 @@ const AdminPage: React.FC = () => {
         intro:       record.intro,
         contact:     record.contact,
         wechatQrUrl: record.wechatQrUrl || '',
-        services:    selectedServices,
+        services:    servicesList,
       });
     } else {
       merchantForm.resetFields();
@@ -165,11 +170,18 @@ const AdminPage: React.FC = () => {
 
   const handleMerchantSave = (values: {
     name: string; cities: string; intro: string;
-    contact: string; wechatQrUrl?: string; services: string[];
+    contact: string; wechatQrUrl?: string;
+    services: { type: string; firstWeight?: string; priceCAD?: string; priceCNY?: string }[];
   }) => {
     const parsedServices: ServiceItem[] = (values.services || [])
-      .map((key) => SERVICE_MAP[key])
-      .filter(Boolean);
+      .filter((item) => item?.type && SERVICE_MAP[item.type])
+      .map((item) => ({
+        ...SERVICE_MAP[item.type],
+        id:          genId(),
+        firstWeight: item.firstWeight || undefined,
+        priceCAD:    item.priceCAD    || undefined,
+        priceCNY:    item.priceCNY    || undefined,
+      }));
     const data: Merchant = {
       id:          editingMerchant?.id || genId(),
       name:        values.name,
@@ -462,18 +474,23 @@ const AdminPage: React.FC = () => {
               value={annFilterCity}
               onChange={setAnnFilterCity}
               style={{ width: 180 }}
-              options={CITY_OPTIONS}
+              options={[{ value: '__all__', label: '全部城市' }, ...CITY_OPTIONS]}
             />
             <Button type="primary" icon={<PlusOutlined />} onClick={() => openAnnModal()}>
               新增公告
             </Button>
+            <Text type="secondary" style={{ fontSize: 12 }}>共 {announcements.length} 条</Text>
           </div>
           <Table
-            dataSource={announcements.filter((a) => a.city === annFilterCity)}
+            dataSource={annFilterCity === '__all__' ? announcements : announcements.filter((a) => a.city === annFilterCity)}
             rowKey="id"
             size="small"
             pagination={false}
             columns={[
+              {
+                title: '城市', dataIndex: 'city', key: 'city', width: 110,
+                render: (v: string) => <Tag color="blue">{v}</Tag>,
+              },
               {
                 title: '快递公司', dataIndex: 'companyName', key: 'companyName', width: 130,
                 render: (v: string) => v ? <Tag color="purple">{v}</Tag> : <span style={{ color: '#bbb' }}>—</span>,
@@ -532,7 +549,31 @@ const AdminPage: React.FC = () => {
         footer={null}
         destroyOnClose
       >
-        <Form form={deliveryForm} layout="vertical" onFinish={handleDeliverySave} style={{ marginTop: 16 }}>
+        <Form
+          form={deliveryForm}
+          layout="vertical"
+          onFinish={handleDeliverySave}
+          style={{ marginTop: 16 }}
+          onValuesChange={(changed, all) => {
+            if ('arrivalDate' in changed || 'departDate' in changed) {
+              const depart = all.departDate?.trim();
+              const arrival = all.arrivalDate?.trim();
+              if (depart && arrival) {
+                const d1 = new Date(depart);
+                const d2 = new Date(arrival);
+                if (!isNaN(d1.getTime()) && !isNaN(d2.getTime())) {
+                  const days = Math.round((d2.getTime() - d1.getTime()) / 86400000);
+                  if (days < 0) {
+                    message.error('日期有误：到货日期早于起运日期，请重新检查');
+                    deliveryForm.setFieldsValue({ departDate: '', arrivalDate: '', eta: '' });
+                  } else {
+                    deliveryForm.setFieldsValue({ eta: `${days}天` });
+                  }
+                }
+              }
+            }
+          }}
+        >
           <Form.Item name="departDate" label="起运日期" rules={[{ required: true, message: '请输入起运日期' }]}>
             <Input placeholder="2026-02-10" />
           </Form.Item>
@@ -551,11 +592,11 @@ const AdminPage: React.FC = () => {
           <Form.Item name="merchantId" label="货代ID（可选）">
             <Input placeholder="m001" />
           </Form.Item>
-          <Form.Item name="eta" label="时效" rules={[{ required: true, message: '请输入时效' }]}>
-            <Input placeholder="7-10天" />
-          </Form.Item>
           <Form.Item name="arrivalDate" label="到货日期（可选）">
             <Input placeholder="2026-03-10" />
+          </Form.Item>
+          <Form.Item name="eta" label="时效" rules={[{ required: true, message: '请输入时效' }]}>
+            <Input placeholder="7-10天（填入到货日期后自动计算）" />
           </Form.Item>
           <Form.Item name="mode" label="运输方式" initialValue="air" rules={[{ required: true }]}>
             <Select options={[
@@ -642,9 +683,43 @@ const AdminPage: React.FC = () => {
             </Space>
           </Form.Item>
 
-          {/* 服务类型多选 */}
-          <Form.Item name="services" label="服务类型">
-            <Checkbox.Group options={SERVICE_OPTIONS} />
+          {/* 服务信息 */}
+          <Form.Item label="服务信息">
+            <Form.List name="services">
+              {(fields, { add, remove }) => (
+                <>
+                  {/* 表头 */}
+                  {fields.length > 0 && (
+                    <div style={{ display: 'flex', gap: 8, marginBottom: 4, fontSize: 12, color: '#888', paddingRight: 32 }}>
+                      <div style={{ flex: '0 0 140px' }}>服务类型</div>
+                      <div style={{ flex: '0 0 88px' }}>首重</div>
+                      <div style={{ flex: '0 0 100px' }}>价格/加币</div>
+                      <div style={{ flex: '0 0 100px' }}>价格/人民币</div>
+                    </div>
+                  )}
+                  {fields.map(({ key, name, ...restField }) => (
+                    <div key={key} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'center' }}>
+                      <Form.Item {...restField} name={[name, 'type']} style={{ flex: '0 0 140px', marginBottom: 0 }}>
+                        <Select placeholder="服务类型" options={SERVICE_OPTIONS} />
+                      </Form.Item>
+                      <Form.Item {...restField} name={[name, 'firstWeight']} style={{ flex: '0 0 88px', marginBottom: 0 }}>
+                        <Input placeholder="如 0.5kg" />
+                      </Form.Item>
+                      <Form.Item {...restField} name={[name, 'priceCAD']} style={{ flex: '0 0 100px', marginBottom: 0 }}>
+                        <Input placeholder="如 $15/kg" />
+                      </Form.Item>
+                      <Form.Item {...restField} name={[name, 'priceCNY']} style={{ flex: '0 0 100px', marginBottom: 0 }}>
+                        <Input placeholder="如 ¥100/kg" />
+                      </Form.Item>
+                      <Button danger size="small" icon={<DeleteOutlined />} onClick={() => remove(name)} />
+                    </div>
+                  ))}
+                  <Button type="dashed" icon={<PlusOutlined />} onClick={() => add()} block>
+                    添加服务
+                  </Button>
+                </>
+              )}
+            </Form.List>
           </Form.Item>
 
           <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>

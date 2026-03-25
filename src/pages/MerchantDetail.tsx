@@ -66,6 +66,24 @@ const MerchantDetail: React.FC = () => {
       key: 'eta',
       render: (_: unknown, row: ServiceItem) => `${row.etaMin} - ${row.etaMax}`,
     },
+    {
+      title: '首重',
+      dataIndex: 'firstWeight',
+      key: 'firstWeight',
+      render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span>,
+    },
+    {
+      title: '价格/加币',
+      dataIndex: 'priceCAD',
+      key: 'priceCAD',
+      render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span>,
+    },
+    {
+      title: '价格/人民币',
+      dataIndex: 'priceCNY',
+      key: 'priceCNY',
+      render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span>,
+    },
   ];
 
   return (
