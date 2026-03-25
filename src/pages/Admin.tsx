@@ -147,10 +147,12 @@ const AdminPage: React.FC = () => {
     setEditingMerchant(record || null);
     if (record) {
       const servicesList = (record.services || []).map((s) => ({
-        type:        `${s.mode}-${s.cargo}`,
-        firstWeight: s.firstWeight || '',
-        priceCAD:    s.priceCAD    || '',
-        priceCNY:    s.priceCNY    || '',
+        type:             `${s.mode}-${s.cargo}`,
+        firstWeight:      s.firstWeight      || '',
+        additionalWeight: s.additionalWeight || '',
+        priceCAD:         s.priceCAD         || '',
+        priceCNY:         s.priceCNY         || '',
+        remark:           s.remark           || '',
       }));
       setQrPreview(record.wechatQrUrl || '');
       merchantForm.setFieldsValue({
@@ -171,16 +173,18 @@ const AdminPage: React.FC = () => {
   const handleMerchantSave = (values: {
     name: string; cities: string; intro: string;
     contact: string; wechatQrUrl?: string;
-    services: { type: string; firstWeight?: string; priceCAD?: string; priceCNY?: string }[];
+    services: { type: string; firstWeight?: string; additionalWeight?: string; priceCAD?: string; priceCNY?: string; remark?: string }[];
   }) => {
     const parsedServices: ServiceItem[] = (values.services || [])
       .filter((item) => item?.type && SERVICE_MAP[item.type])
       .map((item) => ({
         ...SERVICE_MAP[item.type],
-        id:          genId(),
-        firstWeight: item.firstWeight || undefined,
-        priceCAD:    item.priceCAD    || undefined,
-        priceCNY:    item.priceCNY    || undefined,
+        id:               genId(),
+        firstWeight:      item.firstWeight      || undefined,
+        additionalWeight: item.additionalWeight || undefined,
+        priceCAD:         item.priceCAD         || undefined,
+        priceCNY:         item.priceCNY         || undefined,
+        remark:           item.remark           || undefined,
       }));
     const data: Merchant = {
       id:          editingMerchant?.id || genId(),
@@ -345,10 +349,6 @@ const AdminPage: React.FC = () => {
     { title: '到货日期', dataIndex: 'arrivalDate', key: 'arrivalDate', width: 110,
       render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span> },
     { title: '时效', dataIndex: 'eta', key: 'eta', width: 90 },
-    { title: '首重/价格', dataIndex: 'firstWeightPrice', key: 'firstWeightPrice', width: 110,
-      render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span> },
-    { title: '续重价格', dataIndex: 'additionalWeightPrice', key: 'additionalWeightPrice', width: 100,
-      render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span> },
     {
       title: '操作', key: 'action', width: 150,
       render: (_: unknown, record: DeliveryUpdate) => (
@@ -604,12 +604,6 @@ const AdminPage: React.FC = () => {
               { label: '海运', value: 'sea' },
             ]} />
           </Form.Item>
-          <Form.Item name="firstWeightPrice" label="首重/价格（可选）">
-            <Input placeholder="例：189/0.5kg" />
-          </Form.Item>
-          <Form.Item name="additionalWeightPrice" label="续重价格（可选）">
-            <Input placeholder="例：49/kg" />
-          </Form.Item>
           <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
             <Space>
               <Button onClick={() => { setDeliveryModalOpen(false); deliveryForm.resetFields(); }}>取消</Button>
@@ -625,7 +619,7 @@ const AdminPage: React.FC = () => {
         open={merchantModalOpen}
         onCancel={() => { setMerchantModalOpen(false); merchantForm.resetFields(); setQrPreview(''); }}
         footer={null}
-        width={680}
+        width={820}
         destroyOnClose
       >
         <Form form={merchantForm} layout="vertical" onFinish={handleMerchantSave} style={{ marginTop: 16 }}>
@@ -690,26 +684,34 @@ const AdminPage: React.FC = () => {
                 <>
                   {/* 表头 */}
                   {fields.length > 0 && (
-                    <div style={{ display: 'flex', gap: 8, marginBottom: 4, fontSize: 12, color: '#888', paddingRight: 32 }}>
-                      <div style={{ flex: '0 0 140px' }}>服务类型</div>
-                      <div style={{ flex: '0 0 88px' }}>首重</div>
-                      <div style={{ flex: '0 0 100px' }}>价格/加币</div>
-                      <div style={{ flex: '0 0 100px' }}>价格/人民币</div>
+                    <div style={{ display: 'flex', gap: 6, marginBottom: 4, fontSize: 12, color: '#888', paddingRight: 32 }}>
+                      <div style={{ flex: '0 0 130px' }}>服务类型</div>
+                      <div style={{ flex: '0 0 80px' }}>首重</div>
+                      <div style={{ flex: '0 0 80px' }}>续重</div>
+                      <div style={{ flex: '0 0 90px' }}>价格/加币</div>
+                      <div style={{ flex: '0 0 90px' }}>价格/人民币</div>
+                      <div style={{ flex: 1 }}>备注</div>
                     </div>
                   )}
                   {fields.map(({ key, name, ...restField }) => (
-                    <div key={key} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'center' }}>
-                      <Form.Item {...restField} name={[name, 'type']} style={{ flex: '0 0 140px', marginBottom: 0 }}>
+                    <div key={key} style={{ display: 'flex', gap: 6, marginBottom: 8, alignItems: 'center' }}>
+                      <Form.Item {...restField} name={[name, 'type']} style={{ flex: '0 0 130px', marginBottom: 0 }}>
                         <Select placeholder="服务类型" options={SERVICE_OPTIONS} />
                       </Form.Item>
-                      <Form.Item {...restField} name={[name, 'firstWeight']} style={{ flex: '0 0 88px', marginBottom: 0 }}>
+                      <Form.Item {...restField} name={[name, 'firstWeight']} style={{ flex: '0 0 80px', marginBottom: 0 }}>
                         <Input placeholder="如 0.5kg" />
                       </Form.Item>
-                      <Form.Item {...restField} name={[name, 'priceCAD']} style={{ flex: '0 0 100px', marginBottom: 0 }}>
+                      <Form.Item {...restField} name={[name, 'additionalWeight']} style={{ flex: '0 0 80px', marginBottom: 0 }}>
+                        <Input placeholder="如 1kg" />
+                      </Form.Item>
+                      <Form.Item {...restField} name={[name, 'priceCAD']} style={{ flex: '0 0 90px', marginBottom: 0 }}>
                         <Input placeholder="如 $15/kg" />
                       </Form.Item>
-                      <Form.Item {...restField} name={[name, 'priceCNY']} style={{ flex: '0 0 100px', marginBottom: 0 }}>
+                      <Form.Item {...restField} name={[name, 'priceCNY']} style={{ flex: '0 0 90px', marginBottom: 0 }}>
                         <Input placeholder="如 ¥100/kg" />
+                      </Form.Item>
+                      <Form.Item {...restField} name={[name, 'remark']} style={{ flex: 1, marginBottom: 0 }}>
+                        <Input placeholder="备注" />
                       </Form.Item>
                       <Button danger size="small" icon={<DeleteOutlined />} onClick={() => remove(name)} />
                     </div>

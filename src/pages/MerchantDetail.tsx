@@ -73,6 +73,12 @@ const MerchantDetail: React.FC = () => {
       render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span>,
     },
     {
+      title: '续重',
+      dataIndex: 'additionalWeight',
+      key: 'additionalWeight',
+      render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span>,
+    },
+    {
       title: '价格/加币',
       dataIndex: 'priceCAD',
       key: 'priceCAD',
@@ -82,6 +88,12 @@ const MerchantDetail: React.FC = () => {
       title: '价格/人民币',
       dataIndex: 'priceCNY',
       key: 'priceCNY',
+      render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span>,
+    },
+    {
+      title: '备注',
+      dataIndex: 'remark',
+      key: 'remark',
       render: (v: string) => v || <span style={{ color: '#bbb' }}>—</span>,
     },
   ];
