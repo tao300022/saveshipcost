@@ -129,7 +129,7 @@ const SeaFreight: React.FC = () => {
       key: 'firstWeight',
       render: (_: any, record: SeaFreightPrice) =>
         record.priceCAD
-          ? <span>{record.priceCAD}{record.firstWeightKg ? `/${record.firstWeightKg}kg` : ''}</span>
+          ? <span>{record.priceCAD}</span>
           : <span>{record.firstWeight}/{record.firstWeightKg || 21}kg</span>,
     },
     {

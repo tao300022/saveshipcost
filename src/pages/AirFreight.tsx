@@ -127,7 +127,7 @@ const AirFreight: React.FC = () => {
       key: 'firstWeight',
       render: (_: any, record: AirFreightPrice) =>
         record.priceCAD
-          ? <span>{record.priceCAD}{record.firstWeightKg ? `/${record.firstWeightKg}kg` : ''}</span>
+          ? <span>{record.priceCAD}</span>
           : <span>{record.firstWeight}/{record.firstWeightKg}kg</span>,
     },
     {
