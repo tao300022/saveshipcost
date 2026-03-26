@@ -250,10 +250,9 @@ export const fetchMerchants = async (): Promise<Merchant[]> => {
     }
     const rows = (data ?? []).map(merchantFromRow);
     if (rows.length > 0) {
-      saveMerchants(rows); // update local cache
-      return rows;
+      return rows; // Supabase is source of truth, do NOT overwrite localStorage
     }
-    return getMerchants();
+    return getMerchants(); // fallback: Supabase empty → use localStorage
   } catch (e) {
     console.error('[Supabase] fetchMerchants exception:', e);
     return getMerchants();
