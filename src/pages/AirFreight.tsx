@@ -49,9 +49,11 @@ const AirFreight: React.FC = () => {
             line:             '-',
             firstWeight:      parseNum(s.priceCAD),
             firstWeightKg:    parseNum(s.firstWeight) || 0.5,
-            additionalWeight: [s.additionalWeight, s.priceCNY].filter(Boolean).join(' / ') || '-',
+            additionalWeight: s.additionalWeight || '-',
             transitTime:      `${s.etaMin}-${s.etaMax}`,
             remarks:          s.remark || m.cities.join('/'),
+            priceCAD:         s.priceCAD  || undefined,
+            priceCNY:         s.priceCNY  || undefined,
           });
         });
       });
@@ -121,16 +123,20 @@ const AirFreight: React.FC = () => {
       render: (text: string) => text || '-',
     },
     {
-      title: '首重',
+      title: '首重(加币)',
       key: 'firstWeight',
-      render: (_: any, record: AirFreightPrice) => (
-        <span>{record.firstWeight}/{record.firstWeightKg}kg</span>
-      ),
+      render: (_: any, record: AirFreightPrice) =>
+        record.priceCAD
+          ? <span>{record.priceCAD}{record.firstWeightKg ? `/${record.firstWeightKg}kg` : ''}</span>
+          : <span>{record.firstWeight}/{record.firstWeightKg}kg</span>,
     },
     {
-      title: '续重',
-      dataIndex: 'additionalWeight',
+      title: '续重 / 人民币',
       key: 'additionalWeight',
+      render: (_: any, record: AirFreightPrice) => {
+        const parts = [record.additionalWeight !== '-' ? record.additionalWeight : '', record.priceCNY || ''].filter(Boolean);
+        return <span>{parts.join(' / ') || '-'}</span>;
+      },
     },
     {
       title: '时效(天)',

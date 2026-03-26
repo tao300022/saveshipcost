@@ -7,6 +7,8 @@ export interface SeaFreightPrice {
   additionalWeight: number | string;
   transitTime: string;
   remarks?: string;
+  priceCAD?: string;
+  priceCNY?: string;
 }
 
 export const seaFreightData: SeaFreightPrice[] = [

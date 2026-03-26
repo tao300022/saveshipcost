@@ -47,9 +47,11 @@ const SeaFreight: React.FC = () => {
             line:             '-',
             firstWeight:      parseNum(s.priceCAD),
             firstWeightKg:    parseNum(s.firstWeight) || 21,
-            additionalWeight: [s.additionalWeight, s.priceCNY].filter(Boolean).join(' / ') || '-',
+            additionalWeight: s.additionalWeight || '-',
             transitTime:      `${s.etaMin}-${s.etaMax}`,
             remarks:          s.remark || m.cities.join('/'),
+            priceCAD:         s.priceCAD || undefined,
+            priceCNY:         s.priceCNY || undefined,
           });
         });
       });
@@ -123,16 +125,20 @@ const SeaFreight: React.FC = () => {
       render: (text: string) => text || '-',
     },
     {
-      title: '首重',
+      title: '首重(加币)',
       key: 'firstWeight',
-      render: (_: any, record: SeaFreightPrice) => (
-        <span>{record.firstWeight}/{record.firstWeightKg || 21}kg</span>
-      ),
+      render: (_: any, record: SeaFreightPrice) =>
+        record.priceCAD
+          ? <span>{record.priceCAD}{record.firstWeightKg ? `/${record.firstWeightKg}kg` : ''}</span>
+          : <span>{record.firstWeight}/{record.firstWeightKg || 21}kg</span>,
     },
     {
-      title: '续重',
-      dataIndex: 'additionalWeight',
+      title: '续重 / 人民币',
       key: 'additionalWeight',
+      render: (_: any, record: SeaFreightPrice) => {
+        const parts = [record.additionalWeight !== '-' ? record.additionalWeight : '', record.priceCNY || ''].filter(Boolean);
+        return <span>{parts.join(' / ') || '-'}</span>;
+      },
     },
     {
       title: '时效(天)',
