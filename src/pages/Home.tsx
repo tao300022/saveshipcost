@@ -23,7 +23,10 @@ const Home: React.FC = () => {
     fetchDeliveryUpdates().then(setDeliveryUpdates);
     fetchCityAnnouncements().then((list) => {
       const map: Record<string, CityAnnouncement[]> = {};
-      list.forEach((a) => { (map[a.city] = map[a.city] || []).push(a); });
+      list.forEach((a) => {
+        const key = a.city.charAt(0).toUpperCase() + a.city.slice(1);
+        (map[key] = map[key] || []).push(a);
+      });
       setCityAnnouncements(
         Object.entries(map).map(([city, items]) => ({ city, count: items.length, latest: items[0] }))
       );
