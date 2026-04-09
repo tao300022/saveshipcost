@@ -6,11 +6,11 @@ import {
 } from 'antd';
 import {
   EditOutlined, UserOutlined, ClockCircleOutlined,
-  LockOutlined, InfoCircleOutlined,
+  LockOutlined, InfoCircleOutlined, NotificationOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { fetchSscPosts, createSscPostRemote, SscPost } from '../services/sscData';
+import { fetchSscPosts, createSscPostRemote, SscPost, fetchForumNotices, ForumNotice } from '../services/sscData';
 
 const { Title, Text, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -28,13 +28,22 @@ const Forum: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [posts, setPosts]           = useState<SscPost[]>([]);
+  const [forumNotices, setForumNotices] = useState<ForumNotice[]>([]);
   const [modalOpen, setModalOpen]   = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [form] = Form.useForm();
   const [contentLen, setContentLen] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     fetchSscPosts().then((all) => setPosts(all.filter((p) => p.status === 'active')));
+    fetchForumNotices().then(setForumNotices);
+  }, []);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
   }, []);
 
   const handleSubmit = (values: { title: string; content: string }) => {
@@ -50,11 +59,12 @@ const Forum: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: 860, margin: '0 auto', padding: '32px 20px' }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 20px' }}>
       <Helmet>
         <title>首重拼邮留言板 – 分享跨境寄件经验 | SaveShipCost</title>
         <meta name="description" content="加入SaveShipCost社区，分享中加跨境拼邮、首重寄件经验，交流货代推荐与运费心得，帮助更多华人省运费。" />
       </Helmet>
+
       {/* 页面头 */}
       <div style={{
         display: 'flex',
@@ -79,108 +89,196 @@ const Forum: React.FC = () => {
         )}
       </div>
 
-      {/* 发帖规则卡片 */}
-      <Card
-        style={{
-          background: '#f8f9fa',
-          border: '1px solid #e8e8e8',
-          borderRadius: 10,
-          marginBottom: 20,
-        }}
-        bodyStyle={{ padding: '14px 20px' }}
-      >
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-          <InfoCircleOutlined style={{ color: '#888', marginTop: 3, flexShrink: 0 }} />
-          <div>
-            <Text strong style={{ fontSize: 13, color: '#555' }}>发帖须知：</Text>
-            <ol style={{
-              margin: '6px 0 0 0',
-              paddingLeft: 18,
-              color: '#666',
-              fontSize: 13,
-              lineHeight: 1.9,
+      {/* 左右两栏布局 */}
+      <div style={{
+        display: 'flex',
+        gap: 24,
+        alignItems: 'flex-start',
+        flexDirection: isMobile ? 'column' : 'row',
+      }}>
+
+        {/* ── 左栏：帖子列表 ── */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+
+          {/* 发帖规则卡片 */}
+          <Card
+            style={{
+              background: '#f8f9fa',
+              border: '1px solid #e8e8e8',
+              borderRadius: 10,
+              marginBottom: 20,
+            }}
+            bodyStyle={{ padding: '14px 20px' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+              <InfoCircleOutlined style={{ color: '#888', marginTop: 3, flexShrink: 0 }} />
+              <div>
+                <Text strong style={{ fontSize: 13, color: '#555' }}>发帖须知：</Text>
+                <ol style={{
+                  margin: '6px 0 0 0',
+                  paddingLeft: 18,
+                  color: '#666',
+                  fontSize: 13,
+                  lineHeight: 1.9,
+                }}>
+                  <li>禁止发布违反加拿大及中国法律法规内容</li>
+                  <li>禁止广告刷屏、引流欺诈、垃圾信息</li>
+                  <li>内容需与跨境运输 / 拼邮 / 邮寄经验相关</li>
+                  <li>管理员有权隐藏或删除不合规帖子</li>
+                </ol>
+              </div>
+            </div>
+          </Card>
+
+          {/* 广告位 */}
+          <div style={{
+            border: '1px dashed #d9d9d9',
+            borderRadius: 8,
+            padding: '12px 16px',
+            textAlign: 'center',
+            color: '#bbb',
+            fontSize: 13,
+            marginBottom: 20,
+            background: '#fafafa',
+          }}>
+            广告位
+          </div>
+
+          {/* 未登录提示 */}
+          {!isAuthenticated && (
+            <Alert
+              icon={<LockOutlined />}
+              message="请登录后参与讨论"
+              description={
+                <Space>
+                  <Button size="small" type="primary" onClick={() => navigate('/login')}>登录</Button>
+                  <Button size="small" onClick={() => navigate('/register')}>注册</Button>
+                </Space>
+              }
+              type="info"
+              showIcon
+              style={{ marginBottom: 24 }}
+            />
+          )}
+
+          {/* 帖子列表 */}
+          {posts.length === 0 ? (
+            <Empty description="暂无帖子，成为第一个发帖的人吧！" style={{ marginTop: 60 }} />
+          ) : (
+            <List
+              dataSource={posts}
+              renderItem={(post) => (
+                <List.Item key={post.id} style={{ padding: 0, marginBottom: 16 }}>
+                  <Card style={{ width: '100%' }} hoverable>
+                    <div style={{ marginBottom: 8 }}>
+                      <Text strong style={{ fontSize: 16 }}>
+                        {post.title}
+                      </Text>
+                    </div>
+                    <Paragraph style={{
+                      color: '#444',
+                      marginBottom: 12,
+                      whiteSpace: 'pre-wrap',
+                      wordBreak: 'break-word',
+                    }}>
+                      {post.content}
+                    </Paragraph>
+                    <Space size="middle" wrap>
+                      <Space size={4}>
+                        <Avatar size={20} icon={<UserOutlined />} style={{ background: '#667eea' }} />
+                        <Text type="secondary" style={{ fontSize: 13 }}>{post.authorName}</Text>
+                      </Space>
+                      <Space size={4}>
+                        <ClockCircleOutlined style={{ color: '#aaa', fontSize: 13 }} />
+                        <Text type="secondary" style={{ fontSize: 13 }}>{formatTime(post.createdAt)}</Text>
+                      </Space>
+                      <Tag color="blue" style={{ fontSize: 11 }}>
+                        {post.authorEmail.split('@')[0]}@***
+                      </Tag>
+                    </Space>
+                  </Card>
+                </List.Item>
+              )}
+            />
+          )}
+        </div>
+
+        {/* ── 右栏：公告栏 ── */}
+        <div style={{
+          width: isMobile ? '100%' : 280,
+          flexShrink: 0,
+        }}>
+          <div style={{
+            background: '#fff',
+            borderRadius: 12,
+            border: '1px solid #e4ebf8',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+            overflow: 'hidden',
+          }}>
+            {/* 公告栏标题 */}
+            <div style={{
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              padding: '12px 16px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
             }}>
-              <li>禁止发布违反加拿大及中国法律法规内容</li>
-              <li>禁止广告刷屏、引流欺诈、垃圾信息</li>
-              <li>内容需与跨境运输 / 拼邮 / 邮寄经验相关</li>
-              <li>管理员有权隐藏或删除不合规帖子</li>
-            </ol>
+              <NotificationOutlined style={{ color: '#fff', fontSize: 15 }} />
+              <span style={{ color: '#fff', fontWeight: 700, fontSize: 15 }}>公告栏</span>
+            </div>
+
+            {/* 公告内容 */}
+            <div style={{ padding: '12px 16px' }}>
+              {forumNotices.length === 0 ? (
+                <div style={{ color: '#bbb', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>
+                  暂无公告
+                </div>
+              ) : (
+                forumNotices.map((notice, idx) => (
+                  <div
+                    key={notice.id}
+                    style={{
+                      paddingBottom: idx < forumNotices.length - 1 ? 14 : 0,
+                      marginBottom: idx < forumNotices.length - 1 ? 14 : 0,
+                      borderBottom: idx < forumNotices.length - 1 ? '1px solid #f0f0f0' : 'none',
+                    }}
+                  >
+                    {notice.title && (
+                      <div style={{
+                        fontWeight: 700,
+                        fontSize: 13,
+                        color: '#0d1b4b',
+                        marginBottom: 6,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 6,
+                      }}>
+                        <span style={{
+                          width: 6, height: 6, borderRadius: '50%',
+                          background: '#667eea', display: 'inline-block', flexShrink: 0,
+                        }} />
+                        {notice.title}
+                      </div>
+                    )}
+                    <div style={{
+                      fontSize: 13,
+                      color: '#555',
+                      lineHeight: 1.75,
+                      whiteSpace: 'pre-wrap',
+                      wordBreak: 'break-word',
+                    }}>
+                      {notice.content}
+                    </div>
+                    <div style={{ marginTop: 6, fontSize: 11, color: '#bbb' }}>
+                      {formatTime(notice.createdAt)}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
-      </Card>
-
-      {/* 广告位 — 首重拼邮帖子列表上方 */}
-      {/* [AD_SLOT: forum_above_posts] */}
-      <div style={{
-        border: '1px dashed #d9d9d9',
-        borderRadius: 8,
-        padding: '12px 16px',
-        textAlign: 'center',
-        color: '#bbb',
-        fontSize: 13,
-        marginBottom: 20,
-        background: '#fafafa',
-      }}>
-        广告位
       </div>
-
-      {/* 未登录提示 */}
-      {!isAuthenticated && (
-        <Alert
-          icon={<LockOutlined />}
-          message="请登录后参与讨论"
-          description={
-            <Space>
-              <Button size="small" type="primary" onClick={() => navigate('/login')}>登录</Button>
-              <Button size="small" onClick={() => navigate('/register')}>注册</Button>
-            </Space>
-          }
-          type="info"
-          showIcon
-          style={{ marginBottom: 24 }}
-        />
-      )}
-
-      {/* 帖子列表 */}
-      {posts.length === 0 ? (
-        <Empty description="暂无帖子，成为第一个发帖的人吧！" style={{ marginTop: 60 }} />
-      ) : (
-        <List
-          dataSource={posts}
-          renderItem={(post) => (
-            <List.Item key={post.id} style={{ padding: 0, marginBottom: 16 }}>
-              <Card style={{ width: '100%' }} hoverable>
-                <div style={{ marginBottom: 8 }}>
-                  <Text strong style={{ fontSize: 16 }}>
-                    {post.title}
-                  </Text>
-                </div>
-                <Paragraph style={{
-                  color: '#444',
-                  marginBottom: 12,
-                  whiteSpace: 'pre-wrap',
-                  wordBreak: 'break-word',
-                }}>
-                  {post.content}
-                </Paragraph>
-                <Space size="middle" wrap>
-                  <Space size={4}>
-                    <Avatar size={20} icon={<UserOutlined />} style={{ background: '#667eea' }} />
-                    <Text type="secondary" style={{ fontSize: 13 }}>{post.authorName}</Text>
-                  </Space>
-                  <Space size={4}>
-                    <ClockCircleOutlined style={{ color: '#aaa', fontSize: 13 }} />
-                    <Text type="secondary" style={{ fontSize: 13 }}>{formatTime(post.createdAt)}</Text>
-                  </Space>
-                  <Tag color="blue" style={{ fontSize: 11 }}>
-                    {post.authorEmail.split('@')[0]}@***
-                  </Tag>
-                </Space>
-              </Card>
-            </List.Item>
-          )}
-        />
-      )}
 
       {/* 发帖 Modal */}
       <Modal

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, Button, Typography, Tag, Table } from 'antd';
-import { SendOutlined, GlobalOutlined, RightOutlined, EnvironmentOutlined, NotificationOutlined } from '@ant-design/icons';
+import { SendOutlined, GlobalOutlined, RightOutlined, EnvironmentOutlined, NotificationOutlined, MinusOutlined, CloseOutlined, BellOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import AdSlot from '../components/AdSlot';
 import { AD_CONFIG } from '../config/ads';
 import heroImage from '../assets/55.jpg';
-import { fetchDeliveryUpdates, DeliveryUpdate, fetchCityAnnouncements, CityAnnouncement } from '../services/sscData';
+import { fetchDeliveryUpdates, DeliveryUpdate, fetchCityAnnouncements, CityAnnouncement, fetchPopupNotices, PopupNotice } from '../services/sscData';
 import ChargeableWeightCard from '../components/ChargeableWeightCard';
 
 const { Title, Paragraph } = Typography;
@@ -19,8 +19,21 @@ const Home: React.FC = () => {
   const calcRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  // Floating popup state
+  const [popupNotices, setPopupNotices] = useState<PopupNotice[]>([]);
+  const [popupMinimized, setPopupMinimized] = useState(false);
+  const [popupDismissed, setPopupDismissed] = useState(() =>
+    sessionStorage.getItem('ssc_popup_dismissed') === 'true'
+  );
+
+  const handlePopupClose = () => {
+    setPopupDismissed(true);
+    sessionStorage.setItem('ssc_popup_dismissed', 'true');
+  };
+
   useEffect(() => {
     fetchDeliveryUpdates().then(setDeliveryUpdates);
+    fetchPopupNotices().then((list) => setPopupNotices(list.filter((n) => n.isActive)));
     fetchCityAnnouncements().then((list) => {
       const map: Record<string, CityAnnouncement[]> = {};
       list.forEach((a) => {
@@ -459,6 +472,116 @@ const Home: React.FC = () => {
           />
         </Card>
       </div>
+
+      {/* 浮动公告窗口 */}
+      {!popupDismissed && popupNotices.length > 0 && (
+        <div style={{
+          position: 'fixed',
+          bottom: 24,
+          right: 24,
+          zIndex: 1000,
+          width: popupMinimized ? 'auto' : (isMobile ? 'calc(100vw - 48px)' : 320),
+          maxWidth: isMobile ? 'calc(100vw - 48px)' : 320,
+        }}>
+          {popupMinimized ? (
+            /* 最小化状态：悬浮按钮 */
+            <button
+              onClick={() => setPopupMinimized(false)}
+              style={{
+                width: 48, height: 48, borderRadius: '50%',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 4px 16px rgba(102,126,234,0.45)',
+                color: '#fff', fontSize: 20,
+                position: 'relative',
+              }}
+              title="展开公告"
+            >
+              <BellOutlined />
+              <span style={{
+                position: 'absolute', top: -2, right: -2,
+                width: 16, height: 16, borderRadius: '50%',
+                background: '#ff4d4f', border: '2px solid #fff',
+                fontSize: 10, color: '#fff',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontWeight: 700, lineHeight: 1,
+              }}>
+                {popupNotices.length}
+              </span>
+            </button>
+          ) : (
+            /* 展开状态：公告卡片 */
+            <div style={{
+              background: '#fff',
+              borderRadius: 14,
+              boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
+              border: '1px solid #e4ebf8',
+              overflow: 'hidden',
+            }}>
+              {/* 标题栏 */}
+              <div style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                padding: '10px 14px',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <BellOutlined style={{ color: '#fff', fontSize: 14 }} />
+                  <span style={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>最新公告</span>
+                </div>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  <button
+                    onClick={() => setPopupMinimized(true)}
+                    style={{
+                      width: 24, height: 24, borderRadius: 6,
+                      background: 'rgba(255,255,255,0.2)', border: 'none',
+                      cursor: 'pointer', color: '#fff', fontSize: 13,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}
+                    title="最小化"
+                  >
+                    <MinusOutlined />
+                  </button>
+                  <button
+                    onClick={handlePopupClose}
+                    style={{
+                      width: 24, height: 24, borderRadius: 6,
+                      background: 'rgba(255,255,255,0.2)', border: 'none',
+                      cursor: 'pointer', color: '#fff', fontSize: 13,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}
+                    title="关闭"
+                  >
+                    <CloseOutlined />
+                  </button>
+                </div>
+              </div>
+              {/* 公告内容列表 */}
+              <div style={{ maxHeight: 300, overflowY: 'auto', padding: '12px 14px' }}>
+                {popupNotices.map((notice, idx) => (
+                  <div
+                    key={notice.id}
+                    style={{
+                      paddingBottom: idx < popupNotices.length - 1 ? 12 : 0,
+                      marginBottom: idx < popupNotices.length - 1 ? 12 : 0,
+                      borderBottom: idx < popupNotices.length - 1 ? '1px solid #f0f0f0' : 'none',
+                    }}
+                  >
+                    {notice.title && (
+                      <div style={{ fontWeight: 700, fontSize: 13, color: '#0d1b4b', marginBottom: 4 }}>
+                        {notice.title}
+                      </div>
+                    )}
+                    <div style={{ fontSize: 13, color: '#444', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
+                      {notice.content}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

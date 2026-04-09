@@ -495,3 +495,114 @@ export const deleteCityAnnouncementRemote = async (id: string): Promise<string |
   if (error) { console.error('[Supabase] deleteCityAnnouncement:', error.message); return error.message; }
   return null;
 };
+
+// ─── Supabase: PopupNotice (首页浮动公告) ─────────────────────────────────────
+
+export interface PopupNotice {
+  id: string;
+  title?: string;
+  content: string;
+  isActive: boolean;
+  sortOrder: number;
+  createdAt: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const popupFromRow = (r: any): PopupNotice => ({
+  id: r.id,
+  title: r.title ?? undefined,
+  content: r.content,
+  isActive: r.is_active ?? true,
+  sortOrder: r.sort_order ?? 0,
+  createdAt: r.created_at,
+});
+
+const popupToRow = (p: PopupNotice) => ({
+  id: p.id,
+  title: p.title ?? null,
+  content: p.content,
+  is_active: p.isActive,
+  sort_order: p.sortOrder,
+  created_at: p.createdAt,
+});
+
+export const fetchPopupNotices = async (): Promise<PopupNotice[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('popup_notices')
+      .select('*')
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: false });
+    if (error) { console.error('[Supabase] fetchPopupNotices:', error.message); return []; }
+    return (data ?? []).map(popupFromRow);
+  } catch (e) {
+    console.error('[Supabase] fetchPopupNotices exception:', e);
+    return [];
+  }
+};
+
+export const upsertPopupNotice = async (p: PopupNotice): Promise<string | null> => {
+  const { error } = await supabase.from('popup_notices').upsert(popupToRow(p));
+  if (error) { console.error('[Supabase] upsertPopupNotice:', error.message); return error.message; }
+  return null;
+};
+
+export const deletePopupNoticeRemote = async (id: string): Promise<string | null> => {
+  const { error } = await supabase.from('popup_notices').delete().eq('id', id);
+  if (error) { console.error('[Supabase] deletePopupNotice:', error.message); return error.message; }
+  return null;
+};
+
+// ─── Supabase: ForumNotice (首重拼邮右侧公告栏) ────────────────────────────────
+
+export interface ForumNotice {
+  id: string;
+  title?: string;
+  content: string;
+  sortOrder: number;
+  createdAt: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const forumNoticeFromRow = (r: any): ForumNotice => ({
+  id: r.id,
+  title: r.title ?? undefined,
+  content: r.content,
+  sortOrder: r.sort_order ?? 0,
+  createdAt: r.created_at,
+});
+
+const forumNoticeToRow = (n: ForumNotice) => ({
+  id: n.id,
+  title: n.title ?? null,
+  content: n.content,
+  sort_order: n.sortOrder,
+  created_at: n.createdAt,
+});
+
+export const fetchForumNotices = async (): Promise<ForumNotice[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('forum_notices')
+      .select('*')
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: false });
+    if (error) { console.error('[Supabase] fetchForumNotices:', error.message); return []; }
+    return (data ?? []).map(forumNoticeFromRow);
+  } catch (e) {
+    console.error('[Supabase] fetchForumNotices exception:', e);
+    return [];
+  }
+};
+
+export const upsertForumNotice = async (n: ForumNotice): Promise<string | null> => {
+  const { error } = await supabase.from('forum_notices').upsert(forumNoticeToRow(n));
+  if (error) { console.error('[Supabase] upsertForumNotice:', error.message); return error.message; }
+  return null;
+};
+
+export const deleteForumNoticeRemote = async (id: string): Promise<string | null> => {
+  const { error } = await supabase.from('forum_notices').delete().eq('id', id);
+  if (error) { console.error('[Supabase] deleteForumNotice:', error.message); return error.message; }
+  return null;
+};

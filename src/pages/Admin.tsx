@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Card, Button, Input, Typography, Tabs, Table, Modal,
-  Form, Select, Space, Tag, Popconfirm, message, Upload, AutoComplete,
+  Form, Select, Space, Tag, Popconfirm, message, Upload, AutoComplete, Switch,
 } from 'antd';
 import { LockOutlined, LogoutOutlined, PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import {
@@ -12,6 +12,8 @@ import {
   saveSscPosts, SscPost,
   fetchSscPosts, upsertSscPost,
   CityAnnouncement, fetchCityAnnouncements, upsertCityAnnouncement, deleteCityAnnouncementRemote,
+  PopupNotice, fetchPopupNotices, upsertPopupNotice, deletePopupNoticeRemote,
+  ForumNotice, fetchForumNotices, upsertForumNotice, deleteForumNoticeRemote,
 } from '../services/sscData';
 
 const { Title, Text } = Typography;
@@ -77,12 +79,26 @@ const AdminPage: React.FC = () => {
   const [annImagePreview, setAnnImagePreview]               = useState<string>('');
   const [annForm] = Form.useForm();
 
+  // Popup notices
+  const [popups, setPopups]                       = useState<PopupNotice[]>([]);
+  const [popupModalOpen, setPopupModalOpen]       = useState(false);
+  const [editingPopup, setEditingPopup]           = useState<PopupNotice | null>(null);
+  const [popupForm] = Form.useForm();
+
+  // Forum notices
+  const [forumNotices, setForumNotices]                         = useState<ForumNotice[]>([]);
+  const [forumNoticeModalOpen, setForumNoticeModalOpen]         = useState(false);
+  const [editingForumNotice, setEditingForumNotice]             = useState<ForumNotice | null>(null);
+  const [forumNoticeForm] = Form.useForm();
+
   useEffect(() => {
     if (loggedIn) {
       fetchDeliveryUpdates().then(setDeliveries);
       fetchMerchants().then(setMerchants);
       fetchSscPosts().then(setPosts);
       fetchCityAnnouncements().then(setAnnouncements);
+      fetchPopupNotices().then(setPopups);
+      fetchForumNotices().then(setForumNotices);
     }
   }, [loggedIn]);
 
@@ -294,6 +310,82 @@ const AdminPage: React.FC = () => {
     if (err) { message.error(`删除失败：${err}`); return; }
     const fresh = await fetchCityAnnouncements();
     setAnnouncements(fresh);
+    message.success('已删除');
+  };
+
+  // ─── Popup Notice CRUD ───────────────────────────────────────────────────
+
+  const openPopupModal = (record?: PopupNotice) => {
+    setEditingPopup(record || null);
+    if (record) {
+      popupForm.setFieldsValue({ title: record.title || '', content: record.content, isActive: record.isActive });
+    } else {
+      popupForm.resetFields();
+      popupForm.setFieldsValue({ isActive: true });
+    }
+    setPopupModalOpen(true);
+  };
+
+  const handlePopupSave = async (values: { title?: string; content: string; isActive: boolean }) => {
+    const item: PopupNotice = {
+      id: editingPopup?.id || genId(),
+      title: values.title || undefined,
+      content: values.content,
+      isActive: values.isActive,
+      sortOrder: editingPopup?.sortOrder ?? 0,
+      createdAt: editingPopup?.createdAt || new Date().toISOString(),
+    };
+    const err = await upsertPopupNotice(item);
+    if (err) { message.error(`保存失败：${err}`); return; }
+    const fresh = await fetchPopupNotices();
+    setPopups(fresh);
+    setPopupModalOpen(false);
+    popupForm.resetFields();
+    message.success('浮动公告已保存');
+  };
+
+  const handlePopupDelete = async (id: string) => {
+    const err = await deletePopupNoticeRemote(id);
+    if (err) { message.error(`删除失败：${err}`); return; }
+    const fresh = await fetchPopupNotices();
+    setPopups(fresh);
+    message.success('已删除');
+  };
+
+  // ─── Forum Notice CRUD ────────────────────────────────────────────────────
+
+  const openForumNoticeModal = (record?: ForumNotice) => {
+    setEditingForumNotice(record || null);
+    if (record) {
+      forumNoticeForm.setFieldsValue({ title: record.title || '', content: record.content });
+    } else {
+      forumNoticeForm.resetFields();
+    }
+    setForumNoticeModalOpen(true);
+  };
+
+  const handleForumNoticeSave = async (values: { title?: string; content: string }) => {
+    const item: ForumNotice = {
+      id: editingForumNotice?.id || genId(),
+      title: values.title || undefined,
+      content: values.content,
+      sortOrder: editingForumNotice?.sortOrder ?? 0,
+      createdAt: editingForumNotice?.createdAt || new Date().toISOString(),
+    };
+    const err = await upsertForumNotice(item);
+    if (err) { message.error(`保存失败：${err}`); return; }
+    const fresh = await fetchForumNotices();
+    setForumNotices(fresh);
+    setForumNoticeModalOpen(false);
+    forumNoticeForm.resetFields();
+    message.success('拼邮公告已保存');
+  };
+
+  const handleForumNoticeDelete = async (id: string) => {
+    const err = await deleteForumNoticeRemote(id);
+    if (err) { message.error(`删除失败：${err}`); return; }
+    const fresh = await fetchForumNotices();
+    setForumNotices(fresh);
     message.success('已删除');
   };
 
@@ -519,6 +611,102 @@ const AdminPage: React.FC = () => {
                   <Space>
                     <Button size="small" icon={<EditOutlined />} onClick={() => openAnnModal(record)}>编辑</Button>
                     <Popconfirm title="确认删除该公告？" onConfirm={() => handleAnnDelete(record.id)}>
+                      <Button size="small" danger icon={<DeleteOutlined />}>删除</Button>
+                    </Popconfirm>
+                  </Space>
+                ),
+              },
+            ]}
+          />
+        </div>
+      ),
+    },
+    {
+      key: 'popup',
+      label: '浮动公告',
+      children: (
+        <div>
+          <div style={{ marginBottom: 16, display: 'flex', gap: 12, alignItems: 'center' }}>
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => openPopupModal()}>
+              新增浮动公告
+            </Button>
+            <Text type="secondary" style={{ fontSize: 12 }}>首页右下角浮动弹窗展示，可最小化和关闭</Text>
+          </div>
+          <Table
+            dataSource={popups}
+            rowKey="id"
+            size="small"
+            pagination={false}
+            columns={[
+              {
+                title: '标题', dataIndex: 'title', key: 'title', width: 160,
+                render: (v: string) => v || <span style={{ color: '#bbb' }}>（无标题）</span>,
+              },
+              {
+                title: '内容', dataIndex: 'content', key: 'content', ellipsis: true,
+                render: (v: string) => <span style={{ whiteSpace: 'pre-wrap' }}>{v}</span>,
+              },
+              {
+                title: '状态', dataIndex: 'isActive', key: 'isActive', width: 80,
+                render: (v: boolean) => (
+                  <Tag color={v ? 'green' : 'default'}>{v ? '显示中' : '已关闭'}</Tag>
+                ),
+              },
+              {
+                title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', width: 160,
+                render: (v: string) => new Date(v).toLocaleString('zh-CN', { hour12: false }),
+              },
+              {
+                title: '操作', key: 'action', width: 140,
+                render: (_: unknown, record: PopupNotice) => (
+                  <Space>
+                    <Button size="small" icon={<EditOutlined />} onClick={() => openPopupModal(record)}>编辑</Button>
+                    <Popconfirm title="确认删除该浮动公告？" onConfirm={() => handlePopupDelete(record.id)}>
+                      <Button size="small" danger icon={<DeleteOutlined />}>删除</Button>
+                    </Popconfirm>
+                  </Space>
+                ),
+              },
+            ]}
+          />
+        </div>
+      ),
+    },
+    {
+      key: 'forumNotices',
+      label: '拼邮公告',
+      children: (
+        <div>
+          <div style={{ marginBottom: 16, display: 'flex', gap: 12, alignItems: 'center' }}>
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => openForumNoticeModal()}>
+              新增拼邮公告
+            </Button>
+            <Text type="secondary" style={{ fontSize: 12 }}>显示在首重拼邮页面右侧公告栏</Text>
+          </div>
+          <Table
+            dataSource={forumNotices}
+            rowKey="id"
+            size="small"
+            pagination={false}
+            columns={[
+              {
+                title: '标题', dataIndex: 'title', key: 'title', width: 160,
+                render: (v: string) => v || <span style={{ color: '#bbb' }}>（无标题）</span>,
+              },
+              {
+                title: '内容', dataIndex: 'content', key: 'content', ellipsis: true,
+                render: (v: string) => <span style={{ whiteSpace: 'pre-wrap' }}>{v}</span>,
+              },
+              {
+                title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', width: 160,
+                render: (v: string) => new Date(v).toLocaleString('zh-CN', { hour12: false }),
+              },
+              {
+                title: '操作', key: 'action', width: 140,
+                render: (_: unknown, record: ForumNotice) => (
+                  <Space>
+                    <Button size="small" icon={<EditOutlined />} onClick={() => openForumNoticeModal(record)}>编辑</Button>
+                    <Popconfirm title="确认删除该公告？" onConfirm={() => handleForumNoticeDelete(record.id)}>
                       <Button size="small" danger icon={<DeleteOutlined />}>删除</Button>
                     </Popconfirm>
                   </Space>
@@ -826,6 +1014,59 @@ const AdminPage: React.FC = () => {
           value={deleteReason}
           onChange={(e) => setDeleteReason(e.target.value)}
         />
+      </Modal>
+
+      {/* 浮动公告 新增/编辑 Modal */}
+      <Modal
+        title={editingPopup ? '编辑浮动公告' : '新增浮动公告'}
+        open={popupModalOpen}
+        onCancel={() => { setPopupModalOpen(false); popupForm.resetFields(); }}
+        footer={null}
+        width={520}
+        destroyOnClose
+      >
+        <Form form={popupForm} layout="vertical" onFinish={handlePopupSave} style={{ marginTop: 16 }}>
+          <Form.Item name="title" label="标题（可选）">
+            <Input placeholder="例：本周特惠公告" />
+          </Form.Item>
+          <Form.Item name="content" label="公告内容" rules={[{ required: true, message: '请输入公告内容' }]}>
+            <Input.TextArea rows={5} placeholder="输入要在首页浮动窗口显示的内容..." />
+          </Form.Item>
+          <Form.Item name="isActive" label="是否显示" valuePropName="checked">
+            <Switch checkedChildren="显示" unCheckedChildren="隐藏" />
+          </Form.Item>
+          <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
+            <Space>
+              <Button onClick={() => { setPopupModalOpen(false); popupForm.resetFields(); }}>取消</Button>
+              <Button type="primary" htmlType="submit">保存</Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* 拼邮公告 新增/编辑 Modal */}
+      <Modal
+        title={editingForumNotice ? '编辑拼邮公告' : '新增拼邮公告'}
+        open={forumNoticeModalOpen}
+        onCancel={() => { setForumNoticeModalOpen(false); forumNoticeForm.resetFields(); }}
+        footer={null}
+        width={520}
+        destroyOnClose
+      >
+        <Form form={forumNoticeForm} layout="vertical" onFinish={handleForumNoticeSave} style={{ marginTop: 16 }}>
+          <Form.Item name="title" label="标题（可选）">
+            <Input placeholder="例：拼邮须知" />
+          </Form.Item>
+          <Form.Item name="content" label="公告内容" rules={[{ required: true, message: '请输入公告内容' }]}>
+            <Input.TextArea rows={5} placeholder="输入要在首重拼邮页面右侧展示的内容..." />
+          </Form.Item>
+          <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
+            <Space>
+              <Button onClick={() => { setForumNoticeModalOpen(false); forumNoticeForm.resetFields(); }}>取消</Button>
+              <Button type="primary" htmlType="submit">保存</Button>
+            </Space>
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
   );
