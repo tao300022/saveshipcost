@@ -320,7 +320,7 @@ const AdminPage: React.FC = () => {
     setEditingPopup(record || null);
     setPopupImagePreviews(record?.imageUrls ? [...record.imageUrls] : []);
     if (record) {
-      popupForm.setFieldsValue({ title: record.title || '', content: record.content, isActive: record.isActive });
+      popupForm.setFieldsValue({ title: record.title || '', content: record.content, isActive: record.isActive, linkUrl: record.linkUrl || '', linkText: record.linkText || '' });
     } else {
       popupForm.resetFields();
       popupForm.setFieldsValue({ isActive: true });
@@ -328,7 +328,7 @@ const AdminPage: React.FC = () => {
     setPopupModalOpen(true);
   };
 
-  const handlePopupSave = async (values: { title?: string; content: string; isActive: boolean }) => {
+  const handlePopupSave = async (values: { title?: string; content: string; isActive: boolean; linkUrl?: string; linkText?: string }) => {
     const item: PopupNotice = {
       id: editingPopup?.id || genId(),
       title: values.title || undefined,
@@ -337,6 +337,8 @@ const AdminPage: React.FC = () => {
       sortOrder: editingPopup?.sortOrder ?? 0,
       createdAt: editingPopup?.createdAt || new Date().toISOString(),
       imageUrls: popupImagePreviews.length > 0 ? popupImagePreviews : undefined,
+      linkUrl: values.linkUrl?.trim() || undefined,
+      linkText: values.linkText?.trim() || undefined,
     };
     const err = await upsertPopupNotice(item);
     if (err) { message.error(`保存失败：${err}`); return; }
@@ -1096,6 +1098,18 @@ const AdminPage: React.FC = () => {
               )}
             </div>
           </Form.Item>
+
+          {/* 链接跳转 */}
+          <div style={{ display: 'flex', gap: 8 }}>
+            <Form.Item name="linkUrl" label="跳转链接（可选）" style={{ flex: 2, marginBottom: 16 }}
+              rules={[{ type: 'url', message: '请输入有效的链接，以 http:// 或 https:// 开头' }]}
+            >
+              <Input placeholder="https://example.com" />
+            </Form.Item>
+            <Form.Item name="linkText" label="按钮文字（可选）" style={{ flex: 1, marginBottom: 16 }}>
+              <Input placeholder="点击查看" />
+            </Form.Item>
+          </div>
 
           <Form.Item name="isActive" label="是否显示" valuePropName="checked">
             <Switch checkedChildren="显示" unCheckedChildren="隐藏" />

@@ -506,6 +506,8 @@ export interface PopupNotice {
   sortOrder: number;
   createdAt: string;
   imageUrls?: string[];   // up to 5 images (base64 or URL)
+  linkUrl?: string;       // clickable link
+  linkText?: string;      // link button text, defaults to "点击查看"
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -517,6 +519,8 @@ const popupFromRow = (r: any): PopupNotice => ({
   sortOrder: r.sort_order ?? 0,
   createdAt: r.created_at,
   imageUrls: Array.isArray(r.image_urls) ? r.image_urls : undefined,
+  linkUrl: r.link_url ?? undefined,
+  linkText: r.link_text ?? undefined,
 });
 
 const popupToRow = (p: PopupNotice) => ({
@@ -527,6 +531,8 @@ const popupToRow = (p: PopupNotice) => ({
   sort_order: p.sortOrder,
   created_at: p.createdAt,
   image_urls: p.imageUrls && p.imageUrls.length > 0 ? p.imageUrls : null,
+  link_url: p.linkUrl ?? null,
+  link_text: p.linkText ?? null,
 });
 
 export const fetchPopupNotices = async (): Promise<PopupNotice[]> => {
