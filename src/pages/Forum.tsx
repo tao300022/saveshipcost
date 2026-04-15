@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   Card, Button, Modal, Form, Input, List, Typography,
-  Space, Tag, Empty, Alert, Avatar,
+  Space, Empty, Alert, Avatar,
 } from 'antd';
 import {
   EditOutlined, UserOutlined, ClockCircleOutlined,
