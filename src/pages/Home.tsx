@@ -575,6 +575,23 @@ const Home: React.FC = () => {
                     <div style={{ fontSize: 13, color: '#444', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
                       {notice.content}
                     </div>
+                    {notice.imageUrls && notice.imageUrls.length > 0 && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
+                        {notice.imageUrls.map((src, i) => (
+                          <img
+                            key={i}
+                            src={src}
+                            alt=""
+                            style={{
+                              width: 72, height: 72,
+                              objectFit: 'cover', borderRadius: 6,
+                              border: '1px solid #eee', cursor: 'pointer',
+                            }}
+                            onClick={() => window.open(src, '_blank')}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

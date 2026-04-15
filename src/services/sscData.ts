@@ -505,6 +505,7 @@ export interface PopupNotice {
   isActive: boolean;
   sortOrder: number;
   createdAt: string;
+  imageUrls?: string[];   // up to 5 images (base64 or URL)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -515,6 +516,7 @@ const popupFromRow = (r: any): PopupNotice => ({
   isActive: r.is_active ?? true,
   sortOrder: r.sort_order ?? 0,
   createdAt: r.created_at,
+  imageUrls: Array.isArray(r.image_urls) ? r.image_urls : undefined,
 });
 
 const popupToRow = (p: PopupNotice) => ({
@@ -524,6 +526,7 @@ const popupToRow = (p: PopupNotice) => ({
   is_active: p.isActive,
   sort_order: p.sortOrder,
   created_at: p.createdAt,
+  image_urls: p.imageUrls && p.imageUrls.length > 0 ? p.imageUrls : null,
 });
 
 export const fetchPopupNotices = async (): Promise<PopupNotice[]> => {

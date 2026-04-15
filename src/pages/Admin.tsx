@@ -84,6 +84,7 @@ const AdminPage: React.FC = () => {
   const [popupModalOpen, setPopupModalOpen]       = useState(false);
   const [editingPopup, setEditingPopup]           = useState<PopupNotice | null>(null);
   const [popupForm] = Form.useForm();
+  const [popupImagePreviews, setPopupImagePreviews] = useState<string[]>([]);
 
   // Forum notices
   const [forumNotices, setForumNotices]                         = useState<ForumNotice[]>([]);
@@ -317,6 +318,7 @@ const AdminPage: React.FC = () => {
 
   const openPopupModal = (record?: PopupNotice) => {
     setEditingPopup(record || null);
+    setPopupImagePreviews(record?.imageUrls ? [...record.imageUrls] : []);
     if (record) {
       popupForm.setFieldsValue({ title: record.title || '', content: record.content, isActive: record.isActive });
     } else {
@@ -334,6 +336,7 @@ const AdminPage: React.FC = () => {
       isActive: values.isActive,
       sortOrder: editingPopup?.sortOrder ?? 0,
       createdAt: editingPopup?.createdAt || new Date().toISOString(),
+      imageUrls: popupImagePreviews.length > 0 ? popupImagePreviews : undefined,
     };
     const err = await upsertPopupNotice(item);
     if (err) { message.error(`保存失败：${err}`); return; }
@@ -341,6 +344,7 @@ const AdminPage: React.FC = () => {
     setPopups(fresh);
     setPopupModalOpen(false);
     popupForm.resetFields();
+    setPopupImagePreviews([]);
     message.success('浮动公告已保存');
   };
 
@@ -1020,9 +1024,9 @@ const AdminPage: React.FC = () => {
       <Modal
         title={editingPopup ? '编辑浮动公告' : '新增浮动公告'}
         open={popupModalOpen}
-        onCancel={() => { setPopupModalOpen(false); popupForm.resetFields(); }}
+        onCancel={() => { setPopupModalOpen(false); popupForm.resetFields(); setPopupImagePreviews([]); }}
         footer={null}
-        width={520}
+        width={560}
         destroyOnClose
       >
         <Form form={popupForm} layout="vertical" onFinish={handlePopupSave} style={{ marginTop: 16 }}>
@@ -1030,14 +1034,75 @@ const AdminPage: React.FC = () => {
             <Input placeholder="例：本周特惠公告" />
           </Form.Item>
           <Form.Item name="content" label="公告内容" rules={[{ required: true, message: '请输入公告内容' }]}>
-            <Input.TextArea rows={5} placeholder="输入要在首页浮动窗口显示的内容..." />
+            <Input.TextArea rows={4} placeholder="输入要在首页浮动窗口显示的内容..." />
           </Form.Item>
+
+          {/* 图片上传区（最多5张） */}
+          <Form.Item label={`配图（可选，最多5张，已上传 ${popupImagePreviews.length}/5）`}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: popupImagePreviews.length > 0 ? 10 : 0 }}>
+              {popupImagePreviews.map((src, i) => (
+                <div key={i} style={{ position: 'relative', width: 80, height: 80 }}>
+                  <img
+                    src={src}
+                    alt={`图片${i + 1}`}
+                    style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 6, border: '1px solid #eee' }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setPopupImagePreviews((prev) => prev.filter((_, j) => j !== i))}
+                    style={{
+                      position: 'absolute', top: -6, right: -6,
+                      width: 20, height: 20, borderRadius: '50%',
+                      background: '#ff4d4f', border: '2px solid #fff',
+                      color: '#fff', fontSize: 11, cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      lineHeight: 1, padding: 0,
+                    }}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+              {popupImagePreviews.length < 5 && (
+                <Upload
+                  accept="image/*"
+                  showUploadList={false}
+                  multiple
+                  beforeUpload={(file) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                      const dataUrl = e.target?.result as string;
+                      setPopupImagePreviews((prev) => {
+                        if (prev.length >= 5) { message.warning('最多上传5张图片'); return prev; }
+                        return [...prev, dataUrl];
+                      });
+                    };
+                    reader.readAsDataURL(file);
+                    return false;
+                  }}
+                >
+                  <div style={{
+                    width: 80, height: 80, borderRadius: 6,
+                    border: '1.5px dashed #d9d9d9', cursor: 'pointer',
+                    display: 'flex', flexDirection: 'column',
+                    alignItems: 'center', justifyContent: 'center',
+                    color: '#aaa', fontSize: 12, gap: 4,
+                    background: '#fafafa',
+                  }}>
+                    <UploadOutlined style={{ fontSize: 20 }} />
+                    <span>上传</span>
+                  </div>
+                </Upload>
+              )}
+            </div>
+          </Form.Item>
+
           <Form.Item name="isActive" label="是否显示" valuePropName="checked">
             <Switch checkedChildren="显示" unCheckedChildren="隐藏" />
           </Form.Item>
           <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
             <Space>
-              <Button onClick={() => { setPopupModalOpen(false); popupForm.resetFields(); }}>取消</Button>
+              <Button onClick={() => { setPopupModalOpen(false); popupForm.resetFields(); setPopupImagePreviews([]); }}>取消</Button>
               <Button type="primary" htmlType="submit">保存</Button>
             </Space>
           </Form.Item>
