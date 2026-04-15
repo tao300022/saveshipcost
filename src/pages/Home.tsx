@@ -594,24 +594,24 @@ const Home: React.FC = () => {
                       </div>
                     )}
                     {notice.linkUrl && (
-                      <a
-                        href={notice.linkUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          display: 'inline-block',
-                          marginTop: 10,
-                          padding: '6px 16px',
-                          borderRadius: 8,
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          color: '#fff',
-                          fontSize: 13,
-                          fontWeight: 600,
-                          textDecoration: 'none',
-                        }}
-                      >
-                        {notice.linkText || '点击查看'}
-                      </a>
+                      <div style={{ marginTop: 8 }}>
+                        {notice.linkText && (
+                          <div style={{ fontSize: 12, color: '#888', marginBottom: 2 }}>{notice.linkText}</div>
+                        )}
+                        <a
+                          href={notice.linkUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            fontSize: 12,
+                            color: '#667eea',
+                            wordBreak: 'break-all',
+                            textDecoration: 'underline',
+                          }}
+                        >
+                          {notice.linkUrl}
+                        </a>
+                      </div>
                     )}
                   </div>
                 ))}
