@@ -192,9 +192,6 @@ const Forum: React.FC = () => {
                         <ClockCircleOutlined style={{ color: '#aaa', fontSize: 13 }} />
                         <Text type="secondary" style={{ fontSize: 13 }}>{formatTime(post.createdAt)}</Text>
                       </Space>
-                      <Tag color="blue" style={{ fontSize: 11 }}>
-                        {post.authorEmail.split('@')[0]}@***
-                      </Tag>
                     </Space>
                   </Card>
                 </List.Item>
