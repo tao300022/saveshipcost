@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Card, Button, Typography, Tag, Table } from 'antd';
+import { Card, Button, Typography, Tag, Table, Modal } from 'antd';
 import { SendOutlined, GlobalOutlined, RightOutlined, EnvironmentOutlined, NotificationOutlined, MinusOutlined, CloseOutlined, BellOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import AdSlot from '../components/AdSlot';
@@ -25,6 +25,7 @@ const Home: React.FC = () => {
   const [popupDismissed, setPopupDismissed] = useState(() =>
     sessionStorage.getItem('ssc_popup_dismissed') === 'true'
   );
+  const [previewImg, setPreviewImg] = useState<string | null>(null);
 
   const handlePopupClose = () => {
     setPopupDismissed(true);
@@ -587,7 +588,7 @@ const Home: React.FC = () => {
                               objectFit: 'cover', borderRadius: 6,
                               border: '1px solid #eee', cursor: 'pointer',
                             }}
-                            onClick={() => window.open(src, '_blank')}
+                            onClick={() => setPreviewImg(src)}
                           />
                         ))}
                       </div>
@@ -599,6 +600,24 @@ const Home: React.FC = () => {
           )}
         </div>
       )}
+
+      {/* 图片大图预览 Modal */}
+      <Modal
+        open={!!previewImg}
+        footer={null}
+        onCancel={() => setPreviewImg(null)}
+        centered
+        width="auto"
+        styles={{ body: { padding: 0, textAlign: 'center' } }}
+      >
+        {previewImg && (
+          <img
+            src={previewImg}
+            alt="预览"
+            style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', borderRadius: 8 }}
+          />
+        )}
+      </Modal>
     </div>
   );
 };
