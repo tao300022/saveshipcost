@@ -129,8 +129,9 @@ const Home: React.FC = () => {
   return (
     <div>
       <Helmet>
-        <title>SaveShipCost – 加拿大华人跨境运费比价平台 | 空运海运一键对比</title>
-        <meta name="description" content="整合加拿大多家华人快递货代报价，空运海运全覆盖，价格透明、时效清晰。从中国寄到加拿大，一键找到最划算的运费方案。" />
+        <title>SaveShipCost | 加拿大华人快递比价 – 整合 FedEx/UPS/华人货代，一键省钱</title>
+        <meta name="description" content="SaveShipCost 是加拿大首家华人快递比价平台。实时对比 FedEx、UPS、DHL 及多家华人货代报价，支持空运海运，覆盖渥太华、温哥华、多伦多全境。帮您寄往中国及全球时节省高达 60% 运费。" />
+        <meta name="keywords" content="加拿大快递比价, 华人快递推荐, 国际运费查询, 渥太华寄中国, 温哥华海运, 留学生行李托运, 中国寄加拿大, 最便宜货运, SaveShipCost, Ottawa shipping, China Canada freight, international shipping comparison" />
       </Helmet>
       {/* Hero Section */}
       <div style={{

@@ -172,8 +172,9 @@ const SeaFreight: React.FC = () => {
   return (
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
       <Helmet>
-        <title>海运比价 – 中国寄加拿大海运价格对比 | SaveShipCost</title>
-        <meta name="description" content="对比多家华人货代海运报价，价格实惠、时效透明。从中国整柜或拼柜发货到加拿大，找到最省钱的海运方案。" />
+        <title>加拿大海运比价 – 中国寄加拿大拼柜整柜最低价 | SaveShipCost</title>
+        <meta name="description" content="对比加拿大多家华人货代海运报价，支持拼柜（LCL）和整柜（FCL），覆盖渥太华、温哥华、多伦多。适合搬家家具、大件货物，20–40 天到达，价格最省。" />
+        <meta name="keywords" content="加拿大海运比价, 中国寄加拿大海运, 拼柜价格, 整柜价格, sea freight Canada, 温哥华海运搬家, 加拿大搬家海运, 家具海运, LCL FCL Canada China" />
       </Helmet>
       {corrRecord && (
         <CorrectionModal

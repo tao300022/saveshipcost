@@ -170,8 +170,9 @@ const AirFreight: React.FC = () => {
   return (
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
       <Helmet>
-        <title>空运比价 – 中国寄加拿大空运价格对比 | SaveShipCost</title>
-        <meta name="description" content="一键比较多家华人货代空运价格，查看首重续重、时效天数，快速找到最优惠的中加空运方案。" />
+        <title>加拿大空运比价 – 中国寄加拿大最便宜空运价格 | SaveShipCost</title>
+        <meta name="description" content="对比加拿大多家华人货代空运报价，查看首重续重、时效天数。支持渥太华、温哥华、多伦多发货，普货敏感货均可，5–10 天到达，找到最优惠的中加空运方案。" />
+        <meta name="keywords" content="加拿大空运比价, 中国寄加拿大空运, 华人货代空运, 最便宜空运, air freight Canada China, Ottawa air freight, 急件寄中国, 敏感货空运" />
       </Helmet>
       <Row gutter={[24, 0]}>
         {/* 主内容区 */}

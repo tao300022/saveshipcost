@@ -44,8 +44,9 @@ const Ottawa: React.FC = () => {
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 20px' }}>
       <Helmet>
-        <title>{cityLabel} 华人快递货代商家 | SaveShipCost</title>
-        <meta name="description" content={`查看${cityName}地区华人快递货代商家列表，了解各商家联系方式、服务范围与运费报价，轻松找到靠谱的中加跨境物流服务。`} />
+        <title>{cityLabel} 华人快递推荐 – 寄中国最便宜货代比价 | SaveShipCost</title>
+        <meta name="description" content={`${cityName}华人快递货代推荐，对比本地空运海运价格，覆盖 Nepean、Kanata、Gloucester 等地区，留学生行李托运、包裹寄回国首选，轻松找到最划算的中加跨境物流方案。`} />
+        <meta name="keywords" content={`${cityName}华人快递, ${cityName}寄中国, ${cityName}货代推荐, Nepean shipping, Kanata快递, 留学生行李托运, ${cityName} Chinese courier, cheapest shipping ${cityName}`} />
       </Helmet>
 
       {/* 页面标题 */}
