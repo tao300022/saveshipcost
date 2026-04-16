@@ -622,6 +622,38 @@ const Home: React.FC = () => {
         </div>
       )}
 
+      {/* SEO 关键词内容区 */}
+      <div style={{ background: '#f7f9ff', borderTop: '1px solid #e8edf5', padding: '48px 20px 40px', marginTop: 16 }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <h2 style={{ fontSize: 20, fontWeight: 700, color: '#0d1b4b', marginBottom: 8 }}>
+            加拿大华人快递比价平台 – 一键找到最便宜国际运费
+          </h2>
+          <p style={{ fontSize: 14, color: '#5a6a8a', lineHeight: 1.9, marginBottom: 24 }}>
+            SaveShipCost 整合加拿大多家华人货代与主流快递（FedEx、UPS、DHL）的实时报价，帮助渥太华、温哥华、多伦多、蒙特利尔的华人用户快速完成<strong>国际运费比价</strong>。无论是<strong>中国寄加拿大空运</strong>、<strong>加拿大海运回国</strong>，还是<strong>留学生行李托运</strong>、<strong>搬家家具整柜</strong>，都能一键对比价格与时效，省去逐家询价的烦恼。
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+            <div>
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: '#667eea', marginBottom: 8 }}>✈️ 空运比价</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>
+                对比多家货代的<strong>中加空运价格</strong>，普货、敏感货均可查询，5–10 天送达，适合急件、小包裹。覆盖渥太华（Ottawa/Nepean/Kanata）、温哥华、多伦多全境。
+              </p>
+            </div>
+            <div>
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: '#667eea', marginBottom: 8 }}>🚢 海运比价</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>
+                支持<strong>拼柜（LCL）</strong>和<strong>整柜（FCL）</strong>海运报价查询，适合搬家家具、大件货物，20–40 天到达，价格比空运节省高达 60%。
+              </p>
+            </div>
+            <div>
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: '#667eea', marginBottom: 8 }}>🎓 留学生专区</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>
+                专为<strong>加拿大留学生行李托运</strong>设计，比较各货代<strong>超重行李</strong>、<strong>学习用品</strong>寄回国的价格，找到最划算方案。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* 图片大图预览 Modal */}
       <Modal
         open={!!previewImg}
