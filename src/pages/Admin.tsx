@@ -4,6 +4,7 @@ import {
   Form, Select, Space, Tag, Popconfirm, message, Upload, AutoComplete, Switch,
 } from 'antd';
 import { LockOutlined, LogoutOutlined, PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
+import { supabase } from '../lib/supabase';
 import {
   isAdminLoggedIn, adminLogin, adminLogout,
   saveDeliveryUpdates, DeliveryUpdate,
@@ -85,6 +86,12 @@ const AdminPage: React.FC = () => {
   const [editingPopup, setEditingPopup]           = useState<PopupNotice | null>(null);
   const [popupForm] = Form.useForm();
   const [popupImagePreviews, setPopupImagePreviews] = useState<string[]>([]);
+
+  // Bulk email
+  const [bulkSubject, setBulkSubject] = useState('');
+  const [bulkHtml, setBulkHtml]       = useState('');
+  const [bulkSending, setBulkSending] = useState(false);
+  const [bulkResult, setBulkResult]   = useState<{ sent?: number; total?: number; error?: string } | null>(null);
 
   // Forum notices
   const [forumNotices, setForumNotices]                         = useState<ForumNotice[]>([]);
@@ -387,6 +394,22 @@ const AdminPage: React.FC = () => {
     message.success('拼邮公告已保存');
   };
 
+  const handleSendBulkEmail = async () => {
+    setBulkSending(true);
+    setBulkResult(null);
+    const { data, error } = await supabase.functions.invoke('send-bulk-email', {
+      body: { subject: bulkSubject, html: bulkHtml },
+    });
+    if (error) {
+      setBulkResult({ error: error.message });
+      message.error(`发送失败：${error.message}`);
+    } else {
+      setBulkResult(data);
+      message.success(`已发送 ${data.sent} 封邮件`);
+    }
+    setBulkSending(false);
+  };
+
   const handleForumNoticeDelete = async (id: string) => {
     const err = await deleteForumNoticeRemote(id);
     if (err) { message.error(`删除失败：${err}`); return; }
@@ -675,6 +698,61 @@ const AdminPage: React.FC = () => {
               },
             ]}
           />
+        </div>
+      ),
+    },
+    {
+      key: 'email',
+      label: '群发邮件',
+      children: (
+        <div style={{ maxWidth: 680 }}>
+          <Text type="secondary" style={{ display: 'block', marginBottom: 16, fontSize: 13 }}>
+            向所有注册用户发送邮件（支持 HTML 内容）
+          </Text>
+          <div style={{ marginBottom: 12 }}>
+            <div style={{ marginBottom: 6, fontWeight: 500 }}>邮件主题</div>
+            <Input
+              value={bulkSubject}
+              onChange={(e) => setBulkSubject(e.target.value)}
+              placeholder="例：SaveShipCost 最新优惠通知"
+            />
+          </div>
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ marginBottom: 6, fontWeight: 500 }}>邮件正文（HTML）</div>
+            <Input.TextArea
+              value={bulkHtml}
+              onChange={(e) => setBulkHtml(e.target.value)}
+              rows={12}
+              placeholder={'纯文字直接输入，或使用 HTML：\n<p>您好，...</p>'}
+            />
+          </div>
+          {bulkResult && (
+            <div style={{
+              padding: '10px 14px', borderRadius: 8, marginBottom: 14,
+              background: bulkResult.error ? '#fff1f0' : '#f6ffed',
+              border: `1px solid ${bulkResult.error ? '#ffa39e' : '#b7eb8f'}`,
+            }}>
+              {bulkResult.error
+                ? <Text type="danger">发送失败：{bulkResult.error}</Text>
+                : <Text style={{ color: '#52c41a' }}>成功发送 {bulkResult.sent} / {bulkResult.total} 封</Text>
+              }
+            </div>
+          )}
+          <Popconfirm
+            title="确认向所有注册用户发送此邮件？"
+            description="此操作不可撤销，请确认内容无误"
+            onConfirm={handleSendBulkEmail}
+            okText="确认发送"
+            cancelText="取消"
+          >
+            <Button
+              type="primary"
+              loading={bulkSending}
+              disabled={!bulkSubject.trim() || !bulkHtml.trim()}
+            >
+              发送给全部用户
+            </Button>
+          </Popconfirm>
         </div>
       ),
     },
