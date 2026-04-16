@@ -52,13 +52,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     username: string,
     password: string,
   ): Promise<'ok' | 'email_exists' | 'error'> => {
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: { data: { username } },
     });
     if (!error) {
-      supabase.functions.invoke('welcome-email', { body: { user: { email } } }).catch(() => {});
+      const token = data.session?.access_token;
+      supabase.functions.invoke('welcome-email', {
+        body: { user: { email } },
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      }).catch(() => {});
       return 'ok';
     }
     console.error('[register]', error.message);
