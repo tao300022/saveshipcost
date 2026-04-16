@@ -1,6 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Layout, ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
+import { Helmet } from 'react-helmet-async';
 
 import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header';
@@ -28,11 +29,21 @@ import FAQ from './pages/FAQ';
 
 const { Content } = Layout;
 
+function CanonicalTag() {
+  const { pathname } = useLocation();
+  return (
+    <Helmet>
+      <link rel="canonical" href={`https://www.saveshipcost.com${pathname}`} />
+    </Helmet>
+  );
+}
+
 function App() {
   return (
     <ConfigProvider locale={zhCN}>
       <AuthProvider>
         <Router>
+          <CanonicalTag />
           <Layout style={{ minHeight: '100vh' }}>
             <Header />
             <Content style={{ background: '#f0f2f5', flex: 1 }}>
