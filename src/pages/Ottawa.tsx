@@ -182,6 +182,32 @@ const Ottawa: React.FC = () => {
       }}>
         广告位
       </div>
+
+      {/* SEO 内容区 */}
+      <div style={{ background: '#f7f9ff', borderTop: '1px solid #e8edf5', padding: '40px 20px', marginTop: 16 }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0d1b4b', marginBottom: 8 }}>
+            渥太华华人快递推荐 – 寄中国最便宜货代比价
+          </h2>
+          <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.9, marginBottom: 16 }}>
+            SaveShipCost 整合<strong>渥太华华人快递货代</strong>报价，覆盖 <strong>Nepean</strong>、<strong>Kanata</strong>、<strong>Gloucester</strong>、Orleans 等渥太华大区所有社区。无论是<strong>渥太华寄中国包裹</strong>、<strong>留学生行李托运</strong>，还是搬家货物，均可一键比价，找到最划算的中加跨境物流方案。
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            <div>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>Nepean / Kanata 发货</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>居住在 <strong>Nepean</strong> 或 <strong>Kanata</strong> 的华人用户，可通过 SaveShipCost 查询本地上门取件的货代报价，无需自行送货。</p>
+            </div>
+            <div>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>留学生行李托运</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>卡尔顿大学、渥太华大学<strong>留学生</strong>寄回国行李，比较多家货代的<strong>超重行李海运/空运</strong>价格，轻松省钱。</p>
+            </div>
+            <div>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>渥太华寄中国最便宜</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}><strong>渥太华寄中国最便宜快递</strong>怎么找？对比本页列出的华人货代价格，空运低至 $8/kg，海运拼柜更省钱。</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

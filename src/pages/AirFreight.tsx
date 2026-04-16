@@ -256,6 +256,32 @@ const AirFreight: React.FC = () => {
           onSubmit={handleCorrSubmit}
         />
       )}
+
+      {/* SEO 内容区 */}
+      <div style={{ background: '#f7f9ff', borderTop: '1px solid #e8edf5', padding: '40px 24px', marginTop: 16 }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0d1b4b', marginBottom: 8 }}>
+            加拿大空运比价 – 中国寄加拿大最便宜空运价格查询
+          </h2>
+          <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.9, marginBottom: 16 }}>
+            SaveShipCost 整合多家华人货代的<strong>中加空运报价</strong>，支持<strong>普货</strong>与<strong>敏感货空运</strong>（电子产品、化妆品、锂电池等），5–10 天送达加拿大。适合<strong>急件寄中国</strong>、小包裹、留学生行李托运，覆盖渥太华（Ottawa/Nepean/Kanata）、温哥华、多伦多、卡尔加里全境。
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            <div>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>普货空运</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>衣物、书籍、日用品等普通货物，价格最低，通关顺畅，是<strong>中国寄加拿大空运</strong>最常见选择。</p>
+            </div>
+            <div>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>敏感货空运</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>电子产品、锂电池、液体、化妆品等<strong>敏感货空运</strong>需走特殊渠道，我们整合了支持敏感货的货代报价供您比较。</p>
+            </div>
+            <div>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>急件寄中国</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>有<strong>急件寄中国</strong>需求？空运最快 5 天送达，比较各家价格后选择速度最快、费用最合理的方案。</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

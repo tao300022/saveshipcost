@@ -241,6 +241,31 @@ const SeaFreight: React.FC = () => {
           />
         </Card>
       </Space>
+      {/* SEO 内容区 */}
+      <div style={{ background: '#f7f9ff', borderTop: '1px solid #e8edf5', padding: '40px 24px', marginTop: 16 }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0d1b4b', marginBottom: 8 }}>
+            加拿大海运比价 – 中国寄加拿大拼柜整柜最低价格
+          </h2>
+          <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.9, marginBottom: 16 }}>
+            SaveShipCost 整合多家华人货代的<strong>中加海运报价</strong>，支持<strong>拼柜（LCL）</strong>和<strong>整柜（FCL）</strong>，20–40 天送达加拿大。适合<strong>搬家家具海运</strong>、大件货物、留学生回国行李整箱托运，价格比空运节省高达 60%。覆盖渥太华、温哥华（Richmond/Burnaby）、多伦多全境。
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            <div>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>拼柜海运（LCL）</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>货物不足一个集装箱时，选择<strong>LCL 拼柜</strong>按体积计费，适合小批量货物，与其他客户共享舱位，经济实惠。</p>
+            </div>
+            <div>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>整柜海运（FCL）</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}><strong>FCL 整柜</strong>适合大量货物或<strong>加拿大搬家家具海运</strong>，独享集装箱，安全性高，单价更低。</p>
+            </div>
+            <div>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>温哥华海运搬家</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>温哥华是加拿大最大海运港口，<strong>温哥华海运搬家比价</strong>是我们的核心服务之一，对比多家报价轻松找到最优方案。</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
