@@ -57,7 +57,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       password,
       options: { data: { username } },
     });
-    if (!error) return 'ok';
+    if (!error) {
+      supabase.functions.invoke('welcome-email', { body: { user: { email } } }).catch(() => {});
+      return 'ok';
+    }
     console.error('[register]', error.message);
     if (error.message.toLowerCase().includes('already registered') ||
         error.message.toLowerCase().includes('already exists') ||
