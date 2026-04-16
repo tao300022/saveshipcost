@@ -3,7 +3,16 @@ import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!;
 const FROM_EMAIL = 'noreply@send.saveshipcost.com';
 
+const cors = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
 serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: cors });
+  }
+
   console.log('[welcome-email] invoked, method:', req.method);
   try {
     const payload = await req.json();
@@ -14,7 +23,9 @@ serve(async (req) => {
     console.log('[welcome-email] email:', email ?? 'NOT FOUND');
 
     if (!email) {
-      return new Response(JSON.stringify({ error: 'No email found' }), { status: 400 });
+      return new Response(JSON.stringify({ error: 'No email found' }), {
+        status: 400, headers: { ...cors, 'Content-Type': 'application/json' },
+      });
     }
 
     const res = await fetch('https://api.resend.com/emails', {
@@ -53,8 +64,13 @@ serve(async (req) => {
 
     const data = await res.json();
     console.log('[welcome-email] Resend status:', res.status, JSON.stringify(data).slice(0, 200));
-    return new Response(JSON.stringify(data), { status: res.status });
+    return new Response(JSON.stringify(data), {
+      status: res.status, headers: { ...cors, 'Content-Type': 'application/json' },
+    });
   } catch (err) {
-    return new Response(JSON.stringify({ error: String(err) }), { status: 500 });
+    console.error('[welcome-email] error:', String(err));
+    return new Response(JSON.stringify({ error: String(err) }), {
+      status: 500, headers: { ...cors, 'Content-Type': 'application/json' },
+    });
   }
 });
