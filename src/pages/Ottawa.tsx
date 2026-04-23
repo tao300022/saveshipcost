@@ -53,7 +53,7 @@ const Ottawa: React.FC = () => {
       <div style={{ marginBottom: 28 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
           <EnvironmentOutlined style={{ fontSize: 28, color: '#667eea' }} />
-          <Title level={2} style={{ margin: 0 }}>{cityLabel}</Title>
+          <Title level={1} style={{ margin: 0, fontSize: 28 }}>{cityLabel}</Title>
         </div>
         <Paragraph style={{ color: '#666', marginBottom: 0 }}>
           以下为覆盖{cityName}地区的快递货代商家，点击进入查看详情、联系方式与服务报价

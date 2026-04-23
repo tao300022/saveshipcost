@@ -187,7 +187,7 @@ const AirFreight: React.FC = () => {
               >
                 返回首页
               </Button>
-              <Title level={2} style={{ marginBottom: 8 }}>空运比价</Title>
+              <Title level={1} style={{ marginBottom: 8, fontSize: 30 }}>空运比价</Title>
               <p style={{ color: '#666' }}>比较多家公司的空运价格和服务时效</p>
             </div>
 

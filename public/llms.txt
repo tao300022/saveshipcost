@@ -1,0 +1,22 @@
+# SaveShipCost
+
+> 加拿大华人跨境快递比价平台 — 对比空运、海运价格，覆盖渥太华、温哥华、多伦多等主要城市。
+
+SaveShipCost (https://www.saveshipcost.com) is Canada's Chinese-community shipping comparison platform. It aggregates quotes from Chinese freight forwarders (货代) for air freight (空运) and sea freight (海运) shipments between Canada and China.
+
+## Key Pages
+
+- [首页 Home](https://www.saveshipcost.com/) — Main comparison portal with merchant listings and service overviews
+- [空运比价 Air Freight](https://www.saveshipcost.com/air-freight) — Compare air freight prices from multiple carriers, 5-10 day delivery
+- [海运比价 Sea Freight](https://www.saveshipcost.com/sea-freight) — Compare sea freight (LCL/FCL) prices, 20-40 day delivery
+- [渥太华 Ottawa](https://www.saveshipcost.com/ottawa) — Ottawa area shipping merchants and announcements
+- [FAQ](https://www.saveshipcost.com/faq) — Frequently asked questions about shipping to/from China
+- [论坛 Forum](https://www.saveshipcost.com/forum) — Community board for sharing shipping experiences
+
+## About
+
+SaveShipCost helps Chinese-Canadians find the cheapest way to ship packages between Canada and China. Users can compare rates for regular goods (普货) and sensitive items (敏感货), find local pickup options, and read community reviews.
+
+## Languages
+
+Primary: Chinese (Simplified), Secondary: English

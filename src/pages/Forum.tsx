@@ -72,7 +72,7 @@ const Forum: React.FC = () => {
         alignItems: 'center',
         marginBottom: 20,
       }}>
-        <Title level={2} style={{ margin: 0 }}>首重拼邮 · 留言板</Title>
+        <Title level={1} style={{ margin: 0, fontSize: 30 }}>首重拼邮 · 留言板</Title>
         {isAuthenticated ? (
           <Button
             type="primary"

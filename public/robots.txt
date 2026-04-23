@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /corrections
+
+Sitemap: https://www.saveshipcost.com/sitemap.xml
