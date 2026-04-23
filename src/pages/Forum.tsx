@@ -62,7 +62,8 @@ const Forum: React.FC = () => {
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 20px' }}>
       <Helmet>
         <title>首重拼邮留言板 – 分享跨境寄件经验 | SaveShipCost</title>
-        <meta name="description" content="加入SaveShipCost社区，分享中加跨境拼邮、首重寄件经验，交流货代推荐与运费心得，帮助更多华人省运费。" />
+        <meta name="description" content="加入SaveShipCost社区，分享中加跨境拼邮、首重寄件经验，交流货代推荐与运费心得，帮助更多华人省运费。Join the SaveShipCost community to share China-Canada shipping tips." />
+        <meta name="keywords" content="首重拼邮, 跨境寄件经验, 华人货代推荐, 中加运费心得, China Canada shipping forum, shipping tips Canada, freight forwarder reviews Canada, 拼邮技巧, 加拿大华人论坛, shipping community Canada" />
       </Helmet>
 
       {/* 页面头 */}
