@@ -162,14 +162,151 @@ const faqs = [
       </>
     ),
   },
+  {
+    q_zh: '从中国寄到加拿大需要多长时间？',
+    q_en: 'How long does shipping from China to Canada take?',
+    a_zh: (
+      <>
+        <p>时效因运输方式不同而差异较大：</p>
+        <ul>
+          <li><strong>空运（普货）</strong>：5–10 个工作日</li>
+          <li><strong>空运（敏感货）</strong>：7–14 个工作日</li>
+          <li><strong>海运拼柜（LCL）</strong>：20–35 天</li>
+          <li><strong>海运整柜（FCL）</strong>：25–40 天</li>
+          <li><strong>国际快递（DHL/FedEx）</strong>：3–7 天（价格较高）</li>
+        </ul>
+        <p>清关、节假日及货量高峰期可能导致额外延误。</p>
+      </>
+    ),
+    a_en: (
+      <>
+        <p>Transit times vary significantly by shipping method:</p>
+        <ul>
+          <li><strong>Air freight (general cargo)</strong>: 5–10 business days</li>
+          <li><strong>Air freight (sensitive cargo)</strong>: 7–14 business days</li>
+          <li><strong>Sea freight LCL (shared container)</strong>: 20–35 days</li>
+          <li><strong>Sea freight FCL (full container)</strong>: 25–40 days</li>
+          <li><strong>Express courier (DHL/FedEx/UPS)</strong>: 3–7 days (higher cost)</li>
+        </ul>
+        <p>Customs clearance delays, public holidays, and peak seasons can add extra time. Compare providers on SaveShipCost for the latest estimated delivery windows.</p>
+      </>
+    ),
+  },
+  {
+    q_zh: '从中国寄到加拿大最便宜的方式是什么？',
+    q_en: 'What is the cheapest way to ship from China to Canada?',
+    a_zh: (
+      <>
+        <p>根据货物重量选择最省钱方式：</p>
+        <ul>
+          <li><strong>轻货（＜5 kg）</strong>：华人货代空运首重，通常比 DHL/FedEx 便宜 50%</li>
+          <li><strong>中货（5–100 kg）</strong>：空运拼邮或货代渠道，价格约 $6–12 CAD/kg</li>
+          <li><strong>重货（＞100 kg）</strong>：海运拼柜（LCL）最划算，可节省高达 60%</li>
+          <li><strong>整箱搬家货物</strong>：海运整柜（FCL）单价最低</li>
+        </ul>
+        <p>在 SaveShipCost 输入重量和目的城市，可一键对比所有渠道报价。</p>
+      </>
+    ),
+    a_en: (
+      <>
+        <p>The cheapest option depends on your shipment size:</p>
+        <ul>
+          <li><strong>Small parcels (&lt;5 kg)</strong>: Chinese freight forwarder air freight — up to 50% cheaper than DHL/FedEx</li>
+          <li><strong>Mid-size (5–100 kg)</strong>: Consolidated air freight, around $6–12 CAD/kg</li>
+          <li><strong>Heavy cargo (&gt;100 kg)</strong>: LCL sea freight (shared container) — saves up to 60% vs air</li>
+          <li><strong>Full household moves</strong>: FCL sea freight (full container load) offers the lowest per-kg rate</li>
+        </ul>
+        <p>Use SaveShipCost to compare live quotes from multiple providers. Cheapest shipping to Canada from China is usually sea freight for anything over 50 kg.</p>
+      </>
+    ),
+  },
+  {
+    q_zh: '从中国寄到加拿大每公斤大约多少钱？',
+    q_en: 'How much does it cost to ship to Canada from China per kg?',
+    a_zh: (
+      <>
+        <p>以下为参考价格区间（仅供参考，实际报价以各货代为准）：</p>
+        <ul>
+          <li><strong>空运普货</strong>：$6–15 CAD/kg</li>
+          <li><strong>空运敏感货</strong>：$10–20 CAD/kg</li>
+          <li><strong>海运拼柜（LCL）</strong>：$3–8 CAD/kg 等效（按 CBM 计算）</li>
+          <li><strong>DHL/FedEx 快递</strong>：$20–40 CAD/kg</li>
+        </ul>
+        <p>价格受重量、体积、目的城市、货物类型影响，建议在 SaveShipCost 获取实时报价。</p>
+      </>
+    ),
+    a_en: (
+      <>
+        <p>Reference price ranges for shipping from China to Canada (actual quotes may vary):</p>
+        <ul>
+          <li><strong>Air freight – general cargo</strong>: $6–15 CAD/kg</li>
+          <li><strong>Air freight – sensitive cargo</strong>: $10–20 CAD/kg</li>
+          <li><strong>Sea freight LCL</strong>: $3–8 CAD/kg equivalent (billed by CBM)</li>
+          <li><strong>DHL / FedEx / UPS express</strong>: $20–40 CAD/kg</li>
+        </ul>
+        <p>Shipping cost to Canada depends on weight, volume, destination city, and cargo type. Always get live quotes on SaveShipCost before booking — rates change frequently.</p>
+      </>
+    ),
+  },
+  {
+    q_zh: '我在加拿大，想从美国寄东西过来，有什么推荐？',
+    q_en: 'I am in Canada — how can I ship from the US to Canada cheaply?',
+    a_zh: (
+      <>
+        <p>从美国寄货到加拿大，常见方式：</p>
+        <ul>
+          <li><strong>USPS First Class → Canada Post</strong>：轻小包裹最便宜</li>
+          <li><strong>UPS / FedEx 商业账号</strong>：中大型包裹更合适</li>
+          <li><strong>转运公司</strong>：部分美国电商不直发加拿大，可先寄到美国转运仓再转至加拿大</li>
+        </ul>
+        <p>如您需要从<strong>中国</strong>寄货到加拿大（或从加拿大寄回中国），SaveShipCost 专门对比华人货代价格，欢迎使用。</p>
+      </>
+    ),
+    a_en: (
+      <>
+        <p>Options for shipping from the US to Canada:</p>
+        <ul>
+          <li><strong>USPS + Canada Post</strong>: cheapest for small parcels under 2 kg</li>
+          <li><strong>UPS / FedEx cross-border</strong>: reliable for mid-to-large packages</li>
+          <li><strong>US forwarding warehouses</strong>: useful if a US retailer (e.g., Target, Ulta) doesn't ship to Canada directly — ship to a US address, then forward to Canada</li>
+        </ul>
+        <p><strong>Note:</strong> SaveShipCost specialises in <strong>China ↔ Canada</strong> freight comparison. If you need to ship goods between China and Canada, compare quotes from multiple Chinese freight forwarders here.</p>
+      </>
+    ),
+  },
+  {
+    q_zh: '华人货代和 FedEx/UPS 有什么区别？',
+    q_en: 'What is the difference between a Chinese freight forwarder and FedEx/UPS?',
+    a_zh: (
+      <>
+        <ul>
+          <li><strong>FedEx / UPS / DHL</strong>：按件收费，速度快（3–7天），但价格贵，不适合重货</li>
+          <li><strong>华人货代</strong>：按公斤计费，价格低 30–60%，适合中重量包裹，提供中文客服</li>
+          <li><strong>货代拼邮</strong>：多人拼一票，利用首重价格，适合小包裹</li>
+        </ul>
+        <p>大多数加拿大华人寄中国包裹都选择华人货代，价格更透明，沟通更方便。</p>
+      </>
+    ),
+    a_en: (
+      <>
+        <ul>
+          <li><strong>FedEx / UPS / DHL</strong>: Per-shipment pricing, fast (3–7 days), expensive for heavy goods</li>
+          <li><strong>Chinese freight forwarders (华人货代)</strong>: Per-kg pricing, 30–60% cheaper, Chinese-language customer support, ideal for 5–200 kg</li>
+          <li><strong>Consolidated first-weight (首重拼邮)</strong>: Multiple senders share one shipment — cheapest for small packages under 2 kg</li>
+        </ul>
+        <p>Most Chinese-Canadians use freight forwarders for China–Canada shipping. SaveShipCost compares quotes from all major providers so you get the best rate without calling each one individually.</p>
+      </>
+    ),
+  },
 ];
 
 const FAQ: React.FC = () => {
   return (
     <div style={{ background: '#f0f2f5', minHeight: '100%', padding: '40px 20px' }}>
       <Helmet>
-        <title>常见问题 FAQ – 中加跨境运费怎么算？ | SaveShipCost</title>
-        <meta name="description" content="解答中加跨境寄件常见疑问：空运海运如何选择、体积重量怎么算、普货敏感货有何区别，帮你轻松搞懂跨境物流。" />
+        <title>FAQ – How Long & How Much to Ship from China to Canada | SaveShipCost</title>
+        <meta name="description" content="Answers to common China-Canada shipping questions: how long does shipping take, cheapest way to ship to Canada, cost per kg, air vs sea freight, and more. 中加跨境物流常见问题解答。" />
+        <meta name="keywords" content="how long does shipping from china to canada take, cheapest shipping to canada from china, shipping cost from china to canada, ship to canada, how much to ship to canada, china canada freight, shipping from us to canada, air freight canada, sea freight canada, 中国寄加拿大运费, 空运时效, 海运价格" />
       </Helmet>
       <div style={{ maxWidth: 860, margin: '0 auto' }}>
 

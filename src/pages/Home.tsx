@@ -131,7 +131,7 @@ const Home: React.FC = () => {
       <Helmet>
         <title>SaveShipCost | 加拿大华人快递比价 – 整合 FedEx/UPS/华人货代，一键省钱</title>
         <meta name="description" content="SaveShipCost 是加拿大首家华人快递比价平台。实时对比 FedEx、UPS、DHL 及多家华人货代报价，支持空运海运，覆盖渥太华、温哥华、多伦多全境。帮您寄往中国及全球时节省高达 60% 运费。" />
-        <meta name="keywords" content="加拿大快递比价, 华人快递推荐, 国际运费查询, 渥太华寄中国, 温哥华海运, 留学生行李托运, 中国寄加拿大, 最便宜货运, SaveShipCost, Ottawa shipping, China Canada freight, international shipping comparison" />
+        <meta name="keywords" content="加拿大快递比价, 华人快递推荐, 国际运费查询, 渥太华寄中国, 温哥华海运, 留学生行李托运, 中国寄加拿大, 最便宜货运, SaveShipCost, ship to canada, cheapest shipping to canada from china, shipping cost from china to canada, how long does shipping take to canada, china canada freight, air freight canada, sea freight canada, shipping from china to canada, Ottawa shipping, international shipping comparison" />
       </Helmet>
       {/* Hero Section */}
       <div style={{
@@ -648,6 +648,43 @@ const Home: React.FC = () => {
               <h3 style={{ fontSize: 15, fontWeight: 700, color: '#667eea', marginBottom: 8 }}>🎓 留学生专区</h3>
               <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>
                 专为<strong>加拿大留学生行李托运</strong>设计，比较各货代<strong>超重行李</strong>、<strong>学习用品</strong>寄回国的价格，找到最划算方案。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* English SEO section – targeting "ship to canada" keyword cluster */}
+      <div style={{ background: '#fff', borderTop: '1px solid #e8edf5', padding: '48px 20px 40px' }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0d1b4b', marginBottom: 8 }}>
+            Cheapest Shipping from China to Canada – Compare Freight Forwarder Rates
+          </h2>
+          <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.9, marginBottom: 24 }}>
+            SaveShipCost is Canada's #1 comparison platform for <strong>shipping from China to Canada</strong>. We aggregate live quotes from Chinese freight forwarders (货代) so you can find the <strong>cheapest shipping to Canada</strong> without calling every provider. Whether you need <strong>air freight</strong> (5–10 days) or <strong>sea freight</strong> (20–40 days), covering Ottawa, Vancouver, Toronto, Calgary and more.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+            <div style={{ background: '#f7f9ff', borderRadius: 10, padding: '18px 20px' }}>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>How long does shipping take?</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8, margin: 0 }}>
+                <strong>Air freight</strong>: 5–10 business days from China to Canada.<br />
+                <strong>Sea freight LCL</strong>: 20–35 days.<br />
+                <strong>Sea freight FCL</strong>: 25–40 days.<br />
+                Express (DHL/FedEx): 3–7 days at premium cost.
+              </p>
+            </div>
+            <div style={{ background: '#f7f9ff', borderRadius: 10, padding: '18px 20px' }}>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>How much does it cost to ship to Canada?</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8, margin: 0 }}>
+                Air freight: <strong>$6–15 CAD/kg</strong>.<br />
+                Sea freight LCL: <strong>$3–8 CAD/kg</strong> equivalent.<br />
+                Chinese freight forwarders are 30–60% cheaper than DHL/FedEx for parcels over 5 kg.
+              </p>
+            </div>
+            <div style={{ background: '#f7f9ff', borderRadius: 10, padding: '18px 20px' }}>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>Shipping from US to Canada</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8, margin: 0 }}>
+                Need to ship from the US to Canada? Use USPS + Canada Post for small parcels, or a US forwarding address if a retailer doesn't ship cross-border. For <strong>China ↔ Canada</strong>, compare freight forwarders here on SaveShipCost.
               </p>
             </div>
           </div>
