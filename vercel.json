@@ -6,7 +6,7 @@
       "destination": "https://www.saveshipcost.com/$1",
       "permanent": true
     },
-    { "source": "/",                "destination": "/zh",                "permanent": true },
+    { "source": "/",                "destination": "/en",                "permanent": true },
     { "source": "/air-freight",     "destination": "/zh/air-freight",    "permanent": true },
     { "source": "/sea-freight",     "destination": "/zh/sea-freight",    "permanent": true },
     { "source": "/ottawa",          "destination": "/zh/ottawa",         "permanent": true },

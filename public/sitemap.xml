@@ -11,7 +11,7 @@
     <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en"/>
     <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr"/>
     <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/en"/>
   </url>
   <url>
     <loc>https://www.saveshipcost.com/en</loc>
@@ -21,7 +21,7 @@
     <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en"/>
     <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr"/>
     <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/en"/>
   </url>
   <url>
     <loc>https://www.saveshipcost.com/fr</loc>
@@ -31,7 +31,7 @@
     <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en"/>
     <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr"/>
     <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/en"/>
   </url>
   <url>
     <loc>https://www.saveshipcost.com/es</loc>
@@ -41,7 +41,7 @@
     <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en"/>
     <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr"/>
     <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/en"/>
   </url>
 
   <!-- ============= AIR FREIGHT ============= -->
@@ -53,7 +53,7 @@
     <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/air-freight"/>
     <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/air-freight"/>
     <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/air-freight"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/air-freight"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/en/air-freight"/>
   </url>
   <url>
     <loc>https://www.saveshipcost.com/en/air-freight</loc>
@@ -63,7 +63,7 @@
     <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/air-freight"/>
     <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/air-freight"/>
     <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/air-freight"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/air-freight"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/en/air-freight"/>
   </url>
   <url>
     <loc>https://www.saveshipcost.com/fr/air-freight</loc>
@@ -85,7 +85,7 @@
     <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/sea-freight"/>
     <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/sea-freight"/>
     <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/sea-freight"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/sea-freight"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/en/sea-freight"/>
   </url>
   <url>
     <loc>https://www.saveshipcost.com/en/sea-freight</loc>
@@ -95,7 +95,7 @@
     <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/sea-freight"/>
     <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/sea-freight"/>
     <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/sea-freight"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/sea-freight"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/en/sea-freight"/>
   </url>
   <url>
     <loc>https://www.saveshipcost.com/fr/sea-freight</loc>
@@ -117,7 +117,7 @@
     <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/ottawa"/>
     <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/ottawa"/>
     <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/ottawa"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/ottawa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/en/ottawa"/>
   </url>
   <url>
     <loc>https://www.saveshipcost.com/en/ottawa</loc>
@@ -144,7 +144,7 @@
     <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/faq"/>
     <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/faq"/>
     <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/faq"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/faq"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/en/faq"/>
   </url>
   <url><loc>https://www.saveshipcost.com/en/faq</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.saveshipcost.com/fr/faq</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>

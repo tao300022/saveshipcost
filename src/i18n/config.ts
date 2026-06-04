@@ -1,7 +1,7 @@
 export const SUPPORTED_LANGS = ['zh', 'en', 'fr', 'es'] as const;
 export type SupportedLang = (typeof SUPPORTED_LANGS)[number];
 
-export const DEFAULT_LANG: SupportedLang = 'zh';
+export const DEFAULT_LANG: SupportedLang = 'en';
 
 export const LANG_LABELS: Record<SupportedLang, string> = {
   zh: '中文',
