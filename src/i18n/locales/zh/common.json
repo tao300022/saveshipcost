@@ -1,0 +1,33 @@
+{
+  "brand": {
+    "name": "Saveshipcost",
+    "tagline": "跨境快递"
+  },
+  "nav": {
+    "home": "首页",
+    "airFreight": "空运比价",
+    "seaFreight": "海运比价",
+    "forum": "首重拼邮",
+    "faq": "FAQ"
+  },
+  "auth": {
+    "login": "登录",
+    "register": "注册",
+    "logout": "退出登录",
+    "admin": "管理员"
+  },
+  "cities": {
+    "label": "城市：",
+    "Ottawa": "Ottawa 渥太华",
+    "Toronto": "Toronto 多伦多",
+    "Montreal": "Montreal 蒙特利尔",
+    "Vancouver": "Vancouver 温哥华",
+    "Calgary": "Calgary 卡尔加里",
+    "Edmonton": "Edmonton 埃德蒙顿",
+    "Winnipeg": "Winnipeg 温尼伯",
+    "Halifax": "Halifax 哈利法克斯"
+  },
+  "languageSwitcher": {
+    "label": "语言"
+  }
+}

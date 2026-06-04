@@ -1,0 +1,33 @@
+{
+  "brand": {
+    "name": "Saveshipcost",
+    "tagline": "Cross-border Shipping"
+  },
+  "nav": {
+    "home": "Home",
+    "airFreight": "Air Freight",
+    "seaFreight": "Sea Freight",
+    "forum": "Group Shipping",
+    "faq": "FAQ"
+  },
+  "auth": {
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out",
+    "admin": "Admin"
+  },
+  "cities": {
+    "label": "City:",
+    "Ottawa": "Ottawa",
+    "Toronto": "Toronto",
+    "Montreal": "Montreal",
+    "Vancouver": "Vancouver",
+    "Calgary": "Calgary",
+    "Edmonton": "Edmonton",
+    "Winnipeg": "Winnipeg",
+    "Halifax": "Halifax"
+  },
+  "languageSwitcher": {
+    "label": "Language"
+  }
+}

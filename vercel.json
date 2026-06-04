@@ -5,7 +5,22 @@
       "has": [{ "type": "host", "value": "saveshipcost.com" }],
       "destination": "https://www.saveshipcost.com/$1",
       "permanent": true
-    }
+    },
+    { "source": "/",                "destination": "/zh",                "permanent": true },
+    { "source": "/air-freight",     "destination": "/zh/air-freight",    "permanent": true },
+    { "source": "/sea-freight",     "destination": "/zh/sea-freight",    "permanent": true },
+    { "source": "/ottawa",          "destination": "/zh/ottawa",         "permanent": true },
+    { "source": "/faq",             "destination": "/zh/faq",            "permanent": true },
+    { "source": "/forum",           "destination": "/zh/forum",          "permanent": true },
+    { "source": "/contact",         "destination": "/zh/contact",        "permanent": true },
+    { "source": "/privacy-policy",  "destination": "/zh/privacy-policy", "permanent": true },
+    { "source": "/terms-of-use",    "destination": "/zh/terms-of-use",   "permanent": true },
+    { "source": "/disclaimer",      "destination": "/zh/disclaimer",     "permanent": true },
+    { "source": "/cookie-policy",   "destination": "/zh/cookie-policy",  "permanent": true },
+    { "source": "/login",           "destination": "/zh/login",          "permanent": true },
+    { "source": "/register",        "destination": "/zh/register",       "permanent": true },
+    { "source": "/forgot-password", "destination": "/zh/forgot-password", "permanent": true },
+    { "source": "/reset-password",  "destination": "/zh/reset-password", "permanent": true }
   ],
   "rewrites": [
     { "source": "/((?!.*\\..*).*)", "destination": "/index.html" }

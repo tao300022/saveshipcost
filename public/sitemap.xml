@@ -1,58 +1,185 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- ============= HOME ============= -->
   <url>
-    <loc>https://www.saveshipcost.com/</loc>
+    <loc>https://www.saveshipcost.com/zh</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.saveshipcost.com/zh"/>
+    <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en"/>
+    <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr"/>
+    <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh"/>
   </url>
   <url>
-    <loc>https://www.saveshipcost.com/air-freight</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.saveshipcost.com/sea-freight</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.saveshipcost.com/ottawa</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.saveshipcost.com/faq</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.saveshipcost.com/forum</loc>
+    <loc>https://www.saveshipcost.com/en</loc>
     <changefreq>daily</changefreq>
-    <priority>0.7</priority>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.saveshipcost.com/zh"/>
+    <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en"/>
+    <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr"/>
+    <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh"/>
   </url>
   <url>
-    <loc>https://www.saveshipcost.com/contact</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://www.saveshipcost.com/fr</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.saveshipcost.com/zh"/>
+    <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en"/>
+    <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr"/>
+    <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh"/>
   </url>
   <url>
-    <loc>https://www.saveshipcost.com/privacy-policy</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://www.saveshipcost.com/es</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.saveshipcost.com/zh"/>
+    <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en"/>
+    <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr"/>
+    <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh"/>
+  </url>
+
+  <!-- ============= AIR FREIGHT ============= -->
+  <url>
+    <loc>https://www.saveshipcost.com/zh/air-freight</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.saveshipcost.com/zh/air-freight"/>
+    <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/air-freight"/>
+    <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/air-freight"/>
+    <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/air-freight"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/air-freight"/>
   </url>
   <url>
-    <loc>https://www.saveshipcost.com/terms-of-use</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://www.saveshipcost.com/en/air-freight</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.saveshipcost.com/zh/air-freight"/>
+    <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/air-freight"/>
+    <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/air-freight"/>
+    <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/air-freight"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/air-freight"/>
   </url>
   <url>
-    <loc>https://www.saveshipcost.com/disclaimer</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://www.saveshipcost.com/fr/air-freight</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.saveshipcost.com/cookie-policy</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://www.saveshipcost.com/es/air-freight</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
+
+  <!-- ============= SEA FREIGHT ============= -->
+  <url>
+    <loc>https://www.saveshipcost.com/zh/sea-freight</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.saveshipcost.com/zh/sea-freight"/>
+    <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/sea-freight"/>
+    <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/sea-freight"/>
+    <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/sea-freight"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/sea-freight"/>
+  </url>
+  <url>
+    <loc>https://www.saveshipcost.com/en/sea-freight</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.saveshipcost.com/zh/sea-freight"/>
+    <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/sea-freight"/>
+    <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/sea-freight"/>
+    <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/sea-freight"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/sea-freight"/>
+  </url>
+  <url>
+    <loc>https://www.saveshipcost.com/fr/sea-freight</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.saveshipcost.com/es/sea-freight</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ============= OTTAWA ============= -->
+  <url>
+    <loc>https://www.saveshipcost.com/zh/ottawa</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.saveshipcost.com/zh/ottawa"/>
+    <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/ottawa"/>
+    <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/ottawa"/>
+    <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/ottawa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/ottawa"/>
+  </url>
+  <url>
+    <loc>https://www.saveshipcost.com/en/ottawa</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.saveshipcost.com/fr/ottawa</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.saveshipcost.com/es/ottawa</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ============= FAQ ============= -->
+  <url>
+    <loc>https://www.saveshipcost.com/zh/faq</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.saveshipcost.com/zh/faq"/>
+    <xhtml:link rel="alternate" hreflang="en"    href="https://www.saveshipcost.com/en/faq"/>
+    <xhtml:link rel="alternate" hreflang="fr"    href="https://www.saveshipcost.com/fr/faq"/>
+    <xhtml:link rel="alternate" hreflang="es"    href="https://www.saveshipcost.com/es/faq"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.saveshipcost.com/zh/faq"/>
+  </url>
+  <url><loc>https://www.saveshipcost.com/en/faq</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.saveshipcost.com/fr/faq</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.saveshipcost.com/es/faq</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- ============= FORUM ============= -->
+  <url><loc>https://www.saveshipcost.com/zh/forum</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.saveshipcost.com/en/forum</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.saveshipcost.com/fr/forum</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.saveshipcost.com/es/forum</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+
+  <!-- ============= CONTACT ============= -->
+  <url><loc>https://www.saveshipcost.com/zh/contact</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.saveshipcost.com/en/contact</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.saveshipcost.com/fr/contact</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.saveshipcost.com/es/contact</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+
+  <!-- ============= LEGAL ============= -->
+  <url><loc>https://www.saveshipcost.com/zh/privacy-policy</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/en/privacy-policy</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/fr/privacy-policy</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/es/privacy-policy</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+
+  <url><loc>https://www.saveshipcost.com/zh/terms-of-use</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/en/terms-of-use</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/fr/terms-of-use</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/es/terms-of-use</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+
+  <url><loc>https://www.saveshipcost.com/zh/disclaimer</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/en/disclaimer</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/fr/disclaimer</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/es/disclaimer</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+
+  <url><loc>https://www.saveshipcost.com/zh/cookie-policy</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/en/cookie-policy</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/fr/cookie-policy</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.saveshipcost.com/es/cookie-policy</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
 </urlset>

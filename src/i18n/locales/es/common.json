@@ -1,0 +1,33 @@
+{
+  "brand": {
+    "name": "Saveshipcost",
+    "tagline": "Envíos transfronterizos"
+  },
+  "nav": {
+    "home": "Inicio",
+    "airFreight": "Flete aéreo",
+    "seaFreight": "Flete marítimo",
+    "forum": "Envío compartido",
+    "faq": "FAQ"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar sesión",
+    "admin": "Admin"
+  },
+  "cities": {
+    "label": "Ciudad:",
+    "Ottawa": "Ottawa",
+    "Toronto": "Toronto",
+    "Montreal": "Montreal",
+    "Vancouver": "Vancouver",
+    "Calgary": "Calgary",
+    "Edmonton": "Edmonton",
+    "Winnipeg": "Winnipeg",
+    "Halifax": "Halifax"
+  },
+  "languageSwitcher": {
+    "label": "Idioma"
+  }
+}

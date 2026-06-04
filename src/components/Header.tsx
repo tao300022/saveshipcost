@@ -2,20 +2,14 @@ import React from 'react';
 import { Layout, Menu, Button, Dropdown, Avatar, Space } from 'antd';
 import { UserOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
+import LanguageSwitcher from './LanguageSwitcher';
+import { DEFAULT_LANG, isSupportedLang, type SupportedLang } from '../i18n/config';
 
 const { Header: AntHeader } = Layout;
 
-const CITIES = [
-  { key: 'Ottawa',    label: 'Ottawa 渥太华',       path: '/ottawa' },
-  { key: 'Toronto',   label: 'Toronto 多伦多',      path: '/ottawa?city=Toronto' },
-  { key: 'Montreal',  label: 'Montreal 蒙特利尔',   path: '/ottawa?city=Montreal' },
-  { key: 'Vancouver', label: 'Vancouver 温哥华',    path: '/ottawa?city=Vancouver' },
-  { key: 'Calgary',   label: 'Calgary 卡尔加里',    path: '/ottawa?city=Calgary' },
-  { key: 'Edmonton',  label: 'Edmonton 埃德蒙顿',   path: '/ottawa?city=Edmonton' },
-  { key: 'Winnipeg',  label: 'Winnipeg 温尼伯',     path: '/ottawa?city=Winnipeg' },
-  { key: 'Halifax',   label: 'Halifax 哈利法克斯',  path: '/ottawa?city=Halifax' },
-];
+const CITY_KEYS = ['Ottawa', 'Toronto', 'Montreal', 'Vancouver', 'Calgary', 'Edmonton', 'Winnipeg', 'Halifax'] as const;
 
 /* 内联 SVG S Logo */
 const SLogo = () => (
@@ -53,25 +47,35 @@ const Header: React.FC = () => {
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth();
 
+  // The translation hook — `t('nav.home')` reads the active language's common.json
+  const { t, i18n } = useTranslation();
+  const lang: SupportedLang = isSupportedLang(i18n.language)
+    ? (i18n.language as SupportedLang)
+    : DEFAULT_LANG;
+
+  // Helper: build a URL with the current language prefix
+  const localized = (path: string) => `/${lang}${path === '/' ? '' : path}`;
+
   const searchParams = new URLSearchParams(location.search);
   const showAdminEntry = searchParams.get('admin') === '1';
-  const activeCity = searchParams.get('city') || (location.pathname === '/ottawa' ? 'Ottawa' : '');
+  const activeCity =
+    searchParams.get('city') || (location.pathname.endsWith('/ottawa') ? 'Ottawa' : '');
 
   const menuItems = [
-    { key: '/',            label: '首页',     onClick: () => navigate('/') },
-    { key: '/air-freight', label: '空运比价', onClick: () => navigate('/air-freight') },
-    { key: '/sea-freight', label: '海运比价', onClick: () => navigate('/sea-freight') },
-    { key: '/forum',       label: '首重拼邮', onClick: () => navigate('/forum') },
-    { key: '/faq',         label: 'FAQ',      onClick: () => navigate('/faq') },
+    { key: localized('/'),            label: t('nav.home'),        onClick: () => navigate(localized('/')) },
+    { key: localized('/air-freight'), label: t('nav.airFreight'),  onClick: () => navigate(localized('/air-freight')) },
+    { key: localized('/sea-freight'), label: t('nav.seaFreight'),  onClick: () => navigate(localized('/sea-freight')) },
+    { key: localized('/forum'),       label: t('nav.forum'),       onClick: () => navigate(localized('/forum')) },
+    { key: localized('/faq'),         label: t('nav.faq'),         onClick: () => navigate(localized('/faq')) },
   ];
 
   const handleLogout = async () => {
     await logout();
-    navigate('/');
+    navigate(localized('/'));
   };
 
   const userMenuItems = [
-    { key: 'logout', label: '退出登录', icon: <LogoutOutlined />, onClick: handleLogout },
+    { key: 'logout', label: t('auth.logout'), icon: <LogoutOutlined />, onClick: handleLogout },
   ];
 
   return (
@@ -89,15 +93,15 @@ const Header: React.FC = () => {
         {/* Logo */}
         <div
           style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', flexShrink: 0 }}
-          onClick={() => navigate('/')}
+          onClick={() => navigate(localized('/'))}
         >
           <SLogo />
           <div style={{ lineHeight: 1.2 }}>
             <div style={{ fontSize: 17, fontWeight: 800, color: '#fff', letterSpacing: 0.5 }}>
-              Saveshipcost
+              {t('brand.name')}
             </div>
             <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.75)', letterSpacing: 1 }}>
-              跨境快递
+              {t('brand.tagline')}
             </div>
           </div>
         </div>
@@ -119,15 +123,17 @@ const Header: React.FC = () => {
 
         {/* 右侧操作区 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+          <LanguageSwitcher />
+
           {showAdminEntry && (
             <Button
               type="text"
               size="small"
               icon={<SettingOutlined />}
-              onClick={() => navigate('/admin')}
+              onClick={() => navigate(localized('/admin'))}
               style={{ color: 'rgba(255,255,255,0.65)', fontSize: 12 }}
             >
-              管理员
+              {t('auth.admin')}
             </Button>
           )}
 
@@ -142,15 +148,15 @@ const Header: React.FC = () => {
             </Dropdown>
           ) : (
             <Space>
-              <Button type="text" onClick={() => navigate('/login')} style={{ color: '#fff' }}>
-                登录
+              <Button type="text" onClick={() => navigate(localized('/login'))} style={{ color: '#fff' }}>
+                {t('auth.login')}
               </Button>
               <Button
                 type="primary"
-                onClick={() => navigate('/register')}
+                onClick={() => navigate(localized('/register'))}
                 style={{ background: '#fff', color: '#764ba2', borderColor: '#fff' }}
               >
-                注册
+                {t('auth.register')}
               </Button>
             </Space>
           )}
@@ -168,13 +174,16 @@ const Header: React.FC = () => {
         height: 42,
         overflowX: 'auto',
       }}>
-        <span style={{ fontSize: 12, color: '#aaa', marginRight: 6, flexShrink: 0 }}>城市：</span>
-        {CITIES.map((city) => {
-          const isActive = activeCity === city.key;
+        <span style={{ fontSize: 12, color: '#aaa', marginRight: 6, flexShrink: 0 }}>
+          {t('cities.label')}
+        </span>
+        {CITY_KEYS.map((cityKey) => {
+          const isActive = activeCity === cityKey;
+          const path = cityKey === 'Ottawa' ? localized('/ottawa') : `${localized('/ottawa')}?city=${cityKey}`;
           return (
             <button
-              key={city.key}
-              onClick={() => navigate(city.path)}
+              key={cityKey}
+              onClick={() => navigate(path)}
               style={{
                 padding: '4px 14px',
                 borderRadius: 20,
@@ -201,7 +210,7 @@ const Header: React.FC = () => {
                 }
               }}
             >
-              {city.label}
+              {t(`cities.${cityKey}` as const)}
             </button>
           );
         })}
