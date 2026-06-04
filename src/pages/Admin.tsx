@@ -15,6 +15,7 @@ import {
   CityAnnouncement, fetchCityAnnouncements, upsertCityAnnouncement, deleteCityAnnouncementRemote,
   translateAnnouncementFields,
   PopupNotice, fetchPopupNotices, upsertPopupNotice, deletePopupNoticeRemote,
+  translatePopupNoticeFields,
   ForumNotice, fetchForumNotices, upsertForumNotice, deleteForumNoticeRemote,
 } from '../services/sscData';
 
@@ -377,25 +378,67 @@ const AdminPage: React.FC = () => {
   };
 
   const handlePopupSave = async (values: { title?: string; content: string; isActive: boolean; linkUrl?: string; linkText?: string }) => {
+    const newTitle = values.title || undefined;
+    const newContent = values.content;
+    const newLinkText = values.linkText?.trim() || undefined;
+    // Preserve translations when text fields unchanged; otherwise drop so they get refreshed.
+    const textUnchanged = editingPopup
+      && editingPopup.title === newTitle
+      && editingPopup.content === newContent
+      && editingPopup.linkText === newLinkText;
     const item: PopupNotice = {
       id: editingPopup?.id || genId(),
-      title: values.title || undefined,
-      content: values.content,
+      title: newTitle,
+      content: newContent,
       isActive: values.isActive,
       sortOrder: editingPopup?.sortOrder ?? 0,
       createdAt: editingPopup?.createdAt || new Date().toISOString(),
       imageUrls: popupImagePreviews.length > 0 ? popupImagePreviews : undefined,
       linkUrl: values.linkUrl?.trim() || undefined,
-      linkText: values.linkText?.trim() || undefined,
+      linkText: newLinkText,
+      translations: textUnchanged ? editingPopup?.translations : undefined,
     };
     const err = await upsertPopupNotice(item);
     if (err) { message.error(`保存失败：${err}`); return; }
-    const fresh = await fetchPopupNotices();
-    setPopups(fresh);
     setPopupModalOpen(false);
     popupForm.resetFields();
     setPopupImagePreviews([]);
-    message.success('浮动公告已保存');
+    message.success('浮动公告已保存，正在翻译...');
+
+    if (!item.translations) {
+      translatePopupNoticeFields(item.id, { title: item.title, content: item.content, linkText: item.linkText })
+        .then(async (translated) => {
+          if (translated) message.success('翻译完成（en/fr/es）');
+          const fresh = await fetchPopupNotices();
+          setPopups(fresh);
+        });
+    } else {
+      const fresh = await fetchPopupNotices();
+      setPopups(fresh);
+    }
+  };
+
+  const handlePopupBackfillTranslations = async () => {
+    const untranslated = popups.filter(
+      (p) => !p.translations || !p.translations.en || !p.translations.fr || !p.translations.es,
+    );
+    if (untranslated.length === 0) {
+      message.info('所有浮动公告都已翻译完成');
+      return;
+    }
+    const hide = message.loading(`正在翻译 ${untranslated.length} 条浮动公告...`, 0);
+    let ok = 0;
+    let fail = 0;
+    for (const p of untranslated) {
+      const result = await translatePopupNoticeFields(p.id, { title: p.title, content: p.content, linkText: p.linkText });
+      if (result) ok++;
+      else fail++;
+    }
+    hide();
+    if (fail === 0) message.success(`已翻译 ${ok} 条浮动公告`);
+    else message.warning(`翻译完成 ${ok} 条，失败 ${fail} 条 — 查看控制台日志`);
+    const fresh = await fetchPopupNotices();
+    setPopups(fresh);
   };
 
   const handlePopupDelete = async (id: string) => {
@@ -743,6 +786,9 @@ const AdminPage: React.FC = () => {
             <Button type="primary" icon={<PlusOutlined />} onClick={() => openPopupModal()}>
               新增浮动公告
             </Button>
+            <Button onClick={handlePopupBackfillTranslations}>
+              翻译所有未翻译的浮动公告
+            </Button>
             <Text type="secondary" style={{ fontSize: 12 }}>首页右下角浮动弹窗展示，可最小化和关闭</Text>
           </div>
           <Table
@@ -766,14 +812,55 @@ const AdminPage: React.FC = () => {
                 ),
               },
               {
+                title: '翻译', dataIndex: 'translations', key: 'translations', width: 130,
+                render: (_: unknown, record: PopupNotice) => {
+                  const t = record.translations || {};
+                  const langs: Array<'en' | 'fr' | 'es'> = ['en', 'fr', 'es'];
+                  return (
+                    <Space size={2} wrap>
+                      {langs.map((l) => (
+                        <Tag
+                          key={l}
+                          color={t[l]?.content ? 'green' : 'default'}
+                          style={{ fontSize: 10, padding: '0 4px', margin: 0 }}
+                        >
+                          {l.toUpperCase()}
+                        </Tag>
+                      ))}
+                    </Space>
+                  );
+                },
+              },
+              {
                 title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', width: 160,
                 render: (v: string) => new Date(v).toLocaleString('zh-CN', { hour12: false }),
               },
               {
-                title: '操作', key: 'action', width: 140,
+                title: '操作', key: 'action', width: 200,
                 render: (_: unknown, record: PopupNotice) => (
                   <Space>
                     <Button size="small" icon={<EditOutlined />} onClick={() => openPopupModal(record)}>编辑</Button>
+                    <Button
+                      size="small"
+                      onClick={async () => {
+                        const hide = message.loading('翻译中...', 0);
+                        const r = await translatePopupNoticeFields(record.id, {
+                          title: record.title,
+                          content: record.content,
+                          linkText: record.linkText,
+                        });
+                        hide();
+                        if (r) {
+                          message.success('翻译完成');
+                          const fresh = await fetchPopupNotices();
+                          setPopups(fresh);
+                        } else {
+                          message.error('翻译失败');
+                        }
+                      }}
+                    >
+                      重新翻译
+                    </Button>
                     <Popconfirm title="确认删除该浮动公告？" onConfirm={() => handlePopupDelete(record.id)}>
                       <Button size="small" danger icon={<DeleteOutlined />}>删除</Button>
                     </Popconfirm>

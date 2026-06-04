@@ -557,11 +557,11 @@ const Home: React.FC = () => {
                   >
                     {notice.title && (
                       <div style={{ fontWeight: 700, fontSize: 13, color: '#0d1b4b', marginBottom: 4 }}>
-                        {notice.title}
+                        {pickTranslatedField(notice, 'title', lang, notice.title)}
                       </div>
                     )}
                     <div style={{ fontSize: 13, color: '#444', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
-                      {notice.content}
+                      {pickTranslatedField(notice, 'content', lang, notice.content)}
                     </div>
                     {notice.imageUrls && notice.imageUrls.length > 0 && (
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
@@ -583,7 +583,9 @@ const Home: React.FC = () => {
                     {notice.linkUrl && (
                       <div style={{ marginTop: 8 }}>
                         {notice.linkText && (
-                          <div style={{ fontSize: 12, color: '#888', marginBottom: 2 }}>{notice.linkText}</div>
+                          <div style={{ fontSize: 12, color: '#888', marginBottom: 2 }}>
+                            {pickTranslatedField(notice, 'linkText', lang, notice.linkText)}
+                          </div>
                         )}
                         <a
                           href={notice.linkUrl}

@@ -574,6 +574,8 @@ export interface PopupNotice {
   imageUrls?: string[];   // up to 5 images (base64 or URL)
   linkUrl?: string;       // clickable link
   linkText?: string;      // link button text, defaults to "点击查看"
+  /** Auto-populated by the `translate` Edge Function after upsert. */
+  translations?: Translations;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -587,6 +589,7 @@ const popupFromRow = (r: any): PopupNotice => ({
   imageUrls: Array.isArray(r.image_urls) ? r.image_urls : undefined,
   linkUrl: r.link_url ?? undefined,
   linkText: r.link_text ?? undefined,
+  translations: (r.translations && typeof r.translations === 'object') ? r.translations : undefined,
 });
 
 const popupToRow = (p: PopupNotice) => ({
@@ -599,7 +602,46 @@ const popupToRow = (p: PopupNotice) => ({
   image_urls: p.imageUrls && p.imageUrls.length > 0 ? p.imageUrls : null,
   link_url: p.linkUrl ?? null,
   link_text: p.linkText ?? null,
+  translations: p.translations ?? {},
 });
+
+/**
+ * Translate a popup_notice's text fields (title / content / linkText) and write
+ * the result back to the row. Empty fields are skipped to save DeepL quota.
+ */
+export const translatePopupNoticeFields = async (
+  id: string,
+  fields: { title?: string; content: string; linkText?: string },
+): Promise<Translations | null> => {
+  const payload = {
+    fields: {
+      content: fields.content,
+      ...(fields.title ? { title: fields.title } : {}),
+      ...(fields.linkText ? { linkText: fields.linkText } : {}),
+    },
+    source: 'zh',
+    targets: ['en', 'fr', 'es'],
+  };
+  try {
+    const { data, error } = await supabase.functions.invoke<Record<string, Record<string, string>>>(
+      'translate',
+      { body: payload },
+    );
+    if (error) { console.error('[translate popup] invoke error:', error.message); return null; }
+    if (!data) return null;
+
+    const { error: updErr } = await supabase
+      .from('popup_notices')
+      .update({ translations: data })
+      .eq('id', id);
+    if (updErr) { console.error('[translate popup] update error:', updErr.message); return null; }
+
+    return data as Translations;
+  } catch (e) {
+    console.error('[translate popup] exception:', e);
+    return null;
+  }
+};
 
 export const fetchPopupNotices = async (): Promise<PopupNotice[]> => {
   try {
