@@ -3,16 +3,24 @@ import { Helmet } from 'react-helmet-async';
 import { Card, Table, Tag, Select, Button, Space, Typography, Row, Col, message } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 import { seaFreightData, SeaFreightPrice } from '../data/seaFreightData';
 import { fetchDeliveryUpdates, fetchMerchants } from '../services/sscData';
 import { getCompanyByName } from '../data/companyData';
 import CorrectionModal, { CorrectionFormValues } from '../components/CorrectionModal';
 import { saveCorrection } from '../services/corrections';
+import { DEFAULT_LANG, isSupportedLang, type SupportedLang } from '../i18n/config';
 
 const { Title } = Typography;
 
 const SeaFreight: React.FC = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const lang: SupportedLang = isSupportedLang(i18n.language)
+    ? (i18n.language as SupportedLang)
+    : DEFAULT_LANG;
+  const localized = (path: string) => `/${lang}${path}`;
+
   const [selectedCompany, setSelectedCompany] = useState<string | undefined>();
   const [selectedType, setSelectedType]       = useState<string | undefined>();
   const [corrOpen, setCorrOpen]               = useState(false);
@@ -22,7 +30,6 @@ const SeaFreight: React.FC = () => {
   useEffect(() => {
     const parseNum = (s?: string) => parseFloat((s || '').replace(/[^\d.]/g, '')) || 0;
     Promise.all([fetchDeliveryUpdates(), fetchMerchants()]).then(([updates, merchants]) => {
-      // 到货动态（兼容旧字段）
       const deliveryRows: SeaFreightPrice[] = updates
         .filter((d) => d.mode === 'sea' && (d as any).firstWeightPrice)
         .map((d) => {
@@ -31,19 +38,18 @@ const SeaFreight: React.FC = () => {
           const kgMatch = priceStr.match(/\/\s*(\d+\.?\d*)/);
           const kg = kgMatch ? parseFloat(kgMatch[1]) : 21;
           return {
-            company: d.merchantName, type: '海运', line: d.route,
+            company: d.merchantName, type: t('seaFreight.cargoType.sea'), line: d.route,
             firstWeight: price, firstWeightKg: kg,
             additionalWeight: (d as any).additionalWeightPrice || '-',
             transitTime: d.eta, remarks: d.city,
           };
         });
-      // 商家管理海运服务
       const merchantRows: SeaFreightPrice[] = [];
       merchants.forEach((m) => {
         (m.services || []).filter((s) => s.mode === 'sea').forEach((s) => {
           merchantRows.push({
             company:          m.name,
-            type:             s.cargo === 'general' ? '海普' : '海敏',
+            type:             s.cargo === 'general' ? t('seaFreight.cargoType.general') : t('seaFreight.cargoType.sensitive'),
             line:             '-',
             firstWeight:      parseNum(s.priceCAD),
             firstWeightKg:    parseNum(s.firstWeight) || 21,
@@ -57,7 +63,7 @@ const SeaFreight: React.FC = () => {
       });
       setDynSeaRows([...deliveryRows, ...merchantRows]);
     });
-  }, []);
+  }, [t]);
 
   const handleCorrSubmit = (values: CorrectionFormValues) => {
     if (!corrRecord) return;
@@ -67,16 +73,14 @@ const SeaFreight: React.FC = () => {
       originalRecord: corrRecord as unknown as Record<string, unknown>,
       ...values,
     });
-    message.success('已收到纠错建议，谢谢！');
+    message.success(t('seaFreight.correction.success'));
     setCorrOpen(false);
   };
 
-  // Get unique companies and types
   const allSeaData = useMemo(() => [...seaFreightData, ...dynSeaRows], [dynSeaRows]);
   const companies = useMemo(() => [...new Set(allSeaData.map(item => item.company))], [allSeaData]);
   const types = useMemo(() => [...new Set(allSeaData.map(item => item.type))], [allSeaData]);
 
-  // Filter data
   const filteredData = useMemo(() => {
     return allSeaData.filter(item => {
       if (selectedCompany && item.company !== selectedCompany) return false;
@@ -93,13 +97,15 @@ const SeaFreight: React.FC = () => {
   const handleCompanyClick = (companyName: string) => {
     const company = getCompanyByName(companyName);
     if (company) {
-      navigate(`/company/${company.id}`);
+      navigate(localized(`/company/${company.id}`));
     }
   };
 
+  const generalLabel = t('seaFreight.cargoType.general');
+
   const columns = [
     {
-      title: '公司名称',
+      title: t('seaFreight.table.company'),
       dataIndex: 'company',
       key: 'company',
       render: (text: string) => (
@@ -109,23 +115,23 @@ const SeaFreight: React.FC = () => {
       ),
     },
     {
-      title: '类型',
+      title: t('seaFreight.table.type'),
       dataIndex: 'type',
       key: 'type',
       render: (text: string) => {
-        const color = text.includes('普') ? 'blue' : 'orange';
+        const color = text === generalLabel ? 'blue' : 'orange';
         return <Tag color={color}>{text}</Tag>;
       },
     },
     {
-      title: '线路',
+      title: t('seaFreight.table.line'),
       dataIndex: 'line',
       key: 'line',
       width: 100,
       render: (text: string) => text || '-',
     },
     {
-      title: '首重(加币)',
+      title: t('seaFreight.table.firstWeight'),
       key: 'firstWeight',
       render: (_: any, record: SeaFreightPrice) =>
         record.priceCAD
@@ -133,7 +139,7 @@ const SeaFreight: React.FC = () => {
           : <span>{record.firstWeight}/{record.firstWeightKg || 21}kg</span>,
     },
     {
-      title: '续重 / 人民币',
+      title: t('seaFreight.table.additionalWeight'),
       key: 'additionalWeight',
       render: (_: any, record: SeaFreightPrice) => {
         const parts = [record.additionalWeight !== '-' ? record.additionalWeight : '', record.priceCNY || ''].filter(Boolean);
@@ -141,19 +147,19 @@ const SeaFreight: React.FC = () => {
       },
     },
     {
-      title: '时效(天)',
+      title: t('seaFreight.table.transitTime'),
       dataIndex: 'transitTime',
       key: 'transitTime',
       render: (text: string) => <Tag color="green">{text}</Tag>,
     },
     {
-      title: '备注',
+      title: t('seaFreight.table.remarks'),
       dataIndex: 'remarks',
       key: 'remarks',
       render: (text: string) => text || '-',
     },
     {
-      title: '操作',
+      title: t('seaFreight.table.action'),
       key: 'action',
       width: 72,
       fixed: 'right' as const,
@@ -163,7 +169,7 @@ const SeaFreight: React.FC = () => {
           type="link"
           onClick={() => { setCorrRecord(record); setCorrOpen(true); }}
         >
-          纠错
+          {t('seaFreight.table.correct')}
         </Button>
       ),
     },
@@ -172,9 +178,9 @@ const SeaFreight: React.FC = () => {
   return (
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto' }}>
       <Helmet>
-        <title>加拿大海运比价 – 中国寄加拿大拼柜整柜最低价 | SaveShipCost</title>
-        <meta name="description" content="对比加拿大多家华人货代海运报价，支持拼柜（LCL）和整柜（FCL），覆盖渥太华、温哥华、多伦多。适合搬家家具、大件货物，20–40 天到达，价格最省。" />
-        <meta name="keywords" content="加拿大海运比价, 中国寄加拿大海运, 拼柜价格, 整柜价格, sea freight Canada, cheapest sea freight to Canada from China, sea freight cost Canada, how long does sea freight from China to Canada take, LCL FCL Canada China, 温哥华海运搬家, 加拿大搬家海运, 家具海运, shipping cost from china to canada sea" />
+        <title>{t('seaFreight.meta.title')}</title>
+        <meta name="description" content={t('seaFreight.meta.description')} />
+        <meta name="keywords" content={t('seaFreight.meta.keywords')} />
       </Helmet>
       {corrRecord && (
         <CorrectionModal
@@ -186,26 +192,24 @@ const SeaFreight: React.FC = () => {
         />
       )}
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        {/* Header */}
         <div>
           <Button
             icon={<ArrowLeftOutlined />}
-            onClick={() => navigate('/')}
+            onClick={() => navigate(localized('/'))}
             style={{ marginBottom: 16 }}
           >
-            返回首页
+            {t('common.backHome')}
           </Button>
-          <Title level={1} style={{ marginBottom: 8, fontSize: 30 }}>海运比价</Title>
-          <p style={{ color: '#666' }}>比较多家公司的海运价格和服务时效</p>
+          <Title level={1} style={{ marginBottom: 8, fontSize: 30 }}>{t('seaFreight.title')}</Title>
+          <p style={{ color: '#666' }}>{t('seaFreight.subtitle')}</p>
         </div>
 
-        {/* Filters */}
         <Card>
           <Row gutter={16}>
             <Col xs={24} sm={12} md={8}>
-              <label style={{ display: 'block', marginBottom: 8, fontWeight: 500 }}>筛选公司</label>
+              <label style={{ display: 'block', marginBottom: 8, fontWeight: 500 }}>{t('seaFreight.filter.company')}</label>
               <Select
-                placeholder="选择公司"
+                placeholder={t('seaFreight.filter.selectCompany')}
                 allowClear
                 style={{ width: '100%' }}
                 value={selectedCompany}
@@ -214,24 +218,23 @@ const SeaFreight: React.FC = () => {
               />
             </Col>
             <Col xs={24} sm={12} md={8}>
-              <label style={{ display: 'block', marginBottom: 8, fontWeight: 500 }}>筛选类型</label>
+              <label style={{ display: 'block', marginBottom: 8, fontWeight: 500 }}>{t('seaFreight.filter.type')}</label>
               <Select
-                placeholder="选择类型"
+                placeholder={t('seaFreight.filter.selectType')}
                 allowClear
                 style={{ width: '100%' }}
                 value={selectedType}
                 onChange={setSelectedType}
-                options={types.map(t => ({ label: t, value: t }))}
+                options={types.map(typ => ({ label: typ, value: typ }))}
               />
             </Col>
             <Col xs={24} sm={24} md={8} style={{ display: 'flex', alignItems: 'flex-end' }}>
-              <Button onClick={handleReset}>重置筛选</Button>
+              <Button onClick={handleReset}>{t('seaFreight.filter.reset')}</Button>
             </Col>
           </Row>
         </Card>
 
-        {/* Results */}
-        <Card title={`共 ${filteredData.length} 条结果`}>
+        <Card title={t('seaFreight.filter.resultsCount', { count: filteredData.length })}>
           <Table
             columns={columns}
             dataSource={filteredData}
@@ -241,27 +244,32 @@ const SeaFreight: React.FC = () => {
           />
         </Card>
       </Space>
-      {/* SEO 内容区 */}
       <div style={{ background: '#f7f9ff', borderTop: '1px solid #e8edf5', padding: '40px 24px', marginTop: 16 }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0d1b4b', marginBottom: 8 }}>
-            加拿大海运比价 – 中国寄加拿大拼柜整柜最低价格
+            {t('seaFreight.seo.heading')}
           </h2>
           <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.9, marginBottom: 16 }}>
-            SaveShipCost 整合多家华人货代的<strong>中加海运报价</strong>，支持<strong>拼柜（LCL）</strong>和<strong>整柜（FCL）</strong>，20–40 天送达加拿大。适合<strong>搬家家具海运</strong>、大件货物、留学生回国行李整箱托运，价格比空运节省高达 60%。覆盖渥太华、温哥华（Richmond/Burnaby）、多伦多全境。
+            <Trans i18nKey="seaFreight.seo.intro" components={{ 1: <strong /> }} />
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
             <div>
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>拼柜海运（LCL）</h3>
-              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>货物不足一个集装箱时，选择<strong>LCL 拼柜</strong>按体积计费，适合小批量货物，与其他客户共享舱位，经济实惠。</p>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>{t('seaFreight.seo.lcl.title')}</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>
+                <Trans i18nKey="seaFreight.seo.lcl.body" components={{ 1: <strong /> }} />
+              </p>
             </div>
             <div>
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>整柜海运（FCL）</h3>
-              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}><strong>FCL 整柜</strong>适合大量货物或<strong>加拿大搬家家具海运</strong>，独享集装箱，安全性高，单价更低。</p>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>{t('seaFreight.seo.fcl.title')}</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>
+                <Trans i18nKey="seaFreight.seo.fcl.body" components={{ 1: <strong /> }} />
+              </p>
             </div>
             <div>
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>温哥华海运搬家</h3>
-              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>温哥华是加拿大最大海运港口，<strong>温哥华海运搬家比价</strong>是我们的核心服务之一，对比多家报价轻松找到最优方案。</p>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#667eea', marginBottom: 6 }}>{t('seaFreight.seo.vancouver.title')}</h3>
+              <p style={{ fontSize: 13, color: '#5a6a8a', lineHeight: 1.8 }}>
+                <Trans i18nKey="seaFreight.seo.vancouver.body" components={{ 1: <strong /> }} />
+              </p>
             </div>
           </div>
         </div>

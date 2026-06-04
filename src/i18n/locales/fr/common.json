@@ -29,5 +29,221 @@
   },
   "languageSwitcher": {
     "label": "Langue"
+  },
+  "common": {
+    "back": "Retour",
+    "backHome": "Retour à l'accueil",
+    "loading": "Chargement...",
+    "submit": "Soumettre",
+    "cancel": "Annuler",
+    "reset": "Réinitialiser",
+    "search": "Rechercher",
+    "viewMore": "Voir plus"
+  },
+  "airFreight": {
+    "meta": {
+      "title": "Comparaison fret aérien Canada – Expédition aérienne la moins chère de la Chine vers le Canada | SaveShipCost",
+      "description": "Comparez les devis de fret aérien de transitaires sino-canadiens. Premier poids, poids supplémentaire et délais de livraison. Expédition depuis Ottawa, Vancouver, Toronto. Marchandises générales et sensibles, livraison en 5–10 jours.",
+      "keywords": "fret aérien Canada, expédition aérienne Chine Canada, fret aérien le moins cher Canada, Ottawa fret aérien, marchandise sensible fret aérien"
+    },
+    "title": "Comparaison fret aérien",
+    "subtitle": "Comparez les prix et délais du fret aérien entre plusieurs prestataires",
+    "filter": {
+      "company": "Filtrer par entreprise",
+      "selectCompany": "Sélectionner une entreprise",
+      "type": "Filtrer par type",
+      "selectType": "Sélectionner un type",
+      "reset": "Réinitialiser les filtres",
+      "resultsCount": "{{count}} résultats"
+    },
+    "table": {
+      "company": "Entreprise",
+      "type": "Type",
+      "line": "Itinéraire",
+      "firstWeight": "Premier poids (CAD)",
+      "additionalWeight": "Suppl. / CNY",
+      "transitTime": "Transit (jours)",
+      "remarks": "Notes",
+      "action": "Action",
+      "correct": "Signaler"
+    },
+    "cargoType": {
+      "air": "Aérien",
+      "general": "Général",
+      "sensitive": "Sensible"
+    },
+    "correction": {
+      "success": "Correction reçue — merci !"
+    },
+    "seo": {
+      "heading": "Comparaison fret aérien Canada – Expédition aérienne la moins chère de la Chine vers le Canada",
+      "intro": "SaveShipCost regroupe les <1>devis de fret aérien Chine-Canada</1> de plusieurs transitaires sino-canadiens, couvrant à la fois le <1>fret général</1> et le <1>fret aérien sensible</1> (électronique, cosmétiques, batteries au lithium). Livraison en 5–10 jours. Idéal pour les <1>expéditions urgentes vers la Chine</1>, les petits colis et les bagages d'étudiants. Service à Ottawa (Nepean/Kanata), Vancouver, Toronto et Calgary.",
+      "general": {
+        "title": "Fret aérien général",
+        "body": "Vêtements, livres, articles du quotidien — le prix le plus bas et le passage en douane le plus fluide. Le choix le plus courant pour <1>expédier de la Chine vers le Canada par voie aérienne</1>."
+      },
+      "sensitive": {
+        "title": "Fret aérien sensible",
+        "body": "Électronique, batteries au lithium, liquides, cosmétiques — le <1>fret sensible</1> nécessite des canaux spécialisés. Nous regroupons les transitaires qui gèrent les envois sensibles pour faciliter la comparaison."
+      },
+      "urgent": {
+        "title": "Expédition urgente vers la Chine",
+        "body": "Besoin d'une <1>expédition urgente vers la Chine</1> ? Le fret aérien livre en aussi peu que 5 jours. Comparez les transporteurs pour trouver l'itinéraire le plus rapide au meilleur prix."
+      }
+    }
+  },
+  "home": {
+    "meta": {
+      "title": "SaveShipCost | Expédition la moins chère de Chine vers Canada – Comparez les transitaires",
+      "description": "SaveShipCost est la première plateforme du Canada pour comparer les tarifs d'expédition de Chine vers Canada. Devis aériens et maritimes en direct de FedEx, UPS, DHL et transitaires sino-canadiens. Économisez jusqu'à 60 %.",
+      "keywords": "expédier au Canada, expédition la moins chère Canada Chine, coût expédition Chine Canada, fret aérien Canada, fret maritime Canada, Ottawa expédition, comparaison expédition internationale"
+    },
+    "hero": {
+      "kicker": "—— CHINE · CANADA EXPÉDITION",
+      "titleLine1": "Trouvez le meilleur",
+      "titleLine2": "tarif transfrontalier",
+      "titleHighlight": "Économisez en un clic",
+      "subtitle": "Devis en direct des transitaires sino-canadiens. Fret aérien et maritime, prix et délais transparents — chaque expédition prend la route la plus rentable.",
+      "calcCta": "Essayer le calculateur →",
+      "calcFootnote": "* Le poids facturable est indicatif. Le prix final dépend du devis en direct du transitaire.",
+      "airCard": {
+        "title": "Comparaison fret aérien",
+        "subtitle": "Comparez les prix et délais du fret aérien entre plusieurs prestataires"
+      },
+      "seaCard": {
+        "title": "Comparaison fret maritime",
+        "subtitle": "Tarifs maritimes transparents avec plusieurs options de service"
+      }
+    },
+    "announcements": {
+      "heading": "Annonces par ville",
+      "subtitle": "Dernières offres locales · cliquez pour les détails",
+      "viewDetail": "Voir les détails →",
+      "countSuffix": "{{count}} mises à jour"
+    },
+    "delivery": {
+      "heading": "Mises à jour de livraison récentes",
+      "viewMore": "Voir plus de transitaires →",
+      "empty": "Aucune mise à jour de livraison pour le moment — l'administrateur les publiera bientôt.",
+      "filter": {
+        "all": "Tout",
+        "air": "Aérien",
+        "sea": "Maritime"
+      },
+      "col": {
+        "departDate": "Départ",
+        "route": "Itinéraire",
+        "city": "Ville",
+        "merchant": "Transitaire",
+        "arrival": "Arrivée",
+        "mode": "Mode",
+        "eta": "Transit"
+      },
+      "mode": {
+        "air": "Aérien",
+        "sea": "Maritime"
+      }
+    },
+    "popup": {
+      "expand": "Développer les annonces",
+      "title": "Dernières annonces",
+      "minimize": "Réduire",
+      "close": "Fermer",
+      "preview": "Aperçu"
+    },
+    "seo": {
+      "heading": "Expédition la moins chère de Chine vers Canada – Comparez les tarifs des transitaires",
+      "intro": "SaveShipCost est la première plateforme de comparaison du Canada pour <1>l'expédition de Chine vers Canada</1>. Nous regroupons les devis en direct des transitaires chinois afin de trouver <1>l'expédition la moins chère vers Canada</1> sans appeler chaque prestataire. Que vous ayez besoin de <1>fret aérien</1> (5–10 jours) ou de <1>fret maritime</1> (20–40 jours), nous couvrons Ottawa, Vancouver, Toronto, Calgary et plus.",
+      "air": {
+        "title": "✈️ Fret aérien",
+        "body": "Comparez le <1>fret aérien Chine-Canada</1> de plusieurs transitaires. Marchandises générales et sensibles, livraison en 5–10 jours — idéal pour les envois urgents et les petits colis. Service à Ottawa (Nepean/Kanata), Vancouver, Toronto et Calgary."
+      },
+      "sea": {
+        "title": "🚢 Fret maritime",
+        "body": "Comparez les devis de fret maritime <1>LCL (groupage)</1> et <1>FCL (conteneur complet)</1>. Parfait pour les meubles, le fret en vrac et les déménagements. Transit de 20–40 jours et jusqu'à 60 % moins cher que l'aérien."
+      },
+      "student": {
+        "title": "🎓 Pour les étudiants",
+        "body": "Conçu pour les <1>expéditions de bagages d'étudiants canadiens</1>. Comparez les tarifs pour les <1>bagages excédentaires</1> et les <1>fournitures scolaires</1> renvoyés — trouvez l'option la plus économique."
+      }
+    },
+    "seoFaq": {
+      "heading": "FAQ expédition Chine-Canada – Délais, coûts et fonctionnement",
+      "intro": "Vous vous demandez combien de temps prend <1>l'expédition de Chine vers Canada</1> ou combien cela coûte ? Voici les questions les plus courantes, couvrant les canaux aérien, maritime et express.",
+      "time": {
+        "title": "Combien de temps prend l'expédition ?",
+        "body": "<1>Fret aérien</1> : 5–10 jours ouvrables.<br /><1>Fret maritime LCL</1> : 20–35 jours.<br /><1>Fret maritime FCL</1> : 25–40 jours.<br />Express (DHL/FedEx) : 3–7 jours, prix premium."
+      },
+      "cost": {
+        "title": "Combien coûte l'expédition vers Canada ?",
+        "body": "Fret aérien : <1>6–15 CAD/kg</1>.<br />Fret maritime LCL : équivalent <1>3–8 CAD/kg</1>.<br />Les transitaires sino-canadiens sont 30–60 % moins chers que DHL/FedEx pour les colis de plus de 5 kg."
+      },
+      "us": {
+        "title": "Expédition des États-Unis vers Canada ?",
+        "body": "Pour États-Unis ↔ Canada, USPS + Postes Canada fonctionne pour les petits colis, ou utilisez une adresse de réexpédition aux États-Unis lorsque les détaillants ne livrent pas à l'étranger. Pour <1>Chine ↔ Canada</1>, comparez les transitaires ici sur SaveShipCost."
+      }
+    }
+  },
+  "seaFreight": {
+    "meta": {
+      "title": "Comparaison fret maritime Canada – Tarifs LCL et FCL les plus bas de Chine vers Canada | SaveShipCost",
+      "description": "Comparez les devis de fret maritime de transitaires sino-canadiens. LCL et FCL — Ottawa, Vancouver, Toronto. Idéal pour les meubles, déménagements et marchandises en vrac. Livraison en 20–40 jours.",
+      "keywords": "fret maritime Canada, expédition maritime Chine Canada, LCL Canada, FCL Canada, Vancouver fret maritime, déménagement maritime Canada"
+    },
+    "title": "Comparaison fret maritime",
+    "subtitle": "Comparez les prix et délais du fret maritime entre plusieurs prestataires",
+    "filter": {
+      "company": "Filtrer par entreprise",
+      "selectCompany": "Sélectionner une entreprise",
+      "type": "Filtrer par type",
+      "selectType": "Sélectionner un type",
+      "reset": "Réinitialiser les filtres",
+      "resultsCount": "{{count}} résultats"
+    },
+    "table": {
+      "company": "Entreprise",
+      "type": "Type",
+      "line": "Itinéraire",
+      "firstWeight": "Premier poids (CAD)",
+      "additionalWeight": "Suppl. / CNY",
+      "transitTime": "Transit (jours)",
+      "remarks": "Notes",
+      "action": "Action",
+      "correct": "Signaler"
+    },
+    "cargoType": {
+      "sea": "Maritime",
+      "general": "LCL Général",
+      "sensitive": "LCL Sensible"
+    },
+    "correction": {
+      "success": "Correction reçue — merci !"
+    },
+    "seo": {
+      "heading": "Comparaison fret maritime Canada – Tarifs LCL et FCL les plus bas de Chine",
+      "intro": "SaveShipCost regroupe les <1>devis de fret maritime Chine-Canada</1> de plusieurs transitaires sino-canadiens, prenant en charge à la fois le <1>LCL (groupage)</1> et le <1>FCL (conteneur complet)</1>. Livraison en 20–40 jours. Idéal pour les <1>expéditions de meubles et déménagements</1>, les marchandises en vrac et les étudiants rentrant chez eux — jusqu'à 60 % moins cher que l'aérien. Service à Ottawa, Vancouver (Richmond/Burnaby) et Toronto.",
+      "lcl": {
+        "title": "Fret maritime LCL",
+        "body": "Lorsque votre cargaison ne remplit pas un conteneur, le <1>LCL</1> facture au volume — parfait pour les petits lots en partageant l'espace avec d'autres expéditeurs. Économique et flexible."
+      },
+      "fcl": {
+        "title": "Fret maritime FCL",
+        "body": "Le <1>FCL</1> est idéal pour les grandes expéditions ou les <1>déménagements et expéditions de meubles au Canada</1>. Conteneur dédié, sécurité accrue, prix unitaire plus bas."
+      },
+      "vancouver": {
+        "title": "Fret maritime et déménagement à Vancouver",
+        "body": "Vancouver est le plus grand port maritime du Canada. La <1>comparaison fret maritime et déménagement Vancouver</1> est l'un de nos services clés — comparez plusieurs devis pour trouver la meilleure option."
+      }
+    }
+  },
+  "footer": {
+    "contact": "Contact",
+    "disclaimer": "Avis de non-responsabilité",
+    "privacyPolicy": "Politique de confidentialité",
+    "termsOfUse": "Conditions d'utilisation",
+    "cookiePolicy": "Politique relative aux cookies",
+    "corrections": "Corrections",
+    "copyright": "© 2026 Plateforme de comparaison d'expédition transfrontalière. Tous droits réservés.",
+    "slogan": "Comparaison de prix d'expédition transfrontalière de qualité pour les Canadiens"
   }
 }

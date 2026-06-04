@@ -29,5 +29,221 @@
   },
   "languageSwitcher": {
     "label": "语言"
+  },
+  "common": {
+    "back": "返回",
+    "backHome": "返回首页",
+    "loading": "加载中...",
+    "submit": "提交",
+    "cancel": "取消",
+    "reset": "重置",
+    "search": "搜索",
+    "viewMore": "查看更多"
+  },
+  "airFreight": {
+    "meta": {
+      "title": "加拿大空运比价 – 中国寄加拿大最便宜空运价格 | SaveShipCost",
+      "description": "对比加拿大多家华人货代空运报价，查看首重续重、时效天数。支持渥太华、温哥华、多伦多发货，普货敏感货均可，5–10 天到达，找到最优惠的中加空运方案。",
+      "keywords": "加拿大空运比价, 中国寄加拿大空运, 华人货代空运, 最便宜空运, air freight Canada China, cheapest air freight to Canada, Ottawa air freight, 急件寄中国, 敏感货空运"
+    },
+    "title": "空运比价",
+    "subtitle": "比较多家公司的空运价格和服务时效",
+    "filter": {
+      "company": "筛选公司",
+      "selectCompany": "选择公司",
+      "type": "筛选类型",
+      "selectType": "选择类型",
+      "reset": "重置筛选",
+      "resultsCount": "共 {{count}} 条结果"
+    },
+    "table": {
+      "company": "公司名称",
+      "type": "类型",
+      "line": "线路",
+      "firstWeight": "首重(加币)",
+      "additionalWeight": "续重 / 人民币",
+      "transitTime": "时效(天)",
+      "remarks": "备注",
+      "action": "操作",
+      "correct": "纠错"
+    },
+    "cargoType": {
+      "air": "空运",
+      "general": "空普",
+      "sensitive": "空敏"
+    },
+    "correction": {
+      "success": "已收到纠错建议，谢谢！"
+    },
+    "seo": {
+      "heading": "加拿大空运比价 – 中国寄加拿大最便宜空运价格查询",
+      "intro": "SaveShipCost 整合多家华人货代的<1>中加空运报价</1>，支持<1>普货</1>与<1>敏感货空运</1>（电子产品、化妆品、锂电池等），5–10 天送达加拿大。适合<1>急件寄中国</1>、小包裹、留学生行李托运，覆盖渥太华（Ottawa/Nepean/Kanata）、温哥华、多伦多、卡尔加里全境。",
+      "general": {
+        "title": "普货空运",
+        "body": "衣物、书籍、日用品等普通货物，价格最低，通关顺畅，是<1>中国寄加拿大空运</1>最常见选择。"
+      },
+      "sensitive": {
+        "title": "敏感货空运",
+        "body": "电子产品、锂电池、液体、化妆品等<1>敏感货空运</1>需走特殊渠道，我们整合了支持敏感货的货代报价供您比较。"
+      },
+      "urgent": {
+        "title": "急件寄中国",
+        "body": "有<1>急件寄中国</1>需求？空运最快 5 天送达，比较各家价格后选择速度最快、费用最合理的方案。"
+      }
+    }
+  },
+  "home": {
+    "meta": {
+      "title": "SaveShipCost | 加拿大华人快递比价 – 整合 FedEx/UPS/华人货代，一键省钱",
+      "description": "SaveShipCost 是加拿大首家华人快递比价平台。实时对比 FedEx、UPS、DHL 及多家华人货代报价，支持空运海运，覆盖渥太华、温哥华、多伦多全境。帮您寄往中国及全球时节省高达 60% 运费。",
+      "keywords": "加拿大快递比价, 华人快递推荐, 国际运费查询, 渥太华寄中国, 温哥华海运, 留学生行李托运, 中国寄加拿大, 最便宜货运, SaveShipCost"
+    },
+    "hero": {
+      "kicker": "—— CHINA · CANADA SHIPPING",
+      "titleLine1": "找到最优",
+      "titleLine2": "跨境运费",
+      "titleHighlight": "一键省钱",
+      "subtitle": "整合加拿大多家华人快递货代报价，海运 · 空运全覆盖，价格透明、时效清晰，让每一票货都走最划算的路线。",
+      "calcCta": "计费试算 →",
+      "calcFootnote": "* 计费重量为参考值，具体以商家实时报价为准",
+      "airCard": {
+        "title": "空运比价",
+        "subtitle": "快速比较多家公司空运价格和时效"
+      },
+      "seaCard": {
+        "title": "海运比价",
+        "subtitle": "海运价格透明，服务多样化"
+      }
+    },
+    "announcements": {
+      "heading": "城市公告",
+      "subtitle": "各城市最新优惠 · 点击查看详情",
+      "viewDetail": "查看详情 →",
+      "countSuffix": "共{{count}}条"
+    },
+    "delivery": {
+      "heading": "快递到货动态",
+      "viewMore": "查看更多商家 →",
+      "empty": "暂无到货动态，请等待管理员更新",
+      "filter": {
+        "all": "全部",
+        "air": "空运",
+        "sea": "海运"
+      },
+      "col": {
+        "departDate": "起运日期",
+        "route": "线路",
+        "city": "城市",
+        "merchant": "快递公司",
+        "arrival": "到货日期",
+        "mode": "空运/海运",
+        "eta": "时效"
+      },
+      "mode": {
+        "air": "空运",
+        "sea": "海运"
+      }
+    },
+    "popup": {
+      "expand": "展开公告",
+      "title": "最新公告",
+      "minimize": "最小化",
+      "close": "关闭",
+      "preview": "预览"
+    },
+    "seo": {
+      "heading": "加拿大华人快递比价平台 – 一键找到最便宜国际运费",
+      "intro": "SaveShipCost 整合加拿大多家华人货代与主流快递（FedEx、UPS、DHL）的实时报价，帮助渥太华、温哥华、多伦多、蒙特利尔的华人用户快速完成<1>国际运费比价</1>。无论是<1>中国寄加拿大空运</1>、<1>加拿大海运回国</1>，还是<1>留学生行李托运</1>、<1>搬家家具整柜</1>，都能一键对比价格与时效，省去逐家询价的烦恼。",
+      "air": {
+        "title": "✈️ 空运比价",
+        "body": "对比多家货代的<1>中加空运价格</1>，普货、敏感货均可查询，5–10 天送达，适合急件、小包裹。覆盖渥太华（Ottawa/Nepean/Kanata）、温哥华、多伦多全境。"
+      },
+      "sea": {
+        "title": "🚢 海运比价",
+        "body": "支持<1>拼柜（LCL）</1>和<1>整柜（FCL）</1>海运报价查询，适合搬家家具、大件货物，20–40 天到达，价格比空运节省高达 60%。"
+      },
+      "student": {
+        "title": "🎓 留学生专区",
+        "body": "专为<1>加拿大留学生行李托运</1>设计，比较各货代<1>超重行李</1>、<1>学习用品</1>寄回国的价格，找到最划算方案。"
+      }
+    },
+    "seoFaq": {
+      "heading": "中加快递常见问题 – 时效、价格、跨境流程一文看懂",
+      "intro": "想了解<1>中国寄加拿大</1>需要多少时间、运费多少？以下是 SaveShipCost 整理的最常见问题，覆盖空运、海运、快递三种渠道。",
+      "time": {
+        "title": "运送需要多久？",
+        "body": "<1>空运</1>：5–10 个工作日。<br /><1>海运 LCL</1>：20–35 天。<br /><1>海运 FCL</1>：25–40 天。<br />快递（DHL/FedEx）：3–7 天，价格较高。"
+      },
+      "cost": {
+        "title": "寄到加拿大需要多少钱？",
+        "body": "空运：<1>$6–15 CAD/kg</1>。<br />海运 LCL：折算约 <1>$3–8 CAD/kg</1>。<br />华人货代价格通常比 DHL/FedEx 便宜 30–60%（包裹 5kg 以上）。"
+      },
+      "us": {
+        "title": "美国寄加拿大？",
+        "body": "美加之间可用 USPS + Canada Post 寄送小包裹，或使用美国转运地址（部分商家不直接发加）。<1>中加双向</1>请在 SaveShipCost 比较华人货代报价。"
+      }
+    }
+  },
+  "seaFreight": {
+    "meta": {
+      "title": "加拿大海运比价 – 中国寄加拿大拼柜整柜最低价 | SaveShipCost",
+      "description": "对比加拿大多家华人货代海运报价，支持拼柜（LCL）和整柜（FCL），覆盖渥太华、温哥华、多伦多。适合搬家家具、大件货物，20–40 天到达，价格最省。",
+      "keywords": "加拿大海运比价, 中国寄加拿大海运, 拼柜价格, 整柜价格, sea freight Canada, LCL FCL Canada China, 温哥华海运搬家, 加拿大搬家海运, 家具海运"
+    },
+    "title": "海运比价",
+    "subtitle": "比较多家公司的海运价格和服务时效",
+    "filter": {
+      "company": "筛选公司",
+      "selectCompany": "选择公司",
+      "type": "筛选类型",
+      "selectType": "选择类型",
+      "reset": "重置筛选",
+      "resultsCount": "共 {{count}} 条结果"
+    },
+    "table": {
+      "company": "公司名称",
+      "type": "类型",
+      "line": "线路",
+      "firstWeight": "首重(加币)",
+      "additionalWeight": "续重 / 人民币",
+      "transitTime": "时效(天)",
+      "remarks": "备注",
+      "action": "操作",
+      "correct": "纠错"
+    },
+    "cargoType": {
+      "sea": "海运",
+      "general": "海普",
+      "sensitive": "海敏"
+    },
+    "correction": {
+      "success": "已收到纠错建议，谢谢！"
+    },
+    "seo": {
+      "heading": "加拿大海运比价 – 中国寄加拿大拼柜整柜最低价格",
+      "intro": "SaveShipCost 整合多家华人货代的<1>中加海运报价</1>，支持<1>拼柜（LCL）</1>和<1>整柜（FCL）</1>，20–40 天送达加拿大。适合<1>搬家家具海运</1>、大件货物、留学生回国行李整箱托运，价格比空运节省高达 60%。覆盖渥太华、温哥华（Richmond/Burnaby）、多伦多全境。",
+      "lcl": {
+        "title": "拼柜海运（LCL）",
+        "body": "货物不足一个集装箱时，选择<1>LCL 拼柜</1>按体积计费，适合小批量货物，与其他客户共享舱位，经济实惠。"
+      },
+      "fcl": {
+        "title": "整柜海运（FCL）",
+        "body": "<1>FCL 整柜</1>适合大量货物或<1>加拿大搬家家具海运</1>，独享集装箱，安全性高，单价更低。"
+      },
+      "vancouver": {
+        "title": "温哥华海运搬家",
+        "body": "温哥华是加拿大最大海运港口，<1>温哥华海运搬家比价</1>是我们的核心服务之一，对比多家报价轻松找到最优方案。"
+      }
+    }
+  },
+  "footer": {
+    "contact": "联系我们",
+    "disclaimer": "免责声明",
+    "privacyPolicy": "隐私政策",
+    "termsOfUse": "使用条款",
+    "cookiePolicy": "Cookie 说明",
+    "corrections": "纠错记录",
+    "copyright": "© 2026 跨境快递比价平台. All Rights Reserved.",
+    "slogan": "为加拿大华人提供优质物流比价服务"
   }
 }

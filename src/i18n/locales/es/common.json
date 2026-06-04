@@ -29,5 +29,221 @@
   },
   "languageSwitcher": {
     "label": "Idioma"
+  },
+  "common": {
+    "back": "Atrás",
+    "backHome": "Volver al inicio",
+    "loading": "Cargando...",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "reset": "Restablecer",
+    "search": "Buscar",
+    "viewMore": "Ver más"
+  },
+  "airFreight": {
+    "meta": {
+      "title": "Comparación de flete aéreo Canadá – El envío aéreo más barato de China a Canadá | SaveShipCost",
+      "description": "Compare cotizaciones de flete aéreo de transitarios chino-canadienses. Primer peso, peso adicional y tiempos de tránsito. Envíos desde Ottawa, Vancouver y Toronto. Carga general y sensible, entrega en 5–10 días.",
+      "keywords": "flete aéreo Canadá, envío aéreo China Canadá, flete aéreo más barato Canadá, Ottawa flete aéreo, carga sensible flete aéreo"
+    },
+    "title": "Comparación de flete aéreo",
+    "subtitle": "Compare precios y tiempos de tránsito de flete aéreo entre varios proveedores",
+    "filter": {
+      "company": "Filtrar por empresa",
+      "selectCompany": "Seleccionar empresa",
+      "type": "Filtrar por tipo",
+      "selectType": "Seleccionar tipo",
+      "reset": "Restablecer filtros",
+      "resultsCount": "{{count}} resultados"
+    },
+    "table": {
+      "company": "Empresa",
+      "type": "Tipo",
+      "line": "Ruta",
+      "firstWeight": "Primer peso (CAD)",
+      "additionalWeight": "Adic. / CNY",
+      "transitTime": "Tránsito (días)",
+      "remarks": "Notas",
+      "action": "Acción",
+      "correct": "Reportar"
+    },
+    "cargoType": {
+      "air": "Aéreo",
+      "general": "General",
+      "sensitive": "Sensible"
+    },
+    "correction": {
+      "success": "Corrección recibida, ¡gracias!"
+    },
+    "seo": {
+      "heading": "Comparación de flete aéreo Canadá – El envío aéreo más barato de China a Canadá",
+      "intro": "SaveShipCost reúne <1>cotizaciones de flete aéreo China-Canadá</1> de varios transitarios chino-canadienses, cubriendo tanto la <1>carga general</1> como el <1>flete aéreo sensible</1> (electrónica, cosméticos, baterías de litio). Entrega en 5–10 días. Ideal para <1>envíos urgentes a China</1>, paquetes pequeños y equipaje de estudiantes. Servicio en Ottawa (Nepean/Kanata), Vancouver, Toronto y Calgary.",
+      "general": {
+        "title": "Flete aéreo general",
+        "body": "Ropa, libros, artículos diarios: el precio más bajo y el despacho aduanero más fluido. La opción más común para <1>enviar de China a Canadá por vía aérea</1>."
+      },
+      "sensitive": {
+        "title": "Flete aéreo sensible",
+        "body": "Electrónica, baterías de litio, líquidos, cosméticos: la <1>carga sensible</1> requiere canales especializados. Reunimos transitarios que manejan envíos sensibles para una comparación fácil."
+      },
+      "urgent": {
+        "title": "Envío urgente a China",
+        "body": "¿Necesita un <1>envío urgente a China</1>? El flete aéreo entrega en tan solo 5 días. Compare transportistas para encontrar la ruta más rápida al mejor precio."
+      }
+    }
+  },
+  "home": {
+    "meta": {
+      "title": "SaveShipCost | El envío más barato de China a Canadá – Compare transitarios",
+      "description": "SaveShipCost es la plataforma #1 de Canadá para comparar tarifas de envío de China a Canadá. Cotizaciones aéreas y marítimas en vivo de FedEx, UPS, DHL y transitarios chino-canadienses. Ahorre hasta un 60 %.",
+      "keywords": "enviar a Canadá, envío más barato Canadá China, costo de envío China Canadá, flete aéreo Canadá, flete marítimo Canadá, Ottawa envío, comparación de envío internacional"
+    },
+    "hero": {
+      "kicker": "—— CHINA · CANADÁ ENVÍOS",
+      "titleLine1": "Encuentre la mejor",
+      "titleLine2": "tarifa transfronteriza",
+      "titleHighlight": "Ahorre en un clic",
+      "subtitle": "Cotizaciones en vivo de transitarios chino-canadienses. Flete aéreo y marítimo, precios y plazos transparentes — cada envío toma la ruta más rentable.",
+      "calcCta": "Probar la calculadora →",
+      "calcFootnote": "* El peso facturable es orientativo. El precio final depende de la cotización en vivo del transitario.",
+      "airCard": {
+        "title": "Comparación de flete aéreo",
+        "subtitle": "Compare precios y tiempos de tránsito de flete aéreo entre varios proveedores"
+      },
+      "seaCard": {
+        "title": "Comparación de flete marítimo",
+        "subtitle": "Tarifas marítimas transparentes con múltiples opciones de servicio"
+      }
+    },
+    "announcements": {
+      "heading": "Anuncios por ciudad",
+      "subtitle": "Últimas ofertas locales · haga clic para ver detalles",
+      "viewDetail": "Ver detalles →",
+      "countSuffix": "{{count}} actualizaciones"
+    },
+    "delivery": {
+      "heading": "Actualizaciones de entrega recientes",
+      "viewMore": "Ver más transitarios →",
+      "empty": "Aún no hay actualizaciones de entrega; el administrador las publicará pronto.",
+      "filter": {
+        "all": "Todo",
+        "air": "Aéreo",
+        "sea": "Marítimo"
+      },
+      "col": {
+        "departDate": "Salida",
+        "route": "Ruta",
+        "city": "Ciudad",
+        "merchant": "Transitario",
+        "arrival": "Llegada",
+        "mode": "Modo",
+        "eta": "Tránsito"
+      },
+      "mode": {
+        "air": "Aéreo",
+        "sea": "Marítimo"
+      }
+    },
+    "popup": {
+      "expand": "Expandir anuncios",
+      "title": "Últimos anuncios",
+      "minimize": "Minimizar",
+      "close": "Cerrar",
+      "preview": "Vista previa"
+    },
+    "seo": {
+      "heading": "El envío más barato de China a Canadá – Compare las tarifas de los transitarios",
+      "intro": "SaveShipCost es la plataforma #1 de comparación de Canadá para el <1>envío de China a Canadá</1>. Reunimos cotizaciones en vivo de transitarios chinos para encontrar el <1>envío más barato a Canadá</1> sin llamar a cada proveedor. Ya sea que necesite <1>flete aéreo</1> (5–10 días) o <1>flete marítimo</1> (20–40 días), cubrimos Ottawa, Vancouver, Toronto, Calgary y más.",
+      "air": {
+        "title": "✈️ Flete aéreo",
+        "body": "Compare el <1>flete aéreo China-Canadá</1> de varios transitarios. Carga general y sensible, entrega en 5–10 días — ideal para envíos urgentes y paquetes pequeños. Servicio en Ottawa (Nepean/Kanata), Vancouver, Toronto y Calgary."
+      },
+      "sea": {
+        "title": "🚢 Flete marítimo",
+        "body": "Compare cotizaciones de flete marítimo <1>LCL (consolidado)</1> y <1>FCL (contenedor completo)</1>. Perfecto para muebles, carga a granel y mudanzas. Tránsito de 20–40 días y hasta un 60 % más barato que el aéreo."
+      },
+      "student": {
+        "title": "🎓 Para estudiantes",
+        "body": "Diseñado para <1>envíos de equipaje de estudiantes canadienses</1>. Compare tarifas para <1>equipaje extra</1> y <1>materiales escolares</1> enviados a casa — encuentre la opción más económica."
+      }
+    },
+    "seoFaq": {
+      "heading": "FAQ de envíos China-Canadá – Plazos, costos y cómo funciona",
+      "intro": "¿Se pregunta cuánto tarda el <1>envío de China a Canadá</1> o cuánto cuesta? A continuación están las preguntas más comunes, cubriendo canales aéreo, marítimo y exprés.",
+      "time": {
+        "title": "¿Cuánto tarda el envío?",
+        "body": "<1>Flete aéreo</1>: 5–10 días hábiles.<br /><1>Flete marítimo LCL</1>: 20–35 días.<br /><1>Flete marítimo FCL</1>: 25–40 días.<br />Exprés (DHL/FedEx): 3–7 días, precio premium."
+      },
+      "cost": {
+        "title": "¿Cuánto cuesta enviar a Canadá?",
+        "body": "Flete aéreo: <1>6–15 CAD/kg</1>.<br />Flete marítimo LCL: equivalente a <1>3–8 CAD/kg</1>.<br />Los transitarios chino-canadienses son 30–60 % más baratos que DHL/FedEx para paquetes de más de 5 kg."
+      },
+      "us": {
+        "title": "¿Envío desde EE. UU. a Canadá?",
+        "body": "Para EE. UU. ↔ Canadá, USPS + Canada Post funciona para paquetes pequeños, o use una dirección de reenvío en EE. UU. cuando los minoristas no envían fuera de su país. Para <1>China ↔ Canadá</1>, compare transitarios aquí en SaveShipCost."
+      }
+    }
+  },
+  "seaFreight": {
+    "meta": {
+      "title": "Comparación de flete marítimo Canadá – Tarifas LCL y FCL más bajas de China a Canadá | SaveShipCost",
+      "description": "Compare cotizaciones de flete marítimo de transitarios chino-canadienses. LCL y FCL — Ottawa, Vancouver, Toronto. Ideal para muebles, mudanzas y carga a granel. Entrega en 20–40 días.",
+      "keywords": "flete marítimo Canadá, envío marítimo China Canadá, LCL Canadá, FCL Canadá, Vancouver flete marítimo, mudanza marítima Canadá"
+    },
+    "title": "Comparación de flete marítimo",
+    "subtitle": "Compare precios y tiempos de tránsito de flete marítimo entre varios proveedores",
+    "filter": {
+      "company": "Filtrar por empresa",
+      "selectCompany": "Seleccionar empresa",
+      "type": "Filtrar por tipo",
+      "selectType": "Seleccionar tipo",
+      "reset": "Restablecer filtros",
+      "resultsCount": "{{count}} resultados"
+    },
+    "table": {
+      "company": "Empresa",
+      "type": "Tipo",
+      "line": "Ruta",
+      "firstWeight": "Primer peso (CAD)",
+      "additionalWeight": "Adic. / CNY",
+      "transitTime": "Tránsito (días)",
+      "remarks": "Notas",
+      "action": "Acción",
+      "correct": "Reportar"
+    },
+    "cargoType": {
+      "sea": "Marítimo",
+      "general": "LCL General",
+      "sensitive": "LCL Sensible"
+    },
+    "correction": {
+      "success": "Corrección recibida, ¡gracias!"
+    },
+    "seo": {
+      "heading": "Comparación de flete marítimo Canadá – Tarifas LCL y FCL más bajas de China",
+      "intro": "SaveShipCost reúne <1>cotizaciones de flete marítimo China-Canadá</1> de varios transitarios chino-canadienses, soportando tanto <1>LCL (consolidado)</1> como <1>FCL (contenedor completo)</1>. Entrega en 20–40 días. Ideal para <1>envíos de muebles y mudanzas</1>, carga a granel y estudiantes que regresan a casa — hasta un 60 % más barato que el aéreo. Servicio en Ottawa, Vancouver (Richmond/Burnaby) y Toronto.",
+      "lcl": {
+        "title": "Flete marítimo LCL",
+        "body": "Cuando su carga no llena un contenedor, el <1>LCL</1> cobra por volumen — perfecto para lotes pequeños compartiendo espacio con otros transportistas. Económico y flexible."
+      },
+      "fcl": {
+        "title": "Flete marítimo FCL",
+        "body": "El <1>FCL</1> es ideal para envíos grandes o <1>mudanzas y envíos de muebles a Canadá</1>. Contenedor dedicado, mayor seguridad, precio unitario más bajo."
+      },
+      "vancouver": {
+        "title": "Flete marítimo y mudanzas en Vancouver",
+        "body": "Vancouver es el puerto marítimo más grande de Canadá. La <1>comparación de flete marítimo y mudanzas en Vancouver</1> es uno de nuestros servicios principales: compare varias cotizaciones para encontrar la mejor opción."
+      }
+    }
+  },
+  "footer": {
+    "contact": "Contacto",
+    "disclaimer": "Aviso legal",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfUse": "Términos de uso",
+    "cookiePolicy": "Política de cookies",
+    "corrections": "Correcciones",
+    "copyright": "© 2026 Plataforma de comparación de envíos transfronterizos. Todos los derechos reservados.",
+    "slogan": "Comparación de precios de envío transfronterizo de calidad para canadienses"
   }
 }
