@@ -7,7 +7,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import AdSlot from '../components/AdSlot';
 import { AD_CONFIG } from '../config/ads';
 import heroImage from '../assets/55.jpg';
-import { fetchDeliveryUpdates, DeliveryUpdate, fetchCityAnnouncements, CityAnnouncement, fetchPopupNotices, PopupNotice } from '../services/sscData';
+import { fetchDeliveryUpdates, DeliveryUpdate, fetchCityAnnouncements, CityAnnouncement, fetchPopupNotices, PopupNotice, pickTranslatedField } from '../services/sscData';
 import ChargeableWeightCard from '../components/ChargeableWeightCard';
 import { DEFAULT_LANG, isSupportedLang, type SupportedLang } from '../i18n/config';
 
@@ -391,7 +391,7 @@ const Home: React.FC = () => {
                   {latest.companyName && (
                     <div style={{ marginBottom: 5 }}>
                       <span style={{ fontSize: 11, color: '#531dab', background: '#efdbff', padding: '1px 7px', borderRadius: 8 }}>
-                        {latest.companyName}
+                        {pickTranslatedField(latest, 'companyName', lang, latest.companyName)}
                       </span>
                     </div>
                   )}
@@ -400,7 +400,7 @@ const Home: React.FC = () => {
                     display: '-webkit-box', WebkitLineClamp: 2,
                     WebkitBoxOrient: 'vertical', overflow: 'hidden',
                   }}>
-                    {latest.content}
+                    {pickTranslatedField(latest, 'content', lang, latest.content)}
                   </div>
                   <div style={{ marginTop: 6, fontSize: 11, color: '#9254de', fontWeight: 500 }}>
                     {t('home.announcements.viewDetail')}

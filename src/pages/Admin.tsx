@@ -13,6 +13,7 @@ import {
   saveSscPosts, SscPost,
   fetchSscPosts, upsertSscPost,
   CityAnnouncement, fetchCityAnnouncements, upsertCityAnnouncement, deleteCityAnnouncementRemote,
+  translateAnnouncementFields,
   PopupNotice, fetchPopupNotices, upsertPopupNotice, deletePopupNoticeRemote,
   ForumNotice, fetchForumNotices, upsertForumNotice, deleteForumNoticeRemote,
 } from '../services/sscData';
@@ -298,19 +299,59 @@ const AdminPage: React.FC = () => {
       imageUrl: values.imageUrl || undefined,
       sortOrder: editingAnn?.sortOrder ?? 0,
       createdAt: editingAnn?.createdAt || new Date().toISOString(),
+      // Preserve existing translations if the content hasn't changed; otherwise drop and re-translate.
+      translations:
+        editingAnn && editingAnn.content === values.content && editingAnn.companyName === values.companyName
+          ? editingAnn.translations
+          : undefined,
     };
     const err = await upsertCityAnnouncement(item);
     if (err) {
       message.error(`保存失败：${err}`);
       return;
     }
-    const fresh = await fetchCityAnnouncements();
-    setAnnouncements(fresh);
-    setAnnFilterCity(item.city);
     setAnnModalOpen(false);
     annForm.resetFields();
     setAnnImagePreview('');
-    message.success('公告已保存');
+    message.success('公告已保存，正在翻译...');
+
+    // Fire-and-forget translation. Failures don't block the save.
+    if (!item.translations) {
+      translateAnnouncementFields(item.id, { content: item.content, companyName: item.companyName })
+        .then(async (translated) => {
+          if (translated) message.success('翻译完成（en/fr/es）');
+          const fresh = await fetchCityAnnouncements();
+          setAnnouncements(fresh);
+          setAnnFilterCity(item.city);
+        });
+    } else {
+      const fresh = await fetchCityAnnouncements();
+      setAnnouncements(fresh);
+      setAnnFilterCity(item.city);
+    }
+  };
+
+  const handleBackfillTranslations = async () => {
+    const untranslated = announcements.filter(
+      (a) => !a.translations || !a.translations.en || !a.translations.fr || !a.translations.es,
+    );
+    if (untranslated.length === 0) {
+      message.info('所有公告都已翻译完成');
+      return;
+    }
+    const hide = message.loading(`正在翻译 ${untranslated.length} 条公告...`, 0);
+    let ok = 0;
+    let fail = 0;
+    for (const a of untranslated) {
+      const result = await translateAnnouncementFields(a.id, { content: a.content, companyName: a.companyName });
+      if (result) ok++;
+      else fail++;
+    }
+    hide();
+    if (fail === 0) message.success(`已翻译 ${ok} 条公告`);
+    else message.warning(`翻译完成 ${ok} 条，失败 ${fail} 条 — 查看控制台日志`);
+    const fresh = await fetchCityAnnouncements();
+    setAnnouncements(fresh);
   };
 
   const handleAnnDelete = async (id: string) => {
@@ -604,6 +645,9 @@ const AdminPage: React.FC = () => {
             <Button type="primary" icon={<PlusOutlined />} onClick={() => openAnnModal()}>
               新增公告
             </Button>
+            <Button onClick={handleBackfillTranslations}>
+              翻译所有未翻译的公告
+            </Button>
             <Text type="secondary" style={{ fontSize: 12 }}>共 {announcements.length} 条</Text>
           </div>
           <Table
@@ -631,14 +675,54 @@ const AdminPage: React.FC = () => {
                   : <span style={{ color: '#bbb' }}>无</span>,
               },
               {
+                title: '翻译', dataIndex: 'translations', key: 'translations', width: 130,
+                render: (_: unknown, record: CityAnnouncement) => {
+                  const t = record.translations || {};
+                  const langs: Array<'en' | 'fr' | 'es'> = ['en', 'fr', 'es'];
+                  return (
+                    <Space size={2} wrap>
+                      {langs.map((l) => (
+                        <Tag
+                          key={l}
+                          color={t[l]?.content ? 'green' : 'default'}
+                          style={{ fontSize: 10, padding: '0 4px', margin: 0 }}
+                        >
+                          {l.toUpperCase()}
+                        </Tag>
+                      ))}
+                    </Space>
+                  );
+                },
+              },
+              {
                 title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', width: 160,
                 render: (v: string) => new Date(v).toLocaleString('zh-CN', { hour12: false }),
               },
               {
-                title: '操作', key: 'action', width: 140,
+                title: '操作', key: 'action', width: 200,
                 render: (_: unknown, record: CityAnnouncement) => (
                   <Space>
                     <Button size="small" icon={<EditOutlined />} onClick={() => openAnnModal(record)}>编辑</Button>
+                    <Button
+                      size="small"
+                      onClick={async () => {
+                        const hide = message.loading('翻译中...', 0);
+                        const r = await translateAnnouncementFields(record.id, {
+                          content: record.content,
+                          companyName: record.companyName,
+                        });
+                        hide();
+                        if (r) {
+                          message.success('翻译完成');
+                          const fresh = await fetchCityAnnouncements();
+                          setAnnouncements(fresh);
+                        } else {
+                          message.error('翻译失败');
+                        }
+                      }}
+                    >
+                      重新翻译
+                    </Button>
                     <Popconfirm title="确认删除该公告？" onConfirm={() => handleAnnDelete(record.id)}>
                       <Button size="small" danger icon={<DeleteOutlined />}>删除</Button>
                     </Popconfirm>

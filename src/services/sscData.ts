@@ -66,6 +66,13 @@ export interface SscPost {
   deleteReason?: string;
 }
 
+/**
+ * Per-language overrides for translatable text fields.
+ * Example: { en: { content: '...', companyName: '...' }, fr: {...}, es: {...} }
+ * The source-language (zh) text continues to live in the top-level `content` / `companyName` fields.
+ */
+export type Translations = Partial<Record<'zh' | 'en' | 'fr' | 'es', Partial<Record<string, string>>>>;
+
 export interface CityAnnouncement {
   id: string;
   city: string;
@@ -74,6 +81,8 @@ export interface CityAnnouncement {
   imageUrl?: string;
   sortOrder: number;
   createdAt: string;
+  /** Auto-populated by the `translate` Edge Function after upsert. */
+  translations?: Translations;
 }
 
 // ─── Default data ─────────────────────────────────────────────────────────────
@@ -453,6 +462,7 @@ const announcementFromRow = (r: any): CityAnnouncement => ({
   imageUrl: r.image_url ?? undefined,
   sortOrder: r.sort_order ?? 0,
   createdAt: r.created_at,
+  translations: (r.translations && typeof r.translations === 'object') ? r.translations : undefined,
 });
 
 const announcementToRow = (a: CityAnnouncement) => ({
@@ -463,7 +473,63 @@ const announcementToRow = (a: CityAnnouncement) => ({
   image_url: a.imageUrl ?? null,
   sort_order: a.sortOrder,
   created_at: a.createdAt,
+  translations: a.translations ?? {},
 });
+
+/**
+ * Pull the right field for the current display language, falling back to the
+ * source-language value when a translation is missing. Use this in any
+ * component that renders user-supplied multilingual content.
+ */
+export const pickTranslatedField = <T extends { translations?: Translations }>(
+  row: T,
+  field: string,
+  lang: 'zh' | 'en' | 'fr' | 'es',
+  fallback: string,
+): string => {
+  if (lang === 'zh') return fallback;
+  const translated = row.translations?.[lang]?.[field];
+  return (translated && translated.trim()) || fallback;
+};
+
+/**
+ * Invokes the `translate` Edge Function for the given fields and writes the result
+ * straight back into the city_announcements row. Best-effort — errors are logged
+ * but do not throw, so a Translate failure never blocks the main save flow.
+ */
+export const translateAnnouncementFields = async (
+  id: string,
+  fields: { content: string; companyName?: string },
+): Promise<Translations | null> => {
+  const payload = {
+    fields: {
+      content: fields.content,
+      ...(fields.companyName ? { companyName: fields.companyName } : {}),
+    },
+    source: 'zh',
+    targets: ['en', 'fr', 'es'],
+  };
+  try {
+    const { data, error } = await supabase.functions.invoke<Record<string, Record<string, string>>>(
+      'translate',
+      { body: payload },
+    );
+    if (error) { console.error('[translate] invoke error:', error.message); return null; }
+    if (!data) return null;
+
+    // Persist the translations back onto the row.
+    const { error: updErr } = await supabase
+      .from('city_announcements')
+      .update({ translations: data })
+      .eq('id', id);
+    if (updErr) { console.error('[translate] update error:', updErr.message); return null; }
+
+    return data as Translations;
+  } catch (e) {
+    console.error('[translate] exception:', e);
+    return null;
+  }
+};
 
 export const fetchCityAnnouncements = async (city?: string): Promise<CityAnnouncement[]> => {
   try {
