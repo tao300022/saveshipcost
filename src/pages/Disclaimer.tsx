@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Typography, Card, Space } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -36,11 +37,12 @@ const sections = [
 ];
 
 const Disclaimer: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <div style={{ maxWidth: 860, margin: '0 auto', padding: '40px 20px' }}>
       <Helmet>
-        <title>免责声明 | SaveShipCost</title>
-        <meta name="description" content="SaveShipCost免责声明：本平台提供价格参考，不直接参与运输，具体运费以商家实时报价为准。" />
+        <title>{t('pageMeta.disclaimer.title')}</title>
+        <meta name="description" content={t('pageMeta.disclaimer.description')} />
       </Helmet>
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         <div>

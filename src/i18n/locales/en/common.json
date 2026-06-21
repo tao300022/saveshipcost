@@ -245,5 +245,43 @@
     "corrections": "Corrections",
     "copyright": "© 2026 Cross-Border Shipping Comparison Platform. All Rights Reserved.",
     "slogan": "Quality cross-border shipping price comparison for Canadians"
+  },
+  "pageMeta": {
+    "ottawa": {
+      "title": "{{city}} Chinese Freight Forwarders – Cheapest Shipping to China | SaveShipCost",
+      "description": "Compare {{city}} Chinese freight forwarders for air and sea shipping to China. Student luggage, parcels and bulk cargo — find the cheapest China-Canada route from {{city}}.",
+      "keywords": "{{city}} Chinese courier, {{city}} shipping to China, {{city}} freight forwarder, cheapest shipping {{city}}, ship to China from {{city}}, student luggage shipping {{city}}"
+    },
+    "faq": {
+      "title": "Shipping FAQ – How Long & How Much from China to Canada | SaveShipCost",
+      "description": "Answers to common China-Canada shipping questions: delivery times, the cheapest way to ship, cost per kg, air vs sea freight, customs and more.",
+      "keywords": "shipping china to canada time, cheapest shipping to canada, shipping cost per kg china canada, air vs sea freight, customs canada, china canada freight"
+    },
+    "forum": {
+      "title": "Shipping Forum – Share China-Canada Shipping Tips | SaveShipCost",
+      "description": "Join the SaveShipCost community to share China-Canada shipping experiences, group-shipping tips and freight forwarder reviews, and help others save on shipping.",
+      "keywords": "china canada shipping forum, shipping tips canada, freight forwarder reviews canada, group shipping, shipping community canada"
+    },
+    "contact": {
+      "title": "Contact Us – SaveShipCost Support & Feedback",
+      "description": "Questions or suggestions? Contact the SaveShipCost team for help with China-Canada shipping quotes and freight forwarder comparison.",
+      "keywords": "contact SaveShipCost, china canada shipping help, freight forwarder canada contact, shipping quote help"
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy | SaveShipCost",
+      "description": "Learn how SaveShipCost collects, uses and protects your personal information. We are committed to safeguarding your privacy."
+    },
+    "termsOfUse": {
+      "title": "Terms of Use | SaveShipCost",
+      "description": "Read the SaveShipCost Terms of Use to understand your rights and responsibilities when using our platform."
+    },
+    "disclaimer": {
+      "title": "Disclaimer | SaveShipCost",
+      "description": "SaveShipCost disclaimer: we provide price references only and do not handle shipping directly. Final rates are subject to each forwarder's live quote."
+    },
+    "cookiePolicy": {
+      "title": "Cookie Policy | SaveShipCost",
+      "description": "Learn how SaveShipCost uses cookies to improve your browsing experience and how you can manage your cookie preferences."
+    }
   }
 }

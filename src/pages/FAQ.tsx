@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 
 const faqs = [
   {
@@ -301,12 +302,13 @@ const faqs = [
 ];
 
 const FAQ: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <div style={{ background: '#f0f2f5', minHeight: '100%', padding: '40px 20px' }}>
       <Helmet>
-        <title>FAQ – How Long & How Much to Ship from China to Canada | SaveShipCost</title>
-        <meta name="description" content="Answers to common China-Canada shipping questions: how long does shipping take, cheapest way to ship to Canada, cost per kg, air vs sea freight, and more. 中加跨境物流常见问题解答。" />
-        <meta name="keywords" content="how long does shipping from china to canada take, cheapest shipping to canada from china, shipping cost from china to canada, ship to canada, how much to ship to canada, china canada freight, shipping from us to canada, air freight canada, sea freight canada, 中国寄加拿大运费, 空运时效, 海运价格" />
+        <title>{t('pageMeta.faq.title')}</title>
+        <meta name="description" content={t('pageMeta.faq.description')} />
+        <meta name="keywords" content={t('pageMeta.faq.keywords')} />
       </Helmet>
       <div style={{ maxWidth: 860, margin: '0 auto' }}>
 

@@ -29,12 +29,24 @@ const LANGS = ['zh', 'en', 'fr', 'es'];
 const HREFLANG = { zh: 'zh-CN', en: 'en', fr: 'fr', es: 'es' };
 const DEFAULT_LANG = 'en';
 
-// subPath (without lang prefix) -> top-level i18n section holding `.meta`.
-const META_SECTION = {
-  '/': 'home',
-  '/air-freight': 'airFreight',
-  '/sea-freight': 'seaFreight',
+// subPath (without lang prefix) -> dotted path in the i18n JSON holding the meta
+// object ({ title, description, keywords? }).
+const META_PATH = {
+  '/': 'home.meta',
+  '/air-freight': 'airFreight.meta',
+  '/sea-freight': 'seaFreight.meta',
+  '/ottawa': 'pageMeta.ottawa',
+  '/faq': 'pageMeta.faq',
+  '/forum': 'pageMeta.forum',
+  '/contact': 'pageMeta.contact',
+  '/privacy-policy': 'pageMeta.privacyPolicy',
+  '/terms-of-use': 'pageMeta.termsOfUse',
+  '/disclaimer': 'pageMeta.disclaimer',
+  '/cookie-policy': 'pageMeta.cookiePolicy',
 };
+
+// Default city for the static /ottawa snapshot (page supports ?city= at runtime).
+const OTTAWA_CITY = { zh: '渥太华' };
 
 const esc = (s) =>
   String(s)
@@ -54,13 +66,13 @@ function routesFromSitemap() {
 
 // Lazy-load + cache each language's translation JSON.
 const localeCache = {};
-function meta(lang, section) {
-  if (!section) return null;
+function meta(lang, path) {
+  if (!path) return null;
   if (!localeCache[lang]) {
     const file = join(ROOT, 'src', 'i18n', 'locales', lang, 'common.json');
     localeCache[lang] = JSON.parse(readFileSync(file, 'utf8'));
   }
-  return localeCache[lang]?.[section]?.meta ?? null;
+  return path.split('.').reduce((o, k) => o?.[k], localeCache[lang]) ?? null;
 }
 
 function buildHead(route) {
@@ -79,7 +91,13 @@ function buildHead(route) {
   const headLinks =
     `\n    <link rel="canonical" href="${canonical}" />\n    ` + links.join('\n    ') + '\n  ';
 
-  const m = meta(lang, META_SECTION[subPath]);
+  let m = meta(lang, META_PATH[subPath]);
+  if (m && subPath === '/ottawa') {
+    const city = OTTAWA_CITY[lang] ?? 'Ottawa';
+    m = Object.fromEntries(
+      Object.entries(m).map(([k, v]) => [k, String(v).replace(/\{\{city\}\}/g, city)])
+    );
+  }
   return { lang, canonical, headLinks, m };
 }
 

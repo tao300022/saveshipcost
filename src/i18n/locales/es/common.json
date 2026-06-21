@@ -245,5 +245,43 @@
     "corrections": "Correcciones",
     "copyright": "© 2026 Plataforma de comparación de envíos transfronterizos. Todos los derechos reservados.",
     "slogan": "Comparación de precios de envío transfronterizo de calidad para canadienses"
+  },
+  "pageMeta": {
+    "ottawa": {
+      "title": "Agentes de carga chinos en {{city}} – Envío más barato a China | SaveShipCost",
+      "description": "Compara agentes de carga chinos en {{city}} para envíos aéreos y marítimos a China. Equipaje de estudiantes, paquetes y carga — encuentra la tarifa más barata desde {{city}}.",
+      "keywords": "agente de carga chino {{city}}, envío {{city}} China, paquetes a China {{city}}, flete aéreo {{city}}, equipaje estudiantes {{city}}, mudanza China {{city}}"
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes – Tiempos y Tarifas China a Canadá | SaveShipCost",
+      "description": "Respuestas a preguntas comunes sobre envíos China-Canadá: tiempos de entrega, método más barato, tarifa por kilo, aéreo vs marítimo, aduana y más.",
+      "keywords": "tiempo envío China Canadá, tarifa envío China Canadá, precio por kilo, flete aéreo vs marítimo, aduana Canadá"
+    },
+    "forum": {
+      "title": "Foro de Envíos – Consejos China-Canadá | SaveShipCost",
+      "description": "Únete a la comunidad SaveShipCost para compartir experiencias de envío China-Canadá, consejos de envío grupal y reseñas de agentes de carga.",
+      "keywords": "foro envíos China Canadá, consejos envío Canadá, reseñas agente de carga Canadá, envío grupal"
+    },
+    "contact": {
+      "title": "Contáctanos – Soporte de SaveShipCost",
+      "description": "¿Preguntas o sugerencias? Contacta al equipo de SaveShipCost para ayuda con cotizaciones de envío China-Canadá y comparación de agentes de carga.",
+      "keywords": "contacto SaveShipCost, ayuda envío China Canadá, contacto agente de carga Canadá, cotización envío"
+    },
+    "privacyPolicy": {
+      "title": "Política de privacidad | SaveShipCost",
+      "description": "Descubre cómo SaveShipCost recopila, usa y protege tu información personal. Nos comprometemos a salvaguardar tu privacidad."
+    },
+    "termsOfUse": {
+      "title": "Términos de uso | SaveShipCost",
+      "description": "Lee los términos de uso de SaveShipCost para entender tus derechos y responsabilidades al usar nuestra plataforma."
+    },
+    "disclaimer": {
+      "title": "Aviso legal | SaveShipCost",
+      "description": "Aviso legal de SaveShipCost: solo proporcionamos referencias de precios y no gestionamos el envío. Las tarifas finales dependen de la cotización en vivo de cada agente."
+    },
+    "cookiePolicy": {
+      "title": "Política de cookies | SaveShipCost",
+      "description": "Descubre cómo SaveShipCost usa cookies para mejorar tu navegación y cómo gestionar tus preferencias de cookies."
+    }
   }
 }

@@ -29,7 +29,20 @@
       "Bash(supabase functions *)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(git check-ignore *)",
+      "Bash(curl -sL https://www.saveshipcost.com/en/air-freight)",
+      "Bash(curl -sI https://www.saveshipcost.com/air-freight)",
+      "Bash(curl -sL https://www.saveshipcost.com/en/air-freight/)",
+      "Bash(curl -sI https://www.saveshipcost.com/en/air-freight)",
+      "Bash(vercel --version)",
+      "Bash(git rm *)",
+      "Bash(curl -sL https://www.saveshipcost.com/en/air-freight/index.html?cb=__TRACKED_VAR__)",
+      "Bash(curl -so /dev/null -w '%{http_code}\\\\n' https://www.saveshipcost.com/en/air-freight/index.html?cb=__TRACKED_VAR__)",
+      "Bash(curl -sL https://www.saveshipcost.com/en/air-freight/?cb=__TRACKED_VAR__)",
+      "Bash(curl -sL https://www.saveshipcost.com/en/air-freight?cb=__TRACKED_VAR__)",
+      "Bash(sed -n '1,55p' src/pages/Ottawa.tsx)",
+      "Bash(awk '/<Helmet>/,/<\\\\/Helmet>/' src/pages/CookiePolicy.tsx)"
     ]
   }
 }

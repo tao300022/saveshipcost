@@ -245,5 +245,43 @@
     "corrections": "纠错记录",
     "copyright": "© 2026 跨境快递比价平台. All Rights Reserved.",
     "slogan": "为加拿大华人提供优质物流比价服务"
+  },
+  "pageMeta": {
+    "ottawa": {
+      "title": "{{city}}华人快递推荐 – 寄中国最便宜货代比价 | SaveShipCost",
+      "description": "{{city}}华人快递货代推荐，对比本地空运海运价格，留学生行李托运、包裹寄回国首选，轻松找到最划算的中加跨境物流方案。",
+      "keywords": "{{city}}华人快递, {{city}}寄中国, {{city}}货代推荐, 留学生行李托运, {{city}}空运海运, 中加跨境物流"
+    },
+    "faq": {
+      "title": "运费常见问题 – 中国寄加拿大要多久多少钱 | SaveShipCost",
+      "description": "中加跨境物流常见问题解答：运输时效、最省钱寄法、每公斤运费、空运海运对比、清关须知等，助你轻松寄件。",
+      "keywords": "中国寄加拿大要多久, 中国寄加拿大运费, 每公斤运费, 空运海运对比, 清关须知, 最便宜寄加拿大"
+    },
+    "forum": {
+      "title": "首重拼邮留言板 – 分享跨境寄件经验 | SaveShipCost",
+      "description": "加入 SaveShipCost 社区，分享中加跨境拼邮、首重寄件经验，交流货代推荐与运费心得，帮助更多华人省运费。",
+      "keywords": "首重拼邮, 跨境寄件经验, 华人货代推荐, 中加运费心得, 拼邮技巧, 加拿大华人论坛"
+    },
+    "contact": {
+      "title": "联系我们 – SaveShipCost 客服与反馈",
+      "description": "有疑问或建议？联系 SaveShipCost 团队，我们帮助加拿大华人解决跨境运费比价相关问题。",
+      "keywords": "联系 SaveShipCost, 跨境运费咨询, 货代推荐反馈, 运费比价帮助"
+    },
+    "privacyPolicy": {
+      "title": "隐私政策 | SaveShipCost",
+      "description": "了解 SaveShipCost 如何收集、使用和保护您的个人信息，我们承诺保障您的隐私安全。"
+    },
+    "termsOfUse": {
+      "title": "使用条款 | SaveShipCost",
+      "description": "阅读 SaveShipCost 使用条款，了解使用本平台时的权利与义务。"
+    },
+    "disclaimer": {
+      "title": "免责声明 | SaveShipCost",
+      "description": "SaveShipCost 免责声明：本平台提供价格参考，不直接参与运输，具体运费以商家实时报价为准。"
+    },
+    "cookiePolicy": {
+      "title": "Cookie 政策 | SaveShipCost",
+      "description": "了解 SaveShipCost 如何使用 Cookie 改善您的浏览体验，以及如何管理您的 Cookie 偏好设置。"
+    }
   }
 }

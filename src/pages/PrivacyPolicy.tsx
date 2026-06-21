@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Typography, Card, Space, Table } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -18,11 +19,12 @@ const columns = [
 ];
 
 const PrivacyPolicy: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <div style={{ maxWidth: 860, margin: '0 auto', padding: '40px 20px' }}>
       <Helmet>
-        <title>隐私政策 | SaveShipCost</title>
-        <meta name="description" content="了解SaveShipCost如何收集、使用和保护您的个人信息，我们承诺保障您的隐私安全。" />
+        <title>{t('pageMeta.privacyPolicy.title')}</title>
+        <meta name="description" content={t('pageMeta.privacyPolicy.description')} />
       </Helmet>
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         <div>

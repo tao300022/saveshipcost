@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 import {
   Form, Input, Select, Button, Card, Typography,
   Space, Row, Col, Modal, Divider,
@@ -37,6 +38,7 @@ interface FormValues {
 }
 
 const Contact: React.FC = () => {
+  const { t } = useTranslation();
   const [form] = Form.useForm<FormValues>();
   const [submitting, setSubmitting] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -71,9 +73,9 @@ const Contact: React.FC = () => {
   return (
     <div style={{ maxWidth: 900, margin: '0 auto', padding: '40px 20px' }}>
       <Helmet>
-        <title>联系我们 – SaveShipCost 客服与反馈 | Contact Us</title>
-        <meta name="description" content="有疑问或建议？联系SaveShipCost团队，我们帮助加拿大华人解决跨境运费比价相关问题。Contact SaveShipCost for help with China-Canada shipping quotes." />
-        <meta name="keywords" content="联系SaveShipCost, 跨境运费咨询, 货代推荐反馈, contact SaveShipCost, China Canada shipping help, freight forwarder Canada contact, shipping quote Canada China" />
+        <title>{t('pageMeta.contact.title')}</title>
+        <meta name="description" content={t('pageMeta.contact.description')} />
+        <meta name="keywords" content={t('pageMeta.contact.keywords')} />
       </Helmet>
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         <div>

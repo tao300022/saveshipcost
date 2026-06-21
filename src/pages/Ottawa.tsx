@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Typography } from 'antd';
 import { EnvironmentOutlined, RightOutlined, NotificationOutlined } from '@ant-design/icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { fetchMerchants, Merchant, fetchCityAnnouncements, CityAnnouncement } from '../services/sscData';
 
 const { Title, Paragraph } = Typography;
@@ -19,6 +20,7 @@ const CITY_LABELS: Record<string, string> = {
 };
 
 const Ottawa: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const currentCity = searchParams.get('city') || 'Ottawa';
@@ -40,13 +42,15 @@ const Ottawa: React.FC = () => {
   }, [currentCity]);
 
   const cityName = cityLabel.split('·')[1]?.trim() ?? currentCity;
+  // zh meta reads better with the Chinese city name; other languages use the English name.
+  const metaCity = i18n.language === 'zh' ? cityName : currentCity;
 
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 20px' }}>
       <Helmet>
-        <title>{cityLabel} 华人快递推荐 – 寄中国最便宜货代比价 | SaveShipCost</title>
-        <meta name="description" content={`${cityName}华人快递货代推荐，对比本地空运海运价格，覆盖 Nepean、Kanata、Gloucester 等地区，留学生行李托运、包裹寄回国首选，轻松找到最划算的中加跨境物流方案。`} />
-        <meta name="keywords" content={`${cityName}华人快递, ${cityName}寄中国, ${cityName}货代推荐, Nepean shipping, Kanata快递, 留学生行李托运, ${cityName} Chinese courier, cheapest shipping ${cityName}, ship to Canada from China ${cityName}, ${cityName} freight forwarder, shipping cost ${cityName} Canada, Chinese freight forwarder Canada`} />
+        <title>{t('pageMeta.ottawa.title', { city: metaCity })}</title>
+        <meta name="description" content={t('pageMeta.ottawa.description', { city: metaCity })} />
+        <meta name="keywords" content={t('pageMeta.ottawa.keywords', { city: metaCity })} />
       </Helmet>
 
       {/* 页面标题 */}

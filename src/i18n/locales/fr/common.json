@@ -245,5 +245,43 @@
     "corrections": "Corrections",
     "copyright": "© 2026 Plateforme de comparaison d'expédition transfrontalière. Tous droits réservés.",
     "slogan": "Comparaison de prix d'expédition transfrontalière de qualité pour les Canadiens"
+  },
+  "pageMeta": {
+    "ottawa": {
+      "title": "Transitaires chinois à {{city}} – Envoi le moins cher vers la Chine | SaveShipCost",
+      "description": "Comparez les transitaires chinois de {{city}} pour l'expédition aérienne et maritime vers la Chine. Bagages étudiants, colis et fret — trouvez le tarif le moins cher depuis {{city}}.",
+      "keywords": "transitaire chinois {{city}}, expédition {{city}} Chine, envoi colis Chine {{city}}, fret aérien {{city}}, bagages étudiants {{city}}, déménagement Chine {{city}}"
+    },
+    "faq": {
+      "title": "FAQ Expédition – Délais et Tarifs Chine vers Canada | SaveShipCost",
+      "description": "Réponses aux questions fréquentes sur l'expédition Chine-Canada : délais de livraison, méthode la moins chère, tarif au kilo, aérien vs maritime, douane et plus.",
+      "keywords": "délai expédition Chine Canada, tarif expédition Chine Canada, prix au kilo, fret aérien vs maritime, douane Canada"
+    },
+    "forum": {
+      "title": "Forum d'expédition – Astuces Chine-Canada | SaveShipCost",
+      "description": "Rejoignez la communauté SaveShipCost pour partager vos expériences d'expédition Chine-Canada, astuces d'envoi groupé et avis sur les transitaires.",
+      "keywords": "forum expédition Chine Canada, astuces envoi Canada, avis transitaire Canada, envoi groupé"
+    },
+    "contact": {
+      "title": "Contactez-nous – Support SaveShipCost",
+      "description": "Des questions ou des suggestions ? Contactez l'équipe SaveShipCost pour vous aider avec les devis d'expédition Chine-Canada et la comparaison de transitaires.",
+      "keywords": "contact SaveShipCost, aide expédition Chine Canada, contact transitaire Canada, devis expédition"
+    },
+    "privacyPolicy": {
+      "title": "Politique de confidentialité | SaveShipCost",
+      "description": "Découvrez comment SaveShipCost collecte, utilise et protège vos informations personnelles. Nous nous engageons à protéger votre vie privée."
+    },
+    "termsOfUse": {
+      "title": "Conditions d'utilisation | SaveShipCost",
+      "description": "Lisez les conditions d'utilisation de SaveShipCost pour comprendre vos droits et responsabilités lors de l'utilisation de notre plateforme."
+    },
+    "disclaimer": {
+      "title": "Avertissement | SaveShipCost",
+      "description": "Avertissement SaveShipCost : nous fournissons uniquement des références de prix et ne gérons pas l'expédition. Les tarifs finaux dépendent du devis en direct de chaque transitaire."
+    },
+    "cookiePolicy": {
+      "title": "Politique de cookies | SaveShipCost",
+      "description": "Découvrez comment SaveShipCost utilise les cookies pour améliorer votre navigation et comment gérer vos préférences de cookies."
+    }
   }
 }
