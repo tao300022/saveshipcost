@@ -4,8 +4,7 @@ import { Card, Button, Typography, Tag, Table, Modal } from 'antd';
 import { SendOutlined, GlobalOutlined, RightOutlined, EnvironmentOutlined, NotificationOutlined, MinusOutlined, CloseOutlined, BellOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
-import AdSlot from '../components/AdSlot';
-import { AD_CONFIG } from '../config/ads';
+import AdsterraNativeBanner from '../components/AdsterraNativeBanner';
 import heroImage from '../assets/55.jpg';
 import { fetchDeliveryUpdates, DeliveryUpdate, fetchCityAnnouncements, CityAnnouncement, fetchPopupNotices, PopupNotice, pickTranslatedField } from '../services/sscData';
 import ChargeableWeightCard from '../components/ChargeableWeightCard';
@@ -412,9 +411,9 @@ const Home: React.FC = () => {
         </div>
       )}
 
-      {/* Ad slot — below hero */}
+      {/* Ad slot — below hero (Adsterra Native Banner 30719292) */}
       <div style={{ padding: '12px 20px', maxWidth: 1200, margin: '0 auto' }}>
-        <AdSlot slotId="home_top_banner" variant="banner" enabled={AD_CONFIG.home_top_banner} />
+        <AdsterraNativeBanner />
       </div>
 
       {/* Recent delivery updates */}
