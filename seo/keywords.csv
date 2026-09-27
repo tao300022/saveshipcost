@@ -1,0 +1,21 @@
+keyword,language,country,intent,path,priority,status
+shipping from china to canada,en,CAN,运费比较,/en,P1,候选待GSC验证
+china to canada shipping cost,en,CAN,成本计算,/en,P1,候选待GSC验证
+cheap shipping from china to canada,en,CAN,运费比较,/en,P1,候选待GSC验证
+freight forwarder china to canada,en,CAN,货代比较,/en,P1,候选待GSC验证
+air freight china to canada,en,CAN,空运比较,/en/air-freight,P1,候选待GSC验证
+air shipping china to canada cost,en,CAN,空运成本,/en/air-freight,P1,候选待GSC验证
+sea freight china to canada,en,CAN,海运比较,/en/sea-freight,P1,候选待GSC验证
+sea shipping china to canada cost,en,CAN,海运成本,/en/sea-freight,P1,候选待GSC验证
+how long does shipping from china to canada take,en,CAN,运输时效,/en/faq,P2,候选待GSC验证
+shipping from china to ottawa,en,CAN,城市服务,/en/ottawa,P2,候选待GSC验证
+中国寄加拿大,zh,CAN,运费比较,/zh,P1,候选待GSC验证
+中国到加拿大集运,zh,CAN,货代比较,/zh,P1,候选待GSC验证
+加拿大集运比价,zh,CAN,运费比较,/zh,P1,候选待GSC验证
+中国寄加拿大运费,zh,CAN,成本计算,/zh,P1,候选待GSC验证
+中国到加拿大空运,zh,CAN,空运比较,/zh/air-freight,P1,候选待GSC验证
+中国到加拿大海运,zh,CAN,海运比较,/zh/sea-freight,P1,候选待GSC验证
+加拿大海运多久,zh,CAN,运输时效,/zh/faq,P2,候选待GSC验证
+渥太华集运,zh,CAN,城市服务,/zh/ottawa,P2,候选待GSC验证
+expédition chine canada,fr,CAN,运费比较,/fr,P2,候选待GSC验证
+fret maritime chine canada,fr,CAN,海运比较,/fr/sea-freight,P2,候选待GSC验证

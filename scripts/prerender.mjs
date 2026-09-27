@@ -122,6 +122,15 @@ function inject(shell, route) {
     );
 
   // Point Open Graph at this route's canonical URL.
+  // Share previews must describe the same language and page as the search title.
+  for (const prefix of ['og', 'twitter']) {
+    for (const field of ['title', 'description']) {
+      if (!m?.[field]) continue;
+      const attribute = prefix === 'og' ? 'property' : 'name';
+      const pattern = new RegExp(`<meta ${attribute}="${prefix}:${field}" content="[^"]*"\\s*\\/?>`);
+      html = html.replace(pattern, () => `<meta ${attribute}="${prefix}:${field}" content="${esc(m[field])}" />`);
+    }
+  }
   html = html.replace(
     /<meta property="og:url" content="[^"]*"\s*\/?>/,
     `<meta property="og:url" content="${canonical}" />`
