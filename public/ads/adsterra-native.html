@@ -25,14 +25,16 @@
       (() => {
         // The wrapper exists on both deployments; only the isolated origin may run ads.
         if (location.origin !== 'https://saveshipcost-6t2b.vercel.app') return;
-        const container = document.getElementById(
-          'container-d442018b3295375e1db86739cf9bafcb',
-        );
+        const containerId = 'container-d442018b3295375e1db86739cf9bafcb';
         let lastHeight = -1;
+        let pendingFrame = 0;
 
         const reportHeight = () => {
+          pendingFrame = 0;
+          // Providers may replace the original container. Measure the live node.
+          const container = document.getElementById(containerId);
           const height = Math.ceil(
-            Math.max(container.scrollHeight, container.getBoundingClientRect().height),
+            Math.max(container?.scrollHeight ?? 0, container?.getBoundingClientRect().height ?? 0),
           );
 
           if (height === lastHeight) return;
@@ -43,7 +45,21 @@
           );
         };
 
-        new ResizeObserver(reportHeight).observe(container);
+        const scheduleMeasurement = () => {
+          if (!pendingFrame) pendingFrame = requestAnimationFrame(reportHeight);
+        };
+        // The body survives provider container replacement. Mutation observation
+        // also catches overflow/absolute-positioned content and style updates.
+        const resizeObserver = new ResizeObserver(scheduleMeasurement);
+        resizeObserver.observe(document.body);
+        const mutationObserver = new MutationObserver(scheduleMeasurement);
+        mutationObserver.observe(document.body, {
+          childList: true, subtree: true, attributes: true, characterData: true,
+        });
+        document.addEventListener('load', scheduleMeasurement, true);
+        window.addEventListener('resize', scheduleMeasurement);
+        // Frame teardown destroys these observers; keep them active for BFCache restores.
+        scheduleMeasurement();
         const script = document.createElement('script');
         script.async = true;
         script.setAttribute('data-cfasync', 'false');
