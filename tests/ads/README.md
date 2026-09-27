@@ -54,3 +54,12 @@ still require provider/user verification. A local rendering test is not a claim
 of production success. Adsterra category exclusions remain provider-side.
 Never grant same-origin access to a script-enabled frame hosted on the app's
 origin, and never add top-navigation permission to restore ad compatibility.
+
+## Replaced-container sizing regression
+
+Click "Replace ad container": the parent frame must resize to 640px. Then
+click "Resize replacement to 900px": it must resize again to 900px. This
+exercises provider replacement of the originally observed node. Both passed
+in Chrome. The wrapper observes the stable body and mutations and measures
+the live container; measurements are coalesced with requestAnimationFrame.
+No extra ad requests, refreshes or changes to sandbox permissions are added.
