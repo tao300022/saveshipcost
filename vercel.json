@@ -5,6 +5,12 @@
       "key": "Content-Security-Policy",
       "value": "frame-src https://saveshipcost-6t2b.vercel.app;"
     }]
+  }, {
+    "source": "/:lang(zh|en|fr|es)/:private(login|register|forgot-password|reset-password|admin|corrections)",
+    "headers": [{ "key": "X-Robots-Tag", "value": "noindex, follow" }]
+  }, {
+    "source": "/:private(login|register|forgot-password|reset-password|admin|corrections)",
+    "headers": [{ "key": "X-Robots-Tag", "value": "noindex, follow" }]
   }],
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
