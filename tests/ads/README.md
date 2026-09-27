@@ -1,7 +1,7 @@
 # Native banner isolation regression
 
 Run `node scripts/test-ad-server.mjs` and open
-`http://127.0.0.1:4178/tests/ads/index.html` in a browser.
+`http://127.0.0.1:4183/tests/ads/index.html` in a browser.
 
 This server serves the real React component and real frame HTML, replacing only
 the external ad script with a deliberately hostile local fixture. It uses a
@@ -26,25 +26,31 @@ Check these behaviors:
 7. Repeat a return to Home with the frame document cached. Initial height must
    still update. A layout effect subscribes before the cached frame can report.
 
-## Verified in this repair
+## Cookie compatibility repair
 
-- Production TypeScript/Vite build and generation of 44 SEO head documents.
-- Parent DOM/click isolation and both automatic/user-activated top-navigation
-  attempts blocked in the in-app browser.
-- Height source validation, dynamic resize, 1200px cap, iframe removal and timer
-  shutdown on navigation.
-- Chrome initial isolation checks and a normal mock ad opening a new tab.
-- Full-app Air/Sea navigation, inner-page refresh, desktop and 390px layout.
+The test parent uses 127.0.0.1 and the frame uses localhost on the same test
+server. These are different origins. The test-only transform substitutes the
+production isolated origin; production assets retain the real Adsterra URL.
+
+Production serves the frame from the existing public saveshipcost-6t2b.vercel.app
+alias. The primary app may grant allow-same-origin only to this separate origin.
+The wrapper refuses to execute ads on other origins. The alternate deployment's
+app suppresses its banner rather than embedding itself with same-origin access.
+A frame-src CSP on app pages prevents a creative from navigating its frame to a
+main-origin document. The ad wrapper has no such restriction on its own nested
+frames, so provider content can render normally.
+
+Verified for this change:
+- Actual Adsterra creative titles rendered in a local parent embedding the live
+  isolated-origin wrapper. No real ads clicked. No cookie SecurityError.
+- Local hostile creative: cookie reads succeed; parent DOM/click access and
+  automatic/user-activated top navigation remain blocked.
+- Forged parent resize ignored; 180 -> 500 -> 1200px cap; navigation removes frame.
 
 ## Limits
 
-This verifies browser isolation with a controlled creative. It does not certify
-Adsterra's current live fill, tracking, creative categories or every third-party
-landing page. Opaque-origin sandboxing intentionally prevents access to the
-site's cookies/storage and may affect provider features that depend on them.
-Validate live ad display on a preview and real mobile device before marking the
-production incident resolved. Category exclusions require provider-side action.
-
-The frame must never gain `allow-same-origin` or top-navigation permissions to
-work around a provider compatibility failure. Keep such a failure visible for
-review instead of restoring the parent-document script injection.
+Actual impressions, revenue, creative categories and Chinese WeChat behavior
+still require provider/user verification. A local rendering test is not a claim
+of production success. Adsterra category exclusions remain provider-side.
+Never grant same-origin access to a script-enabled frame hosted on the app's
+origin, and never add top-navigation permission to restore ad compatibility.
