@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, Button, Typography, Tag, Table, Modal } from 'antd';
 import { SendOutlined, GlobalOutlined, RightOutlined, EnvironmentOutlined, NotificationOutlined, MinusOutlined, CloseOutlined, BellOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import AdsterraNativeBanner from '../components/AdsterraNativeBanner';
 import heroImage from '../assets/55.jpg';
@@ -207,9 +207,10 @@ const Home: React.FC = () => {
             </Button>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <div
-                onClick={() => handleNavigate('/air-freight')}
+              <Link
+                to={localized('/air-freight')}
                 style={{
+                  textDecoration: 'none',
                   background: '#f7f9ff',
                   borderRadius: 14,
                   padding: '14px 20px',
@@ -233,11 +234,12 @@ const Home: React.FC = () => {
                   <div style={{ fontSize: 12, color: '#8a9bb8', marginTop: 2 }}>{t('home.hero.airCard.subtitle')}</div>
                 </div>
                 <RightOutlined style={{ color: '#667eea', fontSize: 12 }} />
-              </div>
+              </Link>
 
-              <div
-                onClick={() => handleNavigate('/sea-freight')}
+              <Link
+                to={localized('/sea-freight')}
                 style={{
+                  textDecoration: 'none',
                   background: '#f7f9ff',
                   borderRadius: 14,
                   padding: '14px 20px',
@@ -261,7 +263,7 @@ const Home: React.FC = () => {
                   <div style={{ fontSize: 12, color: '#8a9bb8', marginTop: 2 }}>{t('home.hero.seaCard.subtitle')}</div>
                 </div>
                 <RightOutlined style={{ color: '#11998e', fontSize: 12 }} />
-              </div>
+              </Link>
             </div>
           </div>
 

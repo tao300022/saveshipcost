@@ -94,25 +94,25 @@
   },
   "home": {
     "meta": {
-      "title": "SaveShipCost | Cheapest Shipping from China to Canada – Compare Freight Forwarders",
-      "description": "SaveShipCost is Canada's #1 platform for comparing shipping rates from China to Canada. Live air and sea freight quotes from FedEx, UPS, DHL and Chinese-Canadian forwarders. Save up to 60% on cross-border shipping.",
+      "title": "Shipping from China to Canada: Compare Freight | SaveShipCost",
+      "description": "Compare air and sea freight options from China to Canada. Review pricing terms, chargeable weight and delivery estimates before requesting a written quote.",
       "keywords": "ship to Canada, cheapest shipping to Canada from China, shipping cost China Canada, air freight Canada, sea freight Canada, Ottawa shipping, Vancouver shipping, international shipping comparison"
     },
     "hero": {
       "kicker": "—— CHINA · CANADA SHIPPING",
-      "titleLine1": "Find the best",
-      "titleLine2": "cross-border rate",
-      "titleHighlight": "Save in one click",
-      "subtitle": "Live quotes from Chinese-Canadian freight forwarders. Air and sea freight, transparent prices and transit times — every shipment takes the most cost-effective route.",
+      "titleLine1": "Compare shipping",
+      "titleLine2": "from China",
+      "titleHighlight": "to Canada",
+      "subtitle": "Compare air and sea freight options for your China-to-Canada shipment. Prepare your packed weight, dimensions, cargo description and Canadian delivery postal code, then confirm the price and service scope with the forwarder before booking.",
       "calcCta": "Try the calculator →",
       "calcFootnote": "* Billable weight is indicative. Final price depends on the forwarder's live quote.",
       "airCard": {
-        "title": "Air Freight Comparison",
+        "title": "Compare air freight to Canada",
         "subtitle": "Compare air freight prices and transit times across providers"
       },
       "seaCard": {
-        "title": "Sea Freight Comparison",
-        "subtitle": "Transparent ocean shipping rates with multiple service options"
+        "title": "Compare sea freight to Canada",
+        "subtitle": "Check pricing terms and service options with each forwarder"
       }
     },
     "announcements": {
@@ -152,46 +152,46 @@
       "preview": "Preview"
     },
     "seo": {
-      "heading": "Cheapest Shipping from China to Canada – Compare Freight Forwarder Rates",
-      "intro": "SaveShipCost is Canada's #1 comparison platform for <1>shipping from China to Canada</1>. We aggregate live quotes from Chinese freight forwarders so you can find the <1>cheapest shipping to Canada</1> without calling every provider. Whether you need <1>air freight</1> (5–10 days) or <1>sea freight</1> (20–40 days), we cover Ottawa, Vancouver, Toronto, Calgary and beyond.",
+      "heading": "Compare the full quote",
+      "intro": "Use the same cargo details and destination for every request. Record the quote date, expiry date, currency, chargeable weight or volume, included charges and estimated delivery milestones. Confirm any missing fee with the provider before choosing a service.",
       "air": {
-        "title": "✈️ Air Freight",
-        "body": "Compare <1>China-to-Canada air freight</1> from multiple forwarders. General and sensitive cargo, 5–10 day delivery — ideal for urgent shipments and small parcels. Serving Ottawa (Nepean/Kanata), Vancouver, Toronto and Calgary."
+        "title": "Air freight to Canada",
+        "body": "Compare listed <1>China-to-Canada air freight</1> options. Ask the forwarder to confirm cargo acceptance, the chargeable weight calculation and the estimated delivery milestones for your shipment."
       },
       "sea": {
-        "title": "🚢 Sea Freight",
-        "body": "Compare <1>LCL (less-than-container)</1> and <1>FCL (full container)</1> sea freight quotes. Perfect for furniture, bulk cargo and moving. 20–40 day transit and up to 60% cheaper than air."
+        "title": "Sea freight to Canada",
+        "body": "Compare listed <1>China-to-Canada sea freight</1> options. Confirm the billing basis, minimum charge, destination handling and final delivery coverage before booking."
       },
       "student": {
-        "title": "🎓 For Students",
-        "body": "Designed for <1>Canadian student luggage shipments</1>. Compare forwarder rates for <1>excess baggage</1> and <1>school supplies</1> sent home — find the most economical option."
+        "title": "Prepare your shipment details",
+        "body": "Record your packed dimensions, actual weight, cargo description and delivery postal code. Use the same details for every quote and keep a copy of the provider’s written terms."
       }
     },
     "seoFaq": {
-      "heading": "China–Canada Shipping FAQ – Transit Times, Costs, and How It Works",
-      "intro": "Wondering how long <1>shipping from China to Canada</1> takes or how much it costs? Below are the most common questions, covering air, sea and express channels.",
+      "heading": "China-to-Canada shipping: questions to ask before booking",
+      "intro": "Check these details with the forwarder when comparing <1>shipping from China to Canada</1>. Prices and delivery estimates need to match your shipment and route.",
       "time": {
-        "title": "How long does shipping take?",
-        "body": "<1>Air freight</1>: 5–10 business days.<br /><1>Sea freight LCL</1>: 20–35 days.<br /><1>Sea freight FCL</1>: 25–40 days.<br />Express (DHL/FedEx): 3–7 days at premium cost."
+        "title": "What does the delivery estimate cover?",
+        "body": "Ask whether the estimate starts at warehouse receipt, departure or another milestone. Confirm whether customs clearance and final delivery are included, and request the estimated departure date in writing."
       },
       "cost": {
-        "title": "How much does it cost to ship to Canada?",
-        "body": "Air freight: <1>$6–15 CAD/kg</1>.<br />Sea freight LCL: <1>$3–8 CAD/kg</1> equivalent.<br />Chinese-Canadian forwarders are 30–60% cheaper than DHL/FedEx for parcels over 5 kg."
+        "title": "How should I compare shipping costs?",
+        "body": "Request an itemized quote for your packed cargo. Confirm the currency, chargeable weight or volume, included fees, exclusions, quote date and expiry date. Treat an unanswered fee as <1>not confirmed</1>."
       },
       "us": {
-        "title": "Shipping from the US to Canada?",
-        "body": "For US ↔ Canada, USPS + Canada Post works for small parcels, or use a US forwarding address when retailers don't ship cross-border. For <1>China ↔ Canada</1>, compare freight forwarders here on SaveShipCost."
+        "title": "Does this cover other shipping directions?",
+        "body": "Canada-to-China and China-to-US shipments require different route-specific quotes. This comparison focuses on <1>shipments from China to Canada</1>."
       }
     }
   },
   "seaFreight": {
     "meta": {
-      "title": "Canada Sea Freight Comparison – Lowest LCL & FCL Rates from China to Canada | SaveShipCost",
-      "description": "Compare sea freight quotes from Chinese-Canadian forwarders. LCL (less-than-container) and FCL (full container) — Ottawa, Vancouver, Toronto. Perfect for furniture, moving, and bulk cargo. 20–40 day delivery.",
+      "title": "Sea Freight from China to Canada: Compare Costs | SaveShipCost",
+      "description": "Compare China-to-Canada sea freight options. Check chargeable weight, included fees, delivery coverage and quote validity before choosing a forwarder.",
       "keywords": "sea freight Canada, China to Canada ocean shipping, LCL Canada, FCL Canada, Vancouver sea freight, Canada moving sea freight, furniture shipping China to Canada"
     },
-    "title": "Sea Freight Comparison",
-    "subtitle": "Compare sea freight prices and transit times across providers",
+    "title": "Compare sea freight from China to Canada",
+    "subtitle": "Compare listed forwarding options for shipments from China to Canada. Before booking, ask each forwarder to confirm a written quote for your packed cargo and delivery address.",
     "filter": {
       "company": "Filter by company",
       "selectCompany": "Select a company",
@@ -220,19 +220,19 @@
       "success": "Correction received — thank you!"
     },
     "seo": {
-      "heading": "Canada Sea Freight Comparison – Lowest LCL & FCL Rates from China",
-      "intro": "SaveShipCost aggregates <1>China-to-Canada sea freight quotes</1> from multiple Chinese-Canadian forwarders, supporting both <1>LCL (less-than-container)</1> and <1>FCL (full container)</1>. Delivery in 20–40 days. Ideal for <1>furniture and moving shipments</1>, bulk cargo, and students returning home — up to 60% cheaper than air. Serving Ottawa, Vancouver (Richmond/Burnaby), and Toronto.",
+      "heading": "Check your sea freight quote before booking",
+      "intro": "Check the chargeable weight or volume, included services, currency and expiry date so that you can compare the same shipment across providers. If a quote date or validity period is missing, ask the forwarder to confirm it; the page update date is not a quote verification date.",
       "lcl": {
-        "title": "LCL Sea Freight",
-        "body": "When your cargo doesn't fill a container, <1>LCL</1> charges by volume — perfect for small batches by sharing space with other shippers. Economical and flexible."
+        "title": "What should your sea freight quote include?",
+        "body": "Ask for an itemized quote covering collection in China, origin handling, sea transport, destination handling, customs clearance services and final delivery where applicable. Ask whether duties, taxes, insurance and storage are included or excluded. An unanswered item should remain <1>not confirmed</1> in your comparison."
       },
       "fcl": {
-        "title": "FCL Sea Freight",
-        "body": "<1>FCL</1> is ideal for large shipments or <1>Canada moving and furniture shipments</1>. Dedicated container, higher security, lower per-unit price."
+        "title": "How is chargeable weight calculated?",
+        "body": "Packed dimensions can affect the billed amount as well as actual weight. Ask the forwarder for its calculation method, minimum charge and rounding rule. Use that provider’s confirmed method when comparing your shipment; do not apply one carrier’s conversion factor to every listing."
       },
       "vancouver": {
-        "title": "Vancouver Sea Freight & Moving",
-        "body": "Vancouver is Canada's largest sea port. <1>Vancouver sea freight and moving comparison</1> is one of our core services — compare multiple quotes to find the best option."
+        "title": "What does the transit estimate cover?",
+        "body": "Ask whether the estimate runs from warehouse receipt, vessel departure or another milestone, and whether customs clearance and final delivery are included. Request the estimated departure date and quote expiry date in writing before booking."
       }
     }
   },
