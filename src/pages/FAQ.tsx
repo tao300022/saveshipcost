@@ -1,6 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { DEFAULT_LANG, isSupportedLang } from '../i18n/config';
 
 const faqs = [
   {
@@ -54,16 +56,20 @@ const faqs = [
     q_en: 'What is volumetric weight?',
     a_zh: (
       <>
-        <p>物流计费通常取实际重量和体积重量中较大者。</p>
-        <p>空运公式：长 × 宽 × 高 ÷ 6000（或 5000）</p>
-        <p>海运通常按立方米（CBM）计算。</p>
+        <p>体积重量反映包裹占用的空间。空运或快递常比较实际重量与体积重量，并按较大者计费；适用系数、最低收费和进位规则需向货代确认。</p>
+        <p>使用包装后的外尺寸：长（cm）× 宽（cm）× 高（cm）÷ 渠道系数 = 体积重量（kg）。5000 和 6000 是不同渠道可能采用的系数，不能自行选择较便宜的一个。</p>
+        <p><strong>计算示例（不是运费报价）：</strong>一箱 50 × 40 × 30 cm、实重 8 kg 的货物，按 6000 计算，体积重为 10 kg；按 5000 计算则为 12 kg。比较实际重量后，对应计费重分别为 10 kg 和 12 kg，尚未计入货代的进位或最低收费规则。</p>
+        <p>不要把空运系数直接套用到海运。海运拼箱可能按体积与重量的计费规则核算，整柜则按柜报价；请确认最低计费量和目的地费用。</p>
+        <p>参考：<a href="https://www.dhl.com/us-en/home/global-forwarding/freight-forwarding-education-center/calculating-chargeable-weights.html" target="_blank" rel="noopener noreferrer">DHL 计费重量说明</a>。具体报价以所选货代的书面条款为准。</p>
       </>
     ),
     a_en: (
       <>
-        <p>Shipping companies charge based on the higher of actual weight or volumetric weight.</p>
-        <p>Air freight formula: Length × Width × Height ÷ 6000 (or 5000)</p>
-        <p>Sea freight is usually calculated by cubic meter (CBM).</p>
+        <p>Volumetric weight reflects the space a package occupies. Air freight and courier services commonly compare actual and volumetric weight and charge for the greater figure. Confirm the divisor, minimum charge and rounding rules with your forwarder.</p>
+        <p>Use packed outer dimensions: length (cm) × width (cm) × height (cm) ÷ the service’s divisor = volumetric weight (kg). Divisors such as 5000 and 6000 belong to different service rules; you cannot simply choose the cheaper result.</p>
+        <p><strong>Worked example, not a freight quote:</strong> a 50 × 40 × 30 cm box weighing 8 kg has a volumetric weight of 10 kg with a divisor of 6000, or 12 kg with 5000. Comparing with actual weight gives 10 kg or 12 kg respectively, before the provider’s rounding or minimum-charge rules.</p>
+        <p>Do not apply an air-freight divisor directly to sea freight. LCL billing can compare volume and weight under the service’s rules, while FCL is quoted per container. Confirm minimum billable quantities and destination charges.</p>
+        <p>Reference: <a href="https://www.dhl.com/us-en/home/global-forwarding/freight-forwarding-education-center/calculating-chargeable-weights.html" target="_blank" rel="noopener noreferrer">DHL’s chargeable weight guide</a>. Your selected forwarder’s written terms govern the quote.</p>
       </>
     ),
   },
@@ -302,7 +308,8 @@ const faqs = [
 ];
 
 const FAQ: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = isSupportedLang(i18n.language) ? i18n.language : DEFAULT_LANG;
   return (
     <div style={{ background: '#f0f2f5', minHeight: '100%', padding: '40px 20px' }}>
       <Helmet>
@@ -326,6 +333,12 @@ const FAQ: React.FC = () => {
             Frequently Asked Questions
           </p>
         </div>
+
+        <nav aria-label="Shipping comparison links" style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 24 }}>
+          <Link to={`/${lang}`}>计费重计算器 / Weight calculator</Link>
+          <Link to={`/${lang}/air-freight`}>比较空运 / Compare air freight</Link>
+          <Link to={`/${lang}/sea-freight`}>比较海运 / Compare sea freight</Link>
+        </nav>
 
         {/* FAQ 列表 */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -421,7 +434,7 @@ const FAQ: React.FC = () => {
             Have more questions? Feel free to contact us.
           </p>
           <a
-            href="/contact"
+            href={`/${lang}/contact`}
             style={{
               display: 'inline-block',
               background: '#fff',
