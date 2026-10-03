@@ -34,7 +34,7 @@ const faqs = [
           <li>目的城市</li>
           <li>时效要求</li>
         </ul>
-        <p>例如：10kg 普货空运，大约在 $8–15 CAD/kg（参考区间）</p>
+        <p>询价时请提供起运地、加拿大目的城市及邮编、货物品类、包装后尺寸和重量。要求货代列明币种、报价日期及有效期，并确认提货、清关、税费和末端派送是否包含在总价内。</p>
       </>
     ),
     a_en: (
@@ -47,7 +47,7 @@ const faqs = [
           <li>Destination city</li>
           <li>Delivery speed</li>
         </ul>
-        <p>Example: 10kg general cargo by air may cost around $8–15 CAD per kg (reference range only).</p>
+        <p>For a comparable quote, provide the origin, Canadian destination city and postal code, cargo type, and packed dimensions and weight. Ask for the currency, quote date and expiry, and whether pickup, customs clearance, taxes and final delivery are included in the total.</p>
       </>
     ),
   },
@@ -232,26 +232,26 @@ const faqs = [
     q_en: 'How much does it cost to ship to Canada from China per kg?',
     a_zh: (
       <>
-        <p>以下为参考价格区间（仅供参考，实际报价以各货代为准）：</p>
+        <p>不能只用一个每公斤价格判断整票运费。先确认计费重量、计价单位和最低收费，再比较同一批货、同一目的地的书面总价。</p>
         <ul>
-          <li><strong>空运普货</strong>：$6–15 CAD/kg</li>
-          <li><strong>空运敏感货</strong>：$10–20 CAD/kg</li>
-          <li><strong>海运拼柜（LCL）</strong>：$3–8 CAD/kg 等效（按 CBM 计算）</li>
-          <li><strong>DHL/FedEx 快递</strong>：$20–40 CAD/kg</li>
+          <li><strong>首重与续重</strong>：确认首重覆盖多少公斤、续重如何进位，以及是否有最低计费量。</li>
+          <li><strong>附加费用</strong>：逐项询问燃油、偏远地区、提货、清关、税费和派送费用是否适用及是否已包含。</li>
+          <li><strong>海运报价</strong>：确认按公斤、立方米还是整柜报价，不要在缺少计费规则时直接换算成每公斤价格。</li>
+          <li><strong>币种与日期</strong>：保留原始币种、报价日期和有效期；不同币种比较时记录采用的汇率与日期。</li>
         </ul>
-        <p>价格受重量、体积、目的城市、货物类型影响，建议在 SaveShipCost 获取实时报价。</p>
+        <p>把网站列出的价格作为询价起点。下单前请货代根据你的实际货物确认最终总价，未列出的费用不能默认视为零。</p>
       </>
     ),
     a_en: (
       <>
-        <p>Reference price ranges for shipping from China to Canada (actual quotes may vary):</p>
+        <p>A per-kg rate alone does not establish the shipment total. Confirm billable weight, the pricing unit and minimum charges, then compare written totals for the same cargo and destination.</p>
         <ul>
-          <li><strong>Air freight – general cargo</strong>: $6–15 CAD/kg</li>
-          <li><strong>Air freight – sensitive cargo</strong>: $10–20 CAD/kg</li>
-          <li><strong>Sea freight LCL</strong>: $3–8 CAD/kg equivalent (billed by CBM)</li>
-          <li><strong>DHL / FedEx / UPS express</strong>: $20–40 CAD/kg</li>
+          <li><strong>First and additional weight</strong>: confirm the weight covered by the first charge, rounding for additional weight and any minimum billable quantity.</li>
+          <li><strong>Additional charges</strong>: ask whether fuel, remote-area, pickup, clearance, tax and delivery charges apply and whether each is included.</li>
+          <li><strong>Sea freight</strong>: confirm whether the quote is per kg, cubic metre or container. Do not convert it to a per-kg rate without the billing rules.</li>
+          <li><strong>Currency and date</strong>: keep the original currency, quote date and expiry. Record the exchange rate and date when comparing currencies.</li>
         </ul>
-        <p>Shipping cost to Canada depends on weight, volume, destination city, and cargo type. Always get live quotes on SaveShipCost before booking — rates change frequently.</p>
+        <p>Use listed prices as a starting point for an enquiry. Before booking, ask the forwarder to confirm the final total for your actual cargo. An unlisted charge should not be assumed to be zero.</p>
       </>
     ),
   },
