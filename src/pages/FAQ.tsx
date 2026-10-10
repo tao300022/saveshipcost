@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { DEFAULT_LANG, isSupportedLang } from '../i18n/config';
 
+import { faqTranslations, faqUi } from "./faqTranslations";
+
 const faqs = [
   {
     q_zh: '为什么使用 SaveShipCost？',
@@ -298,8 +300,8 @@ const faqs = [
       <>
         <ul>
           <li><strong>FedEx / UPS / DHL</strong>: Per-shipment pricing, fast (3–7 days), expensive for heavy goods</li>
-          <li><strong>Chinese freight forwarders (华人货代)</strong>: Per-kg pricing, 30–60% cheaper, Chinese-language customer support, ideal for 5–200 kg</li>
-          <li><strong>Consolidated first-weight (首重拼邮)</strong>: Multiple senders share one shipment — cheapest for small packages under 2 kg</li>
+          <li><strong>Chinese freight forwarders</strong>: Per-kg pricing, 30–60% cheaper, Chinese-language customer support, ideal for 5–200 kg</li>
+          <li><strong>Consolidated first-weight</strong>: Multiple senders share one shipment — cheapest for small packages under 2 kg</li>
         </ul>
         <p>Most Chinese-Canadians use freight forwarders for China–Canada shipping. SaveShipCost compares quotes from all major providers so you get the best rate without calling each one individually.</p>
       </>
@@ -310,146 +312,40 @@ const faqs = [
 const FAQ: React.FC = () => {
   const { t, i18n } = useTranslation();
   const lang = isSupportedLang(i18n.language) ? i18n.language : DEFAULT_LANG;
+  const ui = faqUi[lang];
+  const localized = lang === 'fr' || lang === 'es'
+    ? faqTranslations[lang].map(([question, paragraphs], index) => ({
+        question,
+        answer: <>{paragraphs.map(p => <p key={p}>{p}</p>)}{index === 2 && <p><a href="https://www.dhl.com/us-en/home/global-forwarding/freight-forwarding-education-center/calculating-chargeable-weights.html" target="_blank" rel="noopener noreferrer">{ui.reference}</a></p>}</>,
+      }))
+    : faqs.map(item => ({question: lang === 'zh' ? item.q_zh : item.q_en, answer: lang === 'zh' ? item.a_zh : item.a_en}));
   return (
-    <div style={{ background: '#f0f2f5', minHeight: '100%', padding: '40px 20px' }}>
+    <div data-testid="faq-content" lang={lang} style={{ background: '#f0f2f5', minHeight: '100%', padding: '40px 20px' }}>
       <Helmet>
         <title>{t('pageMeta.faq.title')}</title>
         <meta name="description" content={t('pageMeta.faq.description')} />
         <meta name="keywords" content={t('pageMeta.faq.keywords')} />
       </Helmet>
       <div style={{ maxWidth: 860, margin: '0 auto' }}>
-
-        {/* 页面标题 */}
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <h1 style={{
-            fontSize: 28,
-            fontWeight: 800,
-            color: '#0d1b4b',
-            marginBottom: 8,
-          }}>
-            SaveShipCost – 常见问题（FAQ）
-          </h1>
-          <p style={{ fontSize: 15, color: '#764ba2', fontWeight: 500, margin: 0 }}>
-            Frequently Asked Questions
-          </p>
-        </div>
-
-        <nav aria-label="Shipping comparison links" style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 24 }}>
-          <Link to={`/${lang}`}>计费重计算器 / Weight calculator</Link>
-          <Link to={`/${lang}/air-freight`}>比较空运 / Compare air freight</Link>
-          <Link to={`/${lang}/sea-freight`}>比较海运 / Compare sea freight</Link>
+        <h1 style={{textAlign: 'center', fontSize: 28, fontWeight: 800, color: '#0d1b4b', marginBottom: 40}}>SaveShipCost – {ui.title}</h1>
+        <nav aria-label={ui.nav} style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 24 }}>
+          <Link to={`/${lang}`}>{ui.weight}</Link>
+          <Link to={`/${lang}/air-freight`}>{ui.air}</Link>
+          <Link to={`/${lang}/sea-freight`}>{ui.sea}</Link>
         </nav>
-
-        {/* FAQ 列表 */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {faqs.map((item, idx) => (
-            <div
-              key={idx}
-              style={{
-                background: '#fff',
-                borderRadius: 12,
-                boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-                padding: '24px 28px',
-                borderLeft: '4px solid #667eea',
-              }}
-            >
-              {/* 问题标题 */}
-              <h2 style={{
-                fontSize: 16,
-                fontWeight: 700,
-                color: '#0d1b4b',
-                marginBottom: 4,
-                marginTop: 0,
-              }}>
-                {idx + 1}. {item.q_zh}
-              </h2>
-              <p style={{
-                fontSize: 13,
-                color: '#764ba2',
-                fontWeight: 500,
-                marginBottom: 16,
-                marginTop: 0,
-              }}>
-                {item.q_en}
-              </p>
-
-              {/* 中文答案 */}
-              <div style={{ marginBottom: 12 }}>
-                <span style={{
-                  display: 'inline-block',
-                  fontSize: 11,
-                  fontWeight: 600,
-                  color: '#fff',
-                  background: '#667eea',
-                  borderRadius: 4,
-                  padding: '1px 8px',
-                  marginBottom: 8,
-                }}>
-                  中文
-                </span>
-                <div style={{ fontSize: 14, color: '#3a4a6b', lineHeight: 1.9 }}>
-                  {item.a_zh}
-                </div>
-              </div>
-
-              {/* 英文答案 */}
-              <div style={{
-                borderTop: '1px solid #eef1fb',
-                paddingTop: 12,
-                marginTop: 4,
-              }}>
-                <span style={{
-                  display: 'inline-block',
-                  fontSize: 11,
-                  fontWeight: 600,
-                  color: '#fff',
-                  background: '#764ba2',
-                  borderRadius: 4,
-                  padding: '1px 8px',
-                  marginBottom: 8,
-                }}>
-                  English
-                </span>
-                <div style={{ fontSize: 14, color: '#3a4a6b', lineHeight: 1.9 }}>
-                  {item.a_en}
-                </div>
-              </div>
-            </div>
+          {localized.map((item, idx) => (
+            <section key={idx} style={{background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', padding: '24px 28px', borderLeft: '4px solid #667eea'}}>
+              <h2 style={{fontSize: 16, fontWeight: 700, color: '#0d1b4b', marginTop: 0}}>{idx + 1}. {item.question}</h2>
+              <div style={{fontSize: 14, color: '#3a4a6b', lineHeight: 1.9}}>{item.answer}</div>
+            </section>
           ))}
         </div>
-
-        {/* 底部 CTA */}
-        <div style={{
-          marginTop: 40,
-          textAlign: 'center',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          borderRadius: 12,
-          padding: '28px 20px',
-          color: '#fff',
-        }}>
-          <p style={{ fontSize: 16, fontWeight: 700, margin: '0 0 8px' }}>
-            还有其他问题？
-          </p>
-          <p style={{ fontSize: 13, opacity: 0.85, margin: '0 0 16px' }}>
-            Have more questions? Feel free to contact us.
-          </p>
-          <a
-            href={`/${lang}/contact`}
-            style={{
-              display: 'inline-block',
-              background: '#fff',
-              color: '#764ba2',
-              fontWeight: 700,
-              fontSize: 14,
-              borderRadius: 8,
-              padding: '8px 24px',
-              textDecoration: 'none',
-            }}
-          >
-            联系我们 / Contact Us
-          </a>
+        <div style={{marginTop: 40, textAlign: 'center', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: 12, padding: '28px 20px', color: '#fff'}}>
+          <p style={{fontSize: 16, fontWeight: 700, margin: '0 0 8px'}}>{ui.more}</p>
+          <p style={{fontSize: 13, opacity: 0.85, margin: '0 0 16px'}}>{ui.help}</p>
+          <Link to={`/${lang}/contact`} style={{display: 'inline-block', background: '#fff', color: '#764ba2', fontWeight: 700, fontSize: 14, borderRadius: 8, padding: '8px 24px', textDecoration: 'none'}}>{ui.contact}</Link>
         </div>
-
       </div>
     </div>
   );
