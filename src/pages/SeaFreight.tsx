@@ -8,6 +8,7 @@ import { seaFreightData, SeaFreightPrice } from '../data/seaFreightData';
 import { fetchDeliveryUpdates, fetchMerchants } from '../services/sscData';
 import { getCompanyByName } from '../data/companyData';
 import CorrectionModal, { CorrectionFormValues } from '../components/CorrectionModal';
+import SeaQuoteGuide from '../components/SeaQuoteGuide';
 import { saveCorrection } from '../services/corrections';
 import { DEFAULT_LANG, isSupportedLang, type SupportedLang } from '../i18n/config';
 
@@ -244,6 +245,7 @@ const SeaFreight: React.FC = () => {
           />
         </Card>
       </Space>
+      <SeaQuoteGuide lang={lang} />
       <div style={{ background: '#f7f9ff', borderTop: '1px solid #e8edf5', padding: '40px 24px', marginTop: 16 }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0d1b4b', marginBottom: 8 }}>
