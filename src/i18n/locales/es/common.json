@@ -43,7 +43,7 @@
   "airFreight": {
     "meta": {
       "title": "Comparación de flete aéreo Canadá – El envío aéreo más barato de China a Canadá | SaveShipCost",
-      "description": "Compare cotizaciones de flete aéreo de transitarios chino-canadienses. Primer peso, peso adicional y tiempos de tránsito. Envíos desde Ottawa, Vancouver y Toronto. Carga general y sensible, entrega en 5–10 días.",
+      "description": "Compare cotizaciones de transporte aéreo de China a Canadá: peso facturable, gastos incluidos, mercancías aceptadas y alcance de la entrega.",
       "keywords": "flete aéreo Canadá, envío aéreo China Canadá, flete aéreo más barato Canadá, Ottawa flete aéreo, carga sensible flete aéreo"
     },
     "title": "Comparación de flete aéreo",
@@ -76,19 +76,19 @@
       "success": "Corrección recibida, ¡gracias!"
     },
     "seo": {
-      "heading": "Comparación de flete aéreo Canadá – El envío aéreo más barato de China a Canadá",
-      "intro": "SaveShipCost reúne <1>cotizaciones de flete aéreo China-Canadá</1> de varios transitarios chino-canadienses, cubriendo tanto la <1>carga general</1> como el <1>flete aéreo sensible</1> (electrónica, cosméticos, baterías de litio). Entrega en 5–10 días. Ideal para <1>envíos urgentes a China</1>, paquetes pequeños y equipaje de estudiantes. Servicio en Ottawa (Nepean/Kanata), Vancouver, Toronto y Calgary.",
+      "heading": "Cómo comparar cotizaciones de transporte aéreo de China a Canadá",
+      "intro": "Compare cotizaciones para el mismo envío y el mismo alcance del servicio. Indique el peso embalado, las dimensiones exteriores de cada caja, el contenido, el origen y el código postal de entrega en Canadá. Confirme la fecha de la cotización, la moneda y su vigencia antes de reservar.",
       "general": {
-        "title": "Flete aéreo general",
-        "body": "Ropa, libros, artículos diarios: el precio más bajo y el despacho aduanero más fluido. La opción más común para <1>enviar de China a Canadá por vía aérea</1>."
+        "title": "Peso facturable y desglose de gastos",
+        "body": "Pregunte si se factura por peso real o volumétrico, qué divisor se aplica y cómo funcionan los cargos mínimos y el redondeo. Compare juntos los cargos del primer tramo de peso y los adicionales. Compruebe si se incluyen la recogida, la manipulación, el despacho aduanero y la entrega final, según el servicio."
       },
       "sensitive": {
-        "title": "Flete aéreo sensible",
-        "body": "Electrónica, baterías de litio, líquidos, cosméticos: la <1>carga sensible</1> requiere canales especializados. Reunimos transitarios que manejan envíos sensibles para una comparación fácil."
+        "title": "Confirme qué mercancías se aceptan",
+        "body": "Declare baterías, aparatos electrónicos, líquidos y cosméticos antes de solicitar una cotización. La aceptación, el embalaje y la documentación dependen del transportista y de la ruta. Una tarifa para carga general no confirma que los productos restringidos puedan viajar en las mismas condiciones."
       },
       "urgent": {
-        "title": "Envío urgente a China",
-        "body": "¿Necesita un <1>envío urgente a China</1>? El flete aéreo entrega en tan solo 5 días. Compare transportistas para encontrar la ruta más rápida al mejor precio."
+        "title": "Aclare el plazo de entrega",
+        "body": "Pregunte cuándo empieza y termina el plazo indicado: recepción en almacén, salida del vuelo, llegada al aeropuerto o entrega en su dirección. Confirme si se cuenta en días laborables o naturales. Las aduanas y la entrega final pueden afectar la fecha de llegada; una estimación no garantiza una fecha límite."
       }
     }
   },

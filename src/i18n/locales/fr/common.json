@@ -43,7 +43,7 @@
   "airFreight": {
     "meta": {
       "title": "Comparaison fret aérien Canada – Expédition aérienne la moins chère de la Chine vers le Canada | SaveShipCost",
-      "description": "Comparez les devis de fret aérien de transitaires sino-canadiens. Premier poids, poids supplémentaire et délais de livraison. Expédition depuis Ottawa, Vancouver, Toronto. Marchandises générales et sensibles, livraison en 5–10 jours.",
+      "description": "Comparez les devis de fret aérien de la Chine vers le Canada : poids facturable, frais inclus, marchandises acceptées et périmètre de livraison.",
       "keywords": "fret aérien Canada, expédition aérienne Chine Canada, fret aérien le moins cher Canada, Ottawa fret aérien, marchandise sensible fret aérien"
     },
     "title": "Comparaison fret aérien",
@@ -76,19 +76,19 @@
       "success": "Correction reçue — merci !"
     },
     "seo": {
-      "heading": "Comparaison fret aérien Canada – Expédition aérienne la moins chère de la Chine vers le Canada",
-      "intro": "SaveShipCost regroupe les <1>devis de fret aérien Chine-Canada</1> de plusieurs transitaires sino-canadiens, couvrant à la fois le <1>fret général</1> et le <1>fret aérien sensible</1> (électronique, cosmétiques, batteries au lithium). Livraison en 5–10 jours. Idéal pour les <1>expéditions urgentes vers la Chine</1>, les petits colis et les bagages d'étudiants. Service à Ottawa (Nepean/Kanata), Vancouver, Toronto et Calgary.",
+      "heading": "Comparer les devis de fret aérien de la Chine vers le Canada",
+      "intro": "Comparez les devis pour un même envoi et un même périmètre de service. Indiquez le poids emballé, les dimensions extérieures de chaque colis, le contenu, le lieu de départ et le code postal de livraison au Canada. Confirmez la date du devis, la devise et sa durée de validité avant de réserver.",
       "general": {
-        "title": "Fret aérien général",
-        "body": "Vêtements, livres, articles du quotidien — le prix le plus bas et le passage en douane le plus fluide. Le choix le plus courant pour <1>expédier de la Chine vers le Canada par voie aérienne</1>."
+        "title": "Poids facturable et détail des frais",
+        "body": "Demandez si le tarif repose sur le poids réel ou volumétrique, quel diviseur est utilisé et comment sont appliqués les minimums et les arrondis. Comparez ensemble les frais du premier palier de poids et des paliers supplémentaires. Vérifiez si les frais de collecte, de manutention, de dédouanement et de livraison finale sont inclus, selon le service."
       },
       "sensitive": {
-        "title": "Fret aérien sensible",
-        "body": "Électronique, batteries au lithium, liquides, cosmétiques — le <1>fret sensible</1> nécessite des canaux spécialisés. Nous regroupons les transitaires qui gèrent les envois sensibles pour faciliter la comparaison."
+        "title": "Vérifier les marchandises acceptées",
+        "body": "Signalez les batteries, appareils électroniques, liquides et cosmétiques avant de demander un devis. Les conditions d’acceptation, d’emballage et de documentation dépendent du transporteur et de la ligne. Un tarif pour marchandises ordinaires ne confirme pas l’acceptation de produits soumis à restrictions aux mêmes conditions."
       },
       "urgent": {
-        "title": "Expédition urgente vers la Chine",
-        "body": "Besoin d'une <1>expédition urgente vers la Chine</1> ? Le fret aérien livre en aussi peu que 5 jours. Comparez les transporteurs pour trouver l'itinéraire le plus rapide au meilleur prix."
+        "title": "Préciser le délai de livraison",
+        "body": "Demandez où commence et se termine le délai annoncé : réception à l’entrepôt, départ du vol, arrivée à l’aéroport ou livraison à votre adresse. Vérifiez s’il est exprimé en jours ouvrés ou calendaires. Le dédouanement et la livraison finale peuvent modifier la date d’arrivée ; une estimation n’est pas une garantie de délai."
       }
     }
   },
