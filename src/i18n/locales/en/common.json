@@ -43,7 +43,7 @@
   "airFreight": {
     "meta": {
       "title": "Canada Air Freight Comparison – Cheapest Air Shipping from China to Canada | SaveShipCost",
-      "description": "Compare air freight quotes from Chinese-Canadian freight forwarders. First-weight, additional-weight rates and transit times. Ship from Ottawa, Vancouver, Toronto. General and sensitive cargo, 5–10 day delivery.",
+      "description": "Compare air freight quotes from China to Canada. Check chargeable weight, included fees, cargo acceptance and delivery scope before booking.",
       "keywords": "air freight Canada, China to Canada air shipping, cheapest air freight Canada, Ottawa air freight, sensitive cargo air freight, urgent shipping to China"
     },
     "title": "Air Freight Comparison",
@@ -76,19 +76,19 @@
       "success": "Correction received — thank you!"
     },
     "seo": {
-      "heading": "Canada Air Freight Comparison – Cheapest Air Shipping from China to Canada",
-      "intro": "SaveShipCost aggregates <1>China-to-Canada air freight quotes</1> from multiple Chinese-Canadian forwarders, covering both <1>general cargo</1> and <1>sensitive cargo air freight</1> (electronics, cosmetics, lithium batteries). Delivery in 5–10 days. Ideal for <1>urgent shipping to China</1>, small parcels, and student luggage. Serving Ottawa (Nepean/Kanata), Vancouver, Toronto, and Calgary.",
+      "heading": "Comparing air freight quotes from China to Canada",
+      "intro": "Compare quotes for the same shipment and delivery scope. Share the packed weight, outer dimensions of every box, contents, origin and Canadian delivery postal code. Confirm the quote date, currency and validity with each forwarder before booking.",
       "general": {
-        "title": "General Air Freight",
-        "body": "Clothes, books, daily goods — the lowest price and smoothest customs. The most common choice for <1>shipping from China to Canada by air</1>."
+        "title": "Weight and price breakdown",
+        "body": "Ask whether the charge uses actual or volumetric weight, which divisor applies, and how minimum charges and rounding work. Compare first-weight and additional-weight charges together, including pickup, handling, customs clearance and final delivery where applicable."
       },
       "sensitive": {
-        "title": "Sensitive Cargo Air Freight",
-        "body": "Electronics, lithium batteries, liquids, cosmetics — <1>sensitive cargo</1> needs specialized channels. We aggregate forwarders that handle sensitive shipments for easy comparison."
+        "title": "Confirm that your goods are accepted",
+        "body": "Describe batteries, electronics, liquids and cosmetics before requesting a quote. Acceptance, packaging and documentation depend on the carrier and route. A general-cargo price does not confirm that restricted goods can travel under the same terms."
       },
       "urgent": {
-        "title": "Urgent Shipping to China",
-        "body": "Need <1>urgent shipping to China</1>? Air freight delivers in as little as 5 days. Compare carriers to find the fastest route at the best price."
+        "title": "Check the delivery timeline",
+        "body": "Ask when the quoted transit period starts and ends: warehouse receipt, flight departure, airport arrival or delivery to your address. Confirm whether it uses working or calendar days. Customs processing and final delivery can affect the arrival date; do not treat an estimate as a guaranteed deadline."
       }
     }
   },

@@ -13,9 +13,10 @@
  * Chromium system libs). The canonical/hreflang/title are fully derivable from
  * the route + i18n JSON, so we template them directly — 100% reproducible.
  *
- * Body content stays the empty #root shell; Googlebot still renders it via JS as
- * before. Only the head SEO signals are made static (the part that was failing).
+ * Home and air-freight routes also receive visible localized static content.
+ * React replaces it at mount; dynamic prices, ads and database data stay client-side.
  */
+import { renderStaticBody } from "./static-route-content.mjs";
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -138,6 +139,11 @@ function inject(shell, route) {
 
   // Inject canonical + hreflang just before </head>.
   html = html.replace('</head>', `${headLinks}</head>`);
+  const body = renderStaticBody(route, localeCache[lang]);
+  if (body) {
+    if (!html.includes('<div id="root"></div>')) throw new Error('Expected empty root in build shell');
+    html = html.replace('<div id="root"></div>', () => `<div id="root">${body}</div>`);
+  }
   return html;
 }
 
