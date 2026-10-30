@@ -19,6 +19,8 @@ import {
   ForumNotice, fetchForumNotices, upsertForumNotice, deleteForumNoticeRemote,
 } from '../services/sscData';
 
+import CompanyArticlesAdmin from '../components/CompanyArticlesAdmin';
+
 const { Title, Text } = Typography;
 
 const genId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
@@ -620,6 +622,7 @@ const AdminPage: React.FC = () => {
   ];
 
   const tabItems = [
+    { key: 'company-articles', label: '公司文章', children: <CompanyArticlesAdmin merchants={merchants} /> },
     {
       key: 'delivery',
       label: '到货动态',
