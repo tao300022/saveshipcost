@@ -4,6 +4,8 @@ import { Button, Card, Tag, Typography, Space, Table } from 'antd';
 import { ArrowLeftOutlined, WechatOutlined } from '@ant-design/icons';
 import { fetchMerchants, Merchant, ServiceItem } from '../services/sscData';
 
+import CompanyArticles from '../components/CompanyArticles';
+
 const { Title, Paragraph, Text } = Typography;
 
 const modeLabel  = (v: string) => v === 'air' ? '✈️ 空运' : '🚢 海运';
@@ -179,6 +181,7 @@ const MerchantDetail: React.FC = () => {
         </div>
       </Card>
 
+      <CompanyArticles type="merchant" id={merchant.id} />
       {/* 服务信息 */}
       {merchant.services.length > 0 && (
         <Card

@@ -30,6 +30,7 @@ import Register from './pages/Register';
 import AirFreight from './pages/AirFreight';
 import SeaFreight from './pages/SeaFreight';
 import CompanyDetail from './pages/CompanyDetail';
+import CompanyArticle from './pages/CompanyArticle';
 import Forum from './pages/Forum';
 import Contact from './pages/Contact';
 import Disclaimer from './pages/Disclaimer';
@@ -90,7 +91,7 @@ function LocalizedLayout() {
       <Helmet>
         <link rel="canonical" href={`${SITE_ORIGIN}/${lang}${subPath === '/' ? '' : subPath}`} />
       </Helmet>
-      <HreflangTags subPath={subPath} />
+      {!subPath.startsWith('/articles/') && <HreflangTags subPath={subPath} />}
       <Outlet />
     </>
   );
@@ -124,6 +125,7 @@ function AppShell() {
               <Route path="air-freight" element={<AirFreight />} />
               <Route path="sea-freight" element={<SeaFreight />} />
               <Route path="company/:companyId" element={<CompanyDetail />} />
+              <Route path="articles/:articleId" element={<CompanyArticle />} />
               <Route path="forum" element={<Forum />} />
               <Route path="contact" element={<Contact />} />
               <Route path="disclaimer" element={<Disclaimer />} />

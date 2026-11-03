@@ -7,6 +7,8 @@ import { airFreightData } from '../data/airFreightData';
 import { seaFreightData } from '../data/seaFreightData';
 import FreightCalculator from '../components/FreightCalculator';
 
+import CompanyArticles from '../components/CompanyArticles';
+
 const { Title, Paragraph, Text } = Typography;
 
 const CompanyDetail: React.FC = () => {
@@ -151,6 +153,7 @@ const CompanyDetail: React.FC = () => {
           />
         </Card>
 
+        <CompanyArticles type="company" id={company.id} />
         {/* Freight Calculator */}
         <FreightCalculator />
 
