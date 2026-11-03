@@ -13,6 +13,8 @@ create table public.company_articles (
   updated_at timestamptz not null default now()
 );
 alter table public.company_articles enable row level security;
+-- Supabase default privileges may grant more than this feature needs.
+revoke all privileges on table public.company_articles from anon, authenticated;
 grant select on public.company_articles to anon, authenticated;
 grant insert, update on public.company_articles to authenticated;
 create policy "Published articles are public" on public.company_articles for select to anon, authenticated using (status = 'published');
